@@ -1,5 +1,9 @@
 <?php
 
+use App\Features\User\Customer\Controllers\Dashboard\CustomerController;
+use App\Features\User\Editor\Controllers\Dashboard\EditorController;
+use App\Features\User\Tailor\Controllers\Dashboard\TailorController;
+
 Route::prefix('users')
     ->name('users.')
     ->group(function () {
@@ -11,7 +15,7 @@ Route::prefix('users')
             ->name('customers.')
             ->group(function () {
 
-                Route::get('/', fn () => 'index')->name('index');
+                Route::get('/', [CustomerController::class, 'index'])->name('index');
                 Route::get('/{id}', fn () => 'show')->name('show');
                 Route::post('/', fn () => 'store')->name('store');
                 Route::put('/{id}', fn () => 'update')->name('update');
@@ -26,9 +30,9 @@ Route::prefix('users')
             ->name('tailors.')
             ->group(function () {
 
-                Route::get('/', fn () => 'index')->name('index');
+                Route::get('/', [TailorController::class, 'index'])->name('index');
                 Route::get('/{id}', fn () => 'show')->name('show');
-                Route::post('/', fn () => 'store')->name('store');
+                Route::post('/', [TailorController::class, 'register'])->name('register');
                 Route::put('/{id}', fn () => 'update')->name('update');
                 Route::delete('/{id}', fn () => 'destroy')->name('destroy');
 
@@ -41,9 +45,9 @@ Route::prefix('users')
             ->name('editors.')
             ->group(function () {
 
-                Route::get('/', fn () => 'index')->name('index');
+                Route::get('/', [EditorController::class, 'index'])->name('index');
                 Route::get('/{id}', fn () => 'show')->name('show');
-                Route::post('/', fn () => 'store')->name('store');
+                Route::post('/', [EditorController::class, 'register'])->name('register');
                 Route::put('/{id}', fn () => 'update')->name('update');
                 Route::delete('/{id}', fn () => 'destroy')->name('destroy');
 
