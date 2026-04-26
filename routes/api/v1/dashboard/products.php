@@ -1,5 +1,7 @@
 <?php
 
+use App\Features\Catalog\Product\Controllers\Dashboard\ProductController;
+use App\Features\Catalog\Product\Controllers\Dashboard\ProductVariantController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('products')
@@ -9,14 +11,14 @@ Route::prefix('products')
         /**
          * Product
          */
-        Route::get('/', fn () => 'index')->name('index');
-        Route::get('/{productID}', fn () => 'show')->name('show');
-        Route::post('/', fn () => 'store')->name('store');
-        Route::put('/{productID}', fn () => 'update')->name('update');
-        Route::delete('/{productID}', fn () => 'destroy')->name('destroy');
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::get('/{productID}', [ProductController::class, 'show'])->name('show');
+        Route::post('/', [ProductController::class, 'store'])->name('store');
+        Route::put('/{productID}', [ProductController::class, 'update'])->name('update');
+        Route::delete('/{productID}', [ProductController::class, 'destroy'])->name('destroy');
 
-        Route::put('/{productID}/attributes', fn () => 'assign attributes')->name('destroy');
-        Route::patch('/{productID}/status', fn () => 'change status')->name('status');
+        Route::put('/{productID}/attributes', [ProductController::class, 'assignAttribute'])->name('attributes');
+        Route::patch('/{productID}/status', [ProductController::class, 'changeStatus'])->name('status');
 
         /**
          * Product Variants
@@ -25,14 +27,13 @@ Route::prefix('products')
             ->name('variants.')
             ->group(function () {
 
-                Route::get('/', fn () => 'index')->name('index');
-                Route::get('/{variantID}', fn () => 'show')->name('show');
-                Route::post('/', fn () => 'store')->name('store');
-                Route::put('/{variantID}', fn () => 'update')->name('update');
-                Route::delete('/{variantID}', fn () => 'destroy')->name('destroy');
+                Route::get('/{variantID}', [ProductVariantController::class, 'show'])->name('show');
+                Route::post('/', [ProductVariantController::class, 'store'])->name('store');
+                Route::put('/{variantID}', [ProductVariantController::class, 'update'])->name('update');
+                Route::delete('/{variantID}', [ProductVariantController::class, 'destroy'])->name('destroy');
 
-                Route::patch('/{variantID}/status', fn () => 'change status')->name('active');
-                Route::patch('/{variantID}/default', fn () => 'make default')->name('default');
+                Route::patch('/{variantID}/status', [ProductVariantController::class, 'changeStatus'])->name('status');
+                Route::patch('/{variantID}/default', [ProductVariantController::class, 'default'])->name('default');
             });
 
     });
