@@ -1,13 +1,14 @@
 <?php
 
+use App\Features\Auth\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/login', fn () => 'login');
+Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', fn () => 'register');
 
-Route::middleware([])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
 
-    Route::get('/me', fn () => 'me');
-    Route::delete('/logout', fn () => 'logout');
+    Route::get('/me', [LoginController::class, 'me']);
+    Route::delete('/logout', [LoginController::class, 'logout']);
 
 });
