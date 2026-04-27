@@ -3,7 +3,6 @@
 use App\Features\Catalog\Product\Controllers\Dashboard\ProductController;
 use App\Features\Catalog\Product\Controllers\Dashboard\ProductVariantController;
 use App\Features\Catalog\Product\Controllers\Dashboard\ProductVariantImageController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('products')
@@ -40,10 +39,6 @@ Route::prefix('products')
                 Route::post('/{variantID}/images', [ProductVariantImageController::class, 'store'])->name('images.store');
                 Route::delete('/{variantID}/images/{mediaUUID}', [ProductVariantImageController::class, 'destroy'])->name('images.destroy');
                 Route::patch('/{variantID}/images/reorder', [ProductVariantImageController::class, 'reorder'])->name('images.reorder');
-
-                // Route::post('/{variantID}/images', function (Request $request) {
-                //     dd($request->file('images'));
-                // });
 
             });
 

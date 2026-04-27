@@ -10,6 +10,7 @@ use App\Features\Catalog\Product\Data\Dashboard\Request\UploadProductVariantImag
 use App\Features\Catalog\Product\Data\Dashboard\Response\ProductVariantMediaData;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use InvalidArgumentException;
 
 class ProductVariantImageController extends Controller
 {
@@ -72,6 +73,8 @@ class ProductVariantImageController extends Controller
                 'message' => "No Product Variant ID {$variantID} found for Product ID {$productID}.",
             ], 404);
 
+        } catch (InvalidArgumentException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
         }
     }
 }
