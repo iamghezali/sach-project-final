@@ -13,7 +13,9 @@ class MediaController extends Controller
     {
         try {
             /** @var Media $media */
-            $media = Media::where('uuid', $uuid)->firstOrFail();
+            $media = Media::where('uuid', $uuid)
+                ->with('model.product')
+                ->firstOrFail();
 
             $this->authorize('viewMedia', $media->model);
 
