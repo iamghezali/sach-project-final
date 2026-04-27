@@ -116,6 +116,11 @@ class ProductVariant extends Model implements HasMedia
             ->toArray();
     }
 
+    public function label(): string
+    {
+        return implode(' / ', $this->labels());
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('images')
