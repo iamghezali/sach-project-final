@@ -10,6 +10,7 @@ class ShowProductVariantAction
     {
         $productVariant = ProductVariant::where('id', $variantID)
             ->where('product_id', $productID)
+            ->with('media')
             ->firstOrFail();
 
         return $productVariant;

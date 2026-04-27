@@ -68,4 +68,17 @@ class Product extends Model
             ->where('stock_quantity', '>', 0)
             ->exists();
     }
+
+    public function getThumbnailAttribute(): ?string
+    {
+        $defaultVariant = $this->variants->firstWhere('is_default', true);
+
+        if (! $defaultVariant) {
+            return null;
+        }
+
+        $media = $defaultVariant->getMedia('images')->first();
+
+        return $media ? route('media.show', $media->uuid) : null;
+    }
 }

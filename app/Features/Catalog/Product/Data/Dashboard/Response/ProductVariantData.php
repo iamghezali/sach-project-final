@@ -4,6 +4,8 @@ namespace App\Features\Catalog\Product\Data\Dashboard\Response;
 
 use App\Models\ProductVariant;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\DataCollection;
+use Spatie\LaravelData\Lazy;
 
 class ProductVariantData extends Data
 {
@@ -22,6 +24,9 @@ class ProductVariantData extends Data
 
         /** @var array<int> */
         public readonly array $attribute_value_ids,
+
+        /** @var Lazy|DataCollection<int, ProductVariantMediaData> */
+        public readonly Lazy|DataCollection $images,
     ) {}
 
     public static function fromModel(ProductVariant $variant): self
@@ -37,6 +42,14 @@ class ProductVariantData extends Data
             is_in_stock: $variant->isInStock(),
             variant_values: $variant->labels(),
             attribute_value_ids: $variant->attributeValues->pluck('id')->all(),
+            images: Lazy::create(
+                fn () => new DataCollection(
+                    ProductVariantMediaData::class,
+                    $variant->getMedia('images')
+                        ->map(fn ($m) => ProductVariantMediaData::fromModel($m))
+                        ->all()
+                )
+            ),
         );
     }
 }

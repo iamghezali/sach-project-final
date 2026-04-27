@@ -18,6 +18,7 @@ class ProductData extends Data
         public readonly string $status_label,
         public readonly bool $is_available,
         public readonly ?string $starting_from,
+        public readonly ?string $thumbnail,
 
         /** @var Lazy|DataCollection<int, ProductAttributeData> */
         public readonly Lazy|DataCollection $attributes,
@@ -40,6 +41,7 @@ class ProductData extends Data
             status_label: $product->status->label(),
             is_available: $product->isAvailable(),
             starting_from: $product->activeVariants->min('price') ?? '0.00',
+            thumbnail: $product->thumbnail,
             attributes: Lazy::create(fn () => self::deriveAssignedAttributes($product)),
             active_attributes: Lazy::create(fn () => self::deriveAttributes($product)),
             variants: Lazy::create(

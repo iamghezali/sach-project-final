@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 #[Fillable([
     'product_id',
@@ -17,9 +19,9 @@ use Illuminate\Support\Facades\DB;
     'is_active',
     'is_default',
 ])]
-class ProductVariant extends Model
+class ProductVariant extends Model implements HasMedia
 {
-    use SoftDeletes;
+    use InteractsWithMedia, SoftDeletes;
 
     protected function casts(): array
     {
@@ -112,5 +114,11 @@ class ProductVariant extends Model
             ->map(fn (AttributeValue $v) => $v->value)
             ->values()
             ->toArray();
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('images')
+            ->useDisk('media');
     }
 }

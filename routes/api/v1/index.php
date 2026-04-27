@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\MediaController;
+
 require __DIR__.'/auth.php';
 
 Route::middleware([])
@@ -27,3 +29,5 @@ Route::prefix('tailor')->name('tailor.')
         require __DIR__.'/tailor/orders.php';
 
     });
+
+Route::get('/media/{uuid}', [MediaController::class, 'show'])->name('media.show');

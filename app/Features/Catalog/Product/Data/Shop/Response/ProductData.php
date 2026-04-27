@@ -16,6 +16,7 @@ class ProductData extends Data
         public readonly ?string $description,
         public readonly bool $is_available,
         public readonly ?string $starting_from,
+        public readonly ?string $thumbnail,
 
         /** @var Lazy|DataCollection<int, ProductAttributeData> */
         public readonly Lazy|DataCollection $attributes,
@@ -33,11 +34,12 @@ class ProductData extends Data
             description: $product->description,
             is_available: $product->isAvailable(),
             starting_from: $product->activeVariants->min('price') ?? '0.00',
+            thumbnail: $product->thumbnail,
             attributes: Lazy::create(fn () => self::deriveAttributes($product)),
             variants: Lazy::create(
                 fn () => ProductVariantData::collect(
                     $product->activeVariants
-                        ->map(fn ($v) => ProductVariantData::fromModel($v))
+                        ->map(fn ($v) => ProductVariantData::fromModel($v)->include('images'))
                         ->all()
                 )
             ),
