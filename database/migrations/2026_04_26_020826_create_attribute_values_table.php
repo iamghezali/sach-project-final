@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('slug');
             $table->unsignedSmallInteger('position')->default(0);
 
+            $table->timestamps();
+
             // A slug must be unique within its attribute (two attributes can both have "red")
             $table->unique(['attribute_id', 'slug'], 'uq_attribute_values_attribute_slug');
         });

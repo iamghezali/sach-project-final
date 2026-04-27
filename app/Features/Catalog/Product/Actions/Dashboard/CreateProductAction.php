@@ -12,7 +12,6 @@ class CreateProductAction
             'name' => $data->name,
             'slug' => $data->slug,
             'description' => $data->description,
-            'brand' => $data->brand,
             'status' => $data->status,
         ]);
 
