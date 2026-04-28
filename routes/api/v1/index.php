@@ -1,10 +1,12 @@
 <?php
 
+use App\Authorization\Enums\Role;
 use App\Http\Controllers\MediaController;
 
 require __DIR__.'/auth.php';
 
 Route::middleware([])
+    ->middleware(['auth:sanctum', Role::accept(Role::ADMIN, Role::EDITOR)])
     ->group(function () {
 
         require __DIR__.'/dashboard/users.php';
@@ -16,6 +18,7 @@ Route::middleware([])
     });
 
 Route::prefix('shop')->name('shop.')
+    ->middleware(['auth:sanctum', Role::accept(Role::CUSTOMER)])
     ->group(function () {
 
         require __DIR__.'/shop/products.php';
@@ -25,6 +28,7 @@ Route::prefix('shop')->name('shop.')
     });
 
 Route::prefix('tailor')->name('tailor.')
+    ->middleware(['auth:sanctum', Role::accept(Role::TAILOR)])
     ->group(function () {
 
         require __DIR__.'/tailor/orders.php';
