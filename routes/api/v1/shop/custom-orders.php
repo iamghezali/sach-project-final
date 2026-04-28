@@ -10,9 +10,9 @@ Route::prefix('custom-orders')
         /**
          * Order
          */
-        Route::get('/', fn () => 'index')->name('index');
+        Route::get('/', [ClothingOrderController::class, 'index'])->name('index');
         Route::post('/', [ClothingOrderController::class, 'store'])->name('store');
-        Route::get('/{orderID}', fn () => 'show')->name('show');
+        Route::get('/{orderID}', [ClothingOrderController::class, 'show'])->name('show');
         Route::patch('/{orderID}/decide', fn () => 'decide')->name('decide');
 
         /**
