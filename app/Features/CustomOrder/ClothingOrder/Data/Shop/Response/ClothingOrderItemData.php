@@ -11,8 +11,12 @@ class ClothingOrderItemData extends Data
     public function __construct(
         public readonly int $id,
         public readonly ClothingOrderItemStatus $status,
+        public readonly string $status_label,
         public readonly ClothingOrderItemInformationData $information,
         public readonly array $measurements,
+
+        public readonly ?string $offer_price,
+        public readonly ?string $offer_due_date,
     ) {}
 
     public static function fromModel(ClothingOrderItem $item): self
@@ -20,8 +24,12 @@ class ClothingOrderItemData extends Data
         return new self(
             id: $item->id,
             status: $item->status,
+            status_label: $item->status->label(),
             information: ClothingOrderItemInformationData::fromModel($item),
             measurements: ClothingOrderItemMeasurementsData::fromModel($item)->toArray(),
+
+            offer_price: $item->offer_price,
+            offer_due_date: $item->offer_due_date,
         );
     }
 }

@@ -27,6 +27,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'chest',
     'fitting_preferrence',
     'status',
+    'offer_price',
+    'offer_due_date',
 ])]
 class ClothingOrderItem extends Model
 {
@@ -42,6 +44,8 @@ class ClothingOrderItem extends Model
             'height' => 'float',
             'waist' => 'float',
             'chest' => 'float',
+            'offer_price' => 'decimal:2',
+            'offer_due_date' => 'date',
         ];
     }
 

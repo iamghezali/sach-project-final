@@ -13,7 +13,10 @@ class ClothingOrderData extends Data
         public readonly int $id,
         public readonly string $title,
         public readonly ClothingOrderStatus $status,
+        public readonly string $status_label,
+        public readonly string $offer_total,
         public readonly string $created_at,
+
         /** @var DataCollection<ClothingOrderItemData> */
         public readonly DataCollection $items,
     ) {}
@@ -24,6 +27,8 @@ class ClothingOrderData extends Data
             id: $order->id,
             title: $order->title,
             status: $order->status,
+            status_label: $order->status->label(),
+            offer_total: $order->offerTotal(),
             created_at: $order->created_at->format('Y-m-d'),
             items: new DataCollection(
                 ClothingOrderItemData::class,

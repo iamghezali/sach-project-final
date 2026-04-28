@@ -52,4 +52,14 @@ class ClothingOrder extends Model
             $this->items->pluck('status')
         );
     }
+
+    /** @see ClothingOrder::$items - must be eager-loaded with 'items' */
+    public function offerTotal(): string
+    {
+        $total = $this->items
+            ->reject(fn (ClothingOrderItem $item) => $item->status === ClothingOrderItemStatus::Cancelled)
+            ->sum(fn (ClothingOrderItem $item) => $item->offer_price * $item->quantity);
+
+        return number_format($total, 2);
+    }
 }

@@ -37,6 +37,9 @@ return new class extends Migration
 
             $table->string('status')->default(ClothingOrderItemStatus::Pending->value);
 
+            $table->decimal('offer_price', 10, 2)->nullable();
+            $table->date('offer_due_date')->nullable();
+
             $table->timestamps();
         });
     }
