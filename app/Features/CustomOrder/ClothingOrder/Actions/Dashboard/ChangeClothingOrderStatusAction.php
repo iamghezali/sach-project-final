@@ -7,9 +7,9 @@ use App\Models\ClothingOrder;
 
 class ChangeClothingOrderStatusAction
 {
-    public function execute(int $clothingOrderID, ChangeClothingOrderStatusRequestData $data): ClothingOrder
+    public function execute(int $orderID, ChangeClothingOrderStatusRequestData $data): ClothingOrder
     {
-        $clothingOrder = ClothingOrder::findOrFail($clothingOrderID);
+        $clothingOrder = ClothingOrder::findOrFail($orderID);
 
         $clothingOrder->update(['status' => $data->status]);
 
