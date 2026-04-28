@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\CustomOrder\ClothingOrder\Actions;
+namespace App\Features\CustomOrder\ClothingOrder\Actions\Shop;
 
 use App\Features\CustomOrder\ClothingOrder\Data\Shop\Request\ClothingOrderItemData;
 use App\Features\CustomOrder\ClothingOrder\Data\Shop\Request\ClothingOrderRequestData;

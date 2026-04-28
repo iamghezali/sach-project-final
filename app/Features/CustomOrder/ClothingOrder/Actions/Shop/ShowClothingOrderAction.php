@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\CustomOrder\ClothingOrder\Actions;
+namespace App\Features\CustomOrder\ClothingOrder\Actions\Shop;
 
 use App\Models\ClothingOrder;
 use App\Models\User;

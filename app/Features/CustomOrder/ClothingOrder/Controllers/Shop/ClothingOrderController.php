@@ -2,10 +2,10 @@
 
 namespace App\Features\CustomOrder\ClothingOrder\Controllers\Shop;
 
-use App\Features\CustomOrder\ClothingOrder\Actions\AcceptClothingOrderOfferAction;
-use App\Features\CustomOrder\ClothingOrder\Actions\CreateClothingOrderAction;
-use App\Features\CustomOrder\ClothingOrder\Actions\ListClothingOrdersAction;
-use App\Features\CustomOrder\ClothingOrder\Actions\ShowClothingOrderAction;
+use App\Features\CustomOrder\ClothingOrder\Actions\Shop\AcceptClothingOrderOfferAction;
+use App\Features\CustomOrder\ClothingOrder\Actions\Shop\CreateClothingOrderAction;
+use App\Features\CustomOrder\ClothingOrder\Actions\Shop\ListClothingOrdersAction;
+use App\Features\CustomOrder\ClothingOrder\Actions\Shop\ShowClothingOrderAction;
 use App\Features\CustomOrder\ClothingOrder\Data\Shop\Request\ClothingOrderRequestData;
 use App\Features\CustomOrder\ClothingOrder\Data\Shop\Response\ClothingOrderData;
 use App\Http\Controllers\Controller;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\CustomOrder\ClothingOrder\Actions;
+namespace App\Features\CustomOrder\ClothingOrder\Actions\Shop;
 
 use App\Features\CustomOrder\ClothingOrder\Enums\ClothingOrderItemStatus;
 use App\Features\CustomOrder\ClothingOrder\Enums\ClothingOrderStatus;
