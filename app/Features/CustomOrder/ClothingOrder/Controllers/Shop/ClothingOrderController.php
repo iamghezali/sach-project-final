@@ -7,10 +7,9 @@ use App\Features\CustomOrder\ClothingOrder\Actions\Shop\CreateClothingOrderActio
 use App\Features\CustomOrder\ClothingOrder\Actions\Shop\ListClothingOrdersAction;
 use App\Features\CustomOrder\ClothingOrder\Actions\Shop\ShowClothingOrderAction;
 use App\Features\CustomOrder\ClothingOrder\Data\Shop\Request\ClothingOrderRequestData;
+use App\Features\CustomOrder\ClothingOrder\Data\Shop\Request\ResolveClothingOrderData;
 use App\Features\CustomOrder\ClothingOrder\Data\Shop\Response\ClothingOrderData;
 use App\Http\Controllers\Controller;
-use App\Models\ClothingOrder;
-use App\Models\ClothingOrderItem;
 use Illuminate\Http\Request;
 
 class ClothingOrderController extends Controller
@@ -48,16 +47,16 @@ class ClothingOrderController extends Controller
         ]);
     }
 
-    public function cancelItem(ClothingOrder $order, ClothingOrderItem $item)
+    public function cancelItem(int $orderID, int $itemID)
     {
-        $order = $this->acceptClothingOrderOfferAction->execute($order, false, $item);
+        $order = $this->acceptClothingOrderOfferAction->execute($orderID, false, $itemID);
 
         return response()->json(ClothingOrderData::fromModel($order));
     }
 
-    public function resolveOrder(ClothingOrder $order, Request $request)
+    public function resolveOrder(int $orderID, ResolveClothingOrderData $data)
     {
-        $order = $this->acceptClothingOrderOfferAction->execute($order, $request->boolean('accept'));
+        $order = $this->acceptClothingOrderOfferAction->execute($orderID, $data->accept);
 
         return response()->json(ClothingOrderData::fromModel($order));
     }

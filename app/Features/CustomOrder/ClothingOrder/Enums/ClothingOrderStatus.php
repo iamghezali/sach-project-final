@@ -6,9 +6,7 @@ enum ClothingOrderStatus: string
 {
     case Pending = 'pending';
     case Offered = 'offered';
-
     case Negotiating = 'negotiating';
-
     case Accepted = 'accepted';
     case InProgress = 'in_progress';
     case Completed = 'completed';
@@ -25,5 +23,10 @@ enum ClothingOrderStatus: string
             self::Completed => 'Completed',
             self::Cancelled => 'Cancelled',
         };
+    }
+
+    public static function values(): array
+    {
+        return array_column(self::cases(), 'value');
     }
 }

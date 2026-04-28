@@ -45,15 +45,6 @@ class ClothingOrder extends Model
     }
 
     /** @see ClothingOrder::$items - must be eager-loaded with 'items' */
-    public function derivedStatus(): ClothingOrderItemStatus
-    {
-        // Requires: items to be eager-loaded
-        return ClothingOrderItemStatus::deriveFrom(
-            $this->items->pluck('status')
-        );
-    }
-
-    /** @see ClothingOrder::$items - must be eager-loaded with 'items' */
     public function offerTotal(): string
     {
         $total = $this->items
