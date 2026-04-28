@@ -13,7 +13,7 @@ Route::prefix('custom-orders')
         Route::get('/', [ClothingOrderController::class, 'index'])->name('index');
         Route::post('/', [ClothingOrderController::class, 'store'])->name('store');
         Route::get('/{orderID}', [ClothingOrderController::class, 'show'])->name('show');
-        Route::patch('/{orderID}/decide', fn () => 'decide')->name('decide');
+        Route::patch('/{orderID}/resolve', [ClothingOrderController::class, 'resolveOrder'])->name('resolve');
 
         /**
          * Order item
@@ -23,7 +23,7 @@ Route::prefix('custom-orders')
             ->group(function () {
 
                 Route::get('/{itemID}', fn () => 'show')->name('show');
-                Route::patch('/{itemID}/cancel', fn () => 'cancel')->name('status');
+                Route::patch('/{itemID}/cancel', [ClothingOrderController::class, 'cancelItem'])->name('cancel');
 
             });
 
