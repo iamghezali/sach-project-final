@@ -14,7 +14,7 @@ use Illuminate\Validation\ValidationException;
 
 class AssignClothingOrderItemsAction
 {
-    public function execute(AssignOrderItemsRequestData $data): void
+    public function execute(AssignOrderItemsRequestData $data, int $orderID): void
     {
         $tailor = User::role(Role::TAILOR)->find($data->tailor_id);
 
@@ -24,7 +24,7 @@ class AssignClothingOrderItemsAction
             ]);
         }
 
-        $clothingOrder = ClothingOrder::with('items')->findOrFail($data->clothing_order_id);
+        $clothingOrder = ClothingOrder::with('items')->findOrFail($orderID);
 
         $targetItems = $data->item_ids === null
             ? $clothingOrder->items
@@ -50,7 +50,7 @@ class AssignClothingOrderItemsAction
     {
         $items = $clothingOrder->items->whereIn('id', $itemIds);
 
-        if ($items->count() !== count(array_unique($itemIds))) {
+        if ($items->count() !== \count(array_unique($itemIds))) {
             throw CannotAssignTailorException::itemsNotInOrder();
         }
 
