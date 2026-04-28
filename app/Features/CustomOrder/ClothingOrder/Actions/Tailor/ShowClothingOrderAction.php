@@ -2,13 +2,18 @@
 
 namespace App\Features\CustomOrder\ClothingOrder\Actions\Tailor;
 
+use App\Models\ClothingOrder;
+use App\Models\User;
+
 class ShowClothingOrderAction
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
+    public function execute(int $orderID, User $tailor): ClothingOrder
     {
-        //
+        return ClothingOrder::query()
+            ->whereHas('items', fn ($query) => $query->where('tailor_id', $tailor->id))
+            ->with([
+                'items' => fn ($query) => $query->where('tailor_id', $tailor->id),
+            ])
+            ->findOrFail($orderID);
     }
 }
