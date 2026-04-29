@@ -1,22 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { EyeIcon, EyeOffIcon } from 'lucide-react';
-import { useState } from 'react';
 import type { JSX } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
+import Form from '@/components/form/form';
+import { FormCheckbox } from '@/components/form/form-checkbox';
+import { FormField } from '@/components/form/form-field';
+import { FormInput } from '@/components/form/form-input';
+import { FormPasswordInput } from '@/components/form/form-password-input';
+import { FormRadioGroup } from '@/components/form/form-radio-group';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { RegisterRequestSchema } from '@/features/auth/schema';
 import type { RegisterRequest } from '@/features/auth/schema';
 
 export default function RegisterForm(): JSX.Element {
-    const [showPassword, setShowPassword] = useState<boolean>(false);
-    const toggle = () => setShowPassword((prev) => !prev);
-
     const form = useForm<RegisterRequest>({
         defaultValues: {
             first_name: '',
@@ -36,65 +34,38 @@ export default function RegisterForm(): JSX.Element {
     };
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Form
+            form={form}
+            onSubmit={onSubmit}
+        >
             <FieldSet>
                 <FieldGroup>
-                    <Controller
+                    <FormField
                         control={form.control}
                         name="first_name"
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="first_name">First Name</FieldLabel>
+                    >
+                        <FormField.Label>First Name</FormField.Label>
+                        <FormInput />
+                        <FormField.Error />
+                    </FormField>
 
-                                <Input
-                                    {...field}
-                                    id="first_name"
-                                    type="text"
-                                    aria-invalid={fieldState.invalid}
-                                />
-
-                                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                            </Field>
-                        )}
-                    />
-
-                    <Controller
+                    <FormField
                         control={form.control}
                         name="last_name"
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="last_name">Last Name</FieldLabel>
+                    >
+                        <FormField.Label>Last Name</FormField.Label>
+                        <FormInput />
+                        <FormField.Error />
+                    </FormField>
 
-                                <Input
-                                    {...field}
-                                    id="last_name"
-                                    type="text"
-                                    aria-invalid={fieldState.invalid}
-                                />
-
-                                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                            </Field>
-                        )}
-                    />
-
-                    <Controller
+                    <FormField
                         control={form.control}
                         name="phone"
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="phone">Phone</FieldLabel>
-
-                                <Input
-                                    {...field}
-                                    id="phone"
-                                    type="text"
-                                    aria-invalid={fieldState.invalid}
-                                />
-
-                                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                            </Field>
-                        )}
-                    />
+                    >
+                        <FormField.Label>Phone</FormField.Label>
+                        <FormInput />
+                        <FormField.Error />
+                    </FormField>
 
                     <Controller
                         control={form.control}
@@ -131,109 +102,47 @@ export default function RegisterForm(): JSX.Element {
                         )}
                     />
 
-                    <Controller
+                    <FormField
                         control={form.control}
                         name="email"
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="email">Email</FieldLabel>
+                    >
+                        <FormField.Label>Email</FormField.Label>
+                        <FormInput />
+                        <FormField.Error />
+                    </FormField>
 
-                                <Input
-                                    {...field}
-                                    id="email"
-                                    type="text"
-                                    aria-invalid={fieldState.invalid}
-                                />
-
-                                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                            </Field>
-                        )}
-                    />
-
-                    <Controller
+                    <FormField
                         control={form.control}
                         name="password"
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="password">Password</FieldLabel>
+                    >
+                        <FormField.Label>Password</FormField.Label>
+                        <FormPasswordInput />
+                        <FormField.Error />
+                    </FormField>
 
-                                <InputGroup>
-                                    <InputGroupInput
-                                        {...field}
-                                        id="password"
-                                        type={showPassword ? 'text' : 'password'}
-                                    />
-
-                                    <InputGroupAddon align="inline-end">
-                                        <InputGroupButton
-                                            size="icon-sm"
-                                            className="bg-transparent hover:bg-transparent"
-                                            onClick={toggle}
-                                        >
-                                            {showPassword ? <EyeIcon /> : <EyeOffIcon />}
-                                        </InputGroupButton>
-                                    </InputGroupAddon>
-                                </InputGroup>
-
-                                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                            </Field>
-                        )}
-                    />
-
-                    <Controller
+                    <FormField
                         control={form.control}
                         name="password_confirmation"
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="password_confirmation">Confirm Password</FieldLabel>
+                    >
+                        <FormField.Label>Confirm password</FormField.Label>
+                        <FormPasswordInput />
+                        <FormField.Error />
+                    </FormField>
 
-                                <InputGroup>
-                                    <InputGroupInput
-                                        {...field}
-                                        id="password_confirmation"
-                                        type={showPassword ? 'text' : 'password'}
-                                    />
-
-                                    <InputGroupAddon align="inline-end">
-                                        <InputGroupButton
-                                            size="icon-sm"
-                                            className="bg-transparent hover:bg-transparent"
-                                            onClick={toggle}
-                                        >
-                                            {showPassword ? <EyeIcon /> : <EyeOffIcon />}
-                                        </InputGroupButton>
-                                    </InputGroupAddon>
-                                </InputGroup>
-
-                                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                            </Field>
-                        )}
-                    />
-
-                    <Controller
+                    <FormField
                         control={form.control}
                         name="user_agreement"
-                        render={({ field, fieldState }) => (
-                            <Field
-                                data-invalid={fieldState.invalid}
-                                orientation="horizontal"
-                            >
-                                <Checkbox
-                                    id="remember"
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                />
+                        orientation="horizontal"
+                    >
+                        <FormCheckbox />
+                        <FormField.Label>Agree to user agreement.</FormField.Label>
 
-                                <FieldLabel htmlFor="remember">Agree to user agreement</FieldLabel>
+                        <FormField.Error />
+                    </FormField>
 
-                                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                            </Field>
-                        )}
-                    />
+                    <Button disabled={!form.formState.isValid && form.formState.isSubmitted}>Login</Button>
                 </FieldGroup>
             </FieldSet>
-
-            <Button disabled={!form.formState.isValid && form.formState.isSubmitted}>Login</Button>
-        </form>
+        </Form>
     );
 }
