@@ -19,6 +19,8 @@ Route::middleware('guest')->group(function () {
 Route::prefix('shop')->name('shop.')
     ->group(function () {
 
+        Route::get('/checkout', fn () => Inertia::render('shop/checkout'))->name('checkout');
+       
         /**
          * Shop routes that requires Auth
          */

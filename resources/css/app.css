@@ -12,6 +12,31 @@
     --font-sans:
         'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --animate-collapsible-up: slide-up 200ms ease-in-out;
+    --animate-collapsible-down: slide-down 200ms ease-in-out;
+
+    @keyframes slide-down {
+        from {
+            height: 0;
+            overflow: hidden;
+        }
+        to {
+            height: var(--radix-collapsible-content-height);
+            overflow: hidden;
+        }
+    }
+
+    @keyframes slide-up {
+        from {
+            height: var(--radix-collapsible-content-height);
+            overflow: hidden;
+        }
+        to {
+            height: 0;
+            overflow: hidden;
+        }
+    }
 }
 
 @theme inline {
