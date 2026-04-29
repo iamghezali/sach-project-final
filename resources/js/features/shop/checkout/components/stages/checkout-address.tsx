@@ -10,12 +10,12 @@ import { FormField } from '@/components/form/form-field';
 import { FormInput } from '@/components/form/form-input';
 import { FormSelect } from '@/components/form/form-select';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 import { Field, FieldContent, FieldGroup, FieldLabel, FieldLegend, FieldSet } from '@/components/ui/field';
 import { useCheckoutFlow } from '@/features/shop/checkout/components/checkout-flow/checkout-context';
 import { willayas } from '@/features/shop/checkout/options/willayas';
 import type { Addresses } from '@/features/shop/checkout/schema';
 import { AddressesSchema } from '@/features/shop/checkout/schema';
-import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 export default function CheckoutAddress(): JSX.Element {
     const { useSameAddress, setUseSameAddress, checkoutData, appendCheckoutData, confirmStage } = useCheckoutFlow();
 

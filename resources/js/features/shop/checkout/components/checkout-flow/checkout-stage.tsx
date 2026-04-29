@@ -2,9 +2,9 @@ import { CheckIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 import { useCheckoutFlow } from './checkout-context';
 import type { Stage } from './checkout-reducer';
-import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 
 type CheckoutStageProps = {
     stage: Stage;

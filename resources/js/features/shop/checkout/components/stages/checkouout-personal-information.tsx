@@ -1,7 +1,7 @@
 import type { JSX } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import LoginForm from '@/features/auth/components/login-form';
 import RegisterForm from '@/features/auth/components/register-form';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function CheckououtPersonalInformation(): JSX.Element {
     return (
