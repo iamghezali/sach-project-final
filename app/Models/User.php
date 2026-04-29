@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Authorization\Enums\Role;
 use App\Features\User\Enums\Gender;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -44,5 +45,18 @@ class User extends Authenticatable
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    /**
+     * Get the URL the user should be redirected to after login.
+     */
+    public function homeRoute(): string
+    {
+        return match (true) {
+            $this->hasAnyRole(Role::ADMIN, Role::EDITOR) => route('dashboard.overview'),
+            $this->hasRole(Role::TAILOR) => route('tailor.overview'),
+            $this->hasRole(Role::CUSTOMER) => route('shop.orders.my'),
+            default => route('welcome'),
+        };
     }
 }

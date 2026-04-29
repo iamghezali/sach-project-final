@@ -27,6 +27,7 @@ class LoginController extends Controller
                 'data' => [
                     'user' => UserData::from($user),
                 ],
+                'redirectTo' => $user->homeRoute(),
             ]);
 
         } catch (AuthenticationException) {
