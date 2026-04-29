@@ -1,4 +1,9 @@
-export const willayas = [
+export type Willaya = {
+    label: string;
+    value: string;
+};
+
+export const willayas: Willaya[] = [
     { label: 'Adrar', value: 'adrar' },
     { label: 'Chlef', value: 'chlef' },
     { label: 'Laghouat', value: 'laghouat' },
@@ -58,3 +63,11 @@ export const willayas = [
     { label: 'El M’Ghair', value: 'el-mghair' },
     { label: 'El Meniaa', value: 'el-meniaa' },
 ];
+
+const willayaLabelMap: Record<Willaya['value'], Willaya['label']> = Object.fromEntries(
+    willayas.map((w) => [w.value, w.label]),
+) as Record<Willaya['value'], Willaya['label']>;
+
+export const getWillayaLabel = (value: Willaya['value']) => {
+    return willayaLabelMap[value];
+};
