@@ -1,19 +1,21 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
 import type { JSX } from 'react';
+import { useEffect } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm, useWatch } from 'react-hook-form';
 import Form from '@/components/form/form';
 import { FormButton } from '@/components/form/form-button';
+import FormCombobox from '@/components/form/form-combobox';
 import { FormField } from '@/components/form/form-field';
 import { FormInput } from '@/components/form/form-input';
+import { FormSelect } from '@/components/form/form-select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Field, FieldContent, FieldGroup, FieldLabel, FieldLegend, FieldSet } from '@/components/ui/field';
 import { useCheckoutFlow } from '@/features/shop/checkout/components/checkout-flow/checkout-context';
+import { willayas } from '@/features/shop/checkout/options/willayas';
 import type { Addresses } from '@/features/shop/checkout/schema';
 import { AddressesSchema } from '@/features/shop/checkout/schema';
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
-
 export default function CheckoutAddress(): JSX.Element {
     const { useSameAddress, setUseSameAddress, checkoutData, appendCheckoutData, confirmStage } = useCheckoutFlow();
 
@@ -28,6 +30,7 @@ export default function CheckoutAddress(): JSX.Element {
     const onSubmit: SubmitHandler<Addresses> = (values) => {
         appendCheckoutData(values);
         confirmStage('step-2', 'step-3');
+        console.log(values);
     };
 
     const shipping_address = useWatch({
@@ -93,7 +96,11 @@ export default function CheckoutAddress(): JSX.Element {
                             control={form.control}
                             name="shipping_address.willaya"
                         >
-                            <FormInput placeholder="Willaya" />
+                            <FormCombobox
+                                placeholder="Willaya"
+                                options={willayas}
+                            />
+
                             <FormField.Error />
                         </FormField>
 
@@ -101,8 +108,18 @@ export default function CheckoutAddress(): JSX.Element {
                             control={form.control}
                             name="shipping_address.country"
                         >
-                            <FormInput placeholder="Country" />
-                            <FormField.Error />
+                            {({ field }) => (
+                                <FormSelect
+                                    placeholder="Select your country"
+                                    field={field}
+                                >
+                                    {({ Item }) => (
+                                        <>
+                                            <Item value="algeria">Algeria</Item>
+                                        </>
+                                    )}
+                                </FormSelect>
+                            )}
                         </FormField>
 
                         <FormField
@@ -184,11 +201,11 @@ export default function CheckoutAddress(): JSX.Element {
                                     control={form.control}
                                     name="billing_address.willaya"
                                 >
-                                    <FormInput
+                                    <FormCombobox
                                         placeholder="Willaya"
-                                        disabled={!!useSameAddress}
-                                        readOnly={!!useSameAddress}
+                                        options={willayas}
                                     />
+
                                     <FormField.Error />
                                 </FormField>
 
@@ -196,12 +213,18 @@ export default function CheckoutAddress(): JSX.Element {
                                     control={form.control}
                                     name="billing_address.country"
                                 >
-                                    <FormInput
-                                        placeholder="Country"
-                                        disabled={!!useSameAddress}
-                                        readOnly={!!useSameAddress}
-                                    />
-                                    <FormField.Error />
+                                    {({ field }) => (
+                                        <FormSelect
+                                            placeholder="Select your country"
+                                            field={field}
+                                        >
+                                            {({ Item }) => (
+                                                <>
+                                                    <Item value="algeria">Algeria</Item>
+                                                </>
+                                            )}
+                                        </FormSelect>
+                                    )}
                                 </FormField>
 
                                 <FormField

@@ -51,7 +51,7 @@ const DEFAULT_CHECKOUT_DATA: Partial<CheckoutData> = {
         address_line_2: '',
         willaya: '',
         postal_code: '',
-        country: 'Algeria',
+        country: 'algeria',
     },
     billing_address: {
         full_name: '',
@@ -60,7 +60,7 @@ const DEFAULT_CHECKOUT_DATA: Partial<CheckoutData> = {
         address_line_2: '',
         willaya: '',
         postal_code: '',
-        country: 'Algeria',
+        country: 'algeria',
     },
     delivery_option: 'yalidine',
     notes: '',

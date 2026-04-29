@@ -13,11 +13,12 @@ const AddressSchema = z.object({
     address_line_1: z.string().min(1, 'Address is required'),
     address_line_2: z.string().optional(),
     willaya: z.string().min(1, 'Willaya is required'),
+
     postal_code: z
         .string()
         .min(1, 'Postal code is required')
         .regex(/^\d{5}$/, 'Postal code must be 5 digits'),
-    country: z.string().min(1, 'Country is required'),
+    country: z.enum(['algeria']),
 });
 
 const OrderItemSchema = z.object({
