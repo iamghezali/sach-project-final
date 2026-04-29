@@ -29,13 +29,14 @@ export function useFieldContext(): FieldContextValue {
     return ctx;
 }
 
-interface RootProps<TValues extends FieldValues, TName extends FieldPath<TValues>> extends React.ComponentProps<
-    typeof Field
+interface RootProps<TValues extends FieldValues, TName extends FieldPath<TValues>> extends Omit<
+    React.ComponentProps<typeof Field>,
+    'children'
 > {
     control: UseFormReturn<TValues>['control'];
     name: TName;
     id?: string;
-    children: React.ReactNode;
+    children: React.ReactNode | ((props: { field: ControllerRenderProps<TValues, TName> }) => React.ReactNode);
 }
 
 export function Root<TValues extends FieldValues, TName extends FieldPath<TValues>>({
@@ -62,7 +63,7 @@ export function Root<TValues extends FieldValues, TName extends FieldPath<TValue
                         data-invalid={fieldState.invalid}
                         {...props}
                     >
-                        {children}
+                        {typeof children === 'function' ? children({ field }) : children}
                     </Field>
                 </FieldContext.Provider>
             )}

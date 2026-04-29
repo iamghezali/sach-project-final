@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { JSX } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import Form from '@/components/form/form';
 import { FormCheckbox } from '@/components/form/form-checkbox';
 import { FormField } from '@/components/form/form-field';
@@ -9,8 +9,7 @@ import { FormInput } from '@/components/form/form-input';
 import { FormPasswordInput } from '@/components/form/form-password-input';
 import { FormRadioGroup } from '@/components/form/form-radio-group';
 import { Button } from '@/components/ui/button';
-import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from '@/components/ui/field';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { FieldGroup, FieldSet } from '@/components/ui/field';
 import { RegisterRequestSchema } from '@/features/auth/schema';
 import type { RegisterRequest } from '@/features/auth/schema';
 
@@ -67,40 +66,26 @@ export default function RegisterForm(): JSX.Element {
                         <FormField.Error />
                     </FormField>
 
-                    <Controller
+                    <FormField
                         control={form.control}
                         name="gender"
-                        render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="gender">Gender</FieldLabel>
+                    >
+                        {({ field }) => (
+                            <>
+                                <FormField.Label>Gender</FormField.Label>
 
-                                <RadioGroup
-                                    id="gender"
-                                    value={field.value}
-                                    onValueChange={field.onChange}
-                                    aria-invalid={fieldState.invalid}
-                                >
-                                    <Field orientation="horizontal">
-                                        <RadioGroupItem
-                                            id="male"
-                                            value="male"
-                                        />
-                                        <FieldLabel htmlFor="male">Male</FieldLabel>
-                                    </Field>
-
-                                    <Field orientation="horizontal">
-                                        <RadioGroupItem
-                                            id="female"
-                                            value="female"
-                                        />
-                                        <FieldLabel htmlFor="female">Female</FieldLabel>
-                                    </Field>
-                                </RadioGroup>
-
-                                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                            </Field>
+                                <FormRadioGroup field={field}>
+                                    {({ Item }) => (
+                                        <>
+                                            <Item value="male">Male</Item>
+                                            <Item value="female">Female</Item>
+                                        </>
+                                    )}
+                                </FormRadioGroup>
+                                <FormField.Error />
+                            </>
                         )}
-                    />
+                    </FormField>
 
                     <FormField
                         control={form.control}
