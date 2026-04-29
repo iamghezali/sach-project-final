@@ -36,7 +36,7 @@ export default function FormCombobox<T extends FieldValues, TName extends Path<T
     readOnly,
     ...props
 }: FormComboboxProps<T, TName>): JSX.Element {
-    const { field } = useFieldContext();
+    const { field, fieldState } = useFieldContext();
 
     return (
         <Combobox
@@ -49,6 +49,7 @@ export default function FormCombobox<T extends FieldValues, TName extends Path<T
             onValueChange={(option) => field.onChange(option?.value ?? '')}
         >
             <ComboboxInput
+                aria-invalid={fieldState.invalid}
                 placeholder={placeholder}
                 onBlur={field.onBlur}
                 disabled={disabled}

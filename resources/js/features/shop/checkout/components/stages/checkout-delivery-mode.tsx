@@ -52,7 +52,7 @@ export default function CheckoutDeliveryMode(): JSX.Element {
                                                     <div className="flex justify-between">
                                                         <span>Yalidine</span>
                                                         <span>Fast Delivery 24 - 48h</span>
-                                                        <span>800.00 DA</span>
+                                                        <span>800.00 DZD</span>
                                                     </div>
                                                 </Item>
                                             </>
