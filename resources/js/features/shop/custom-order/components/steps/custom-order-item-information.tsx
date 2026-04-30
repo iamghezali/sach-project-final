@@ -8,6 +8,7 @@ import { FormField } from '@/components/form/form-field';
 import { FormInput } from '@/components/form/form-input';
 import { FormSelect } from '@/components/form/form-select';
 import { FormTextarea } from '@/components/form/form-textarea';
+import { FormToggleGroup } from '@/components/form/form-toggle-group';
 import { Button } from '@/components/ui/button';
 import { FieldGroup, FieldSet } from '@/components/ui/field';
 import { useCustomOrder } from '@/features/shop/custom-order/providers/custom-order-provider';
@@ -49,8 +50,11 @@ export default function CustomOrderItemInformation(): JSX.Element {
                             {({ field }) => (
                                 <>
                                     <FormField.Label>What is this order for?</FormField.Label>
-                                    <FormSelect
-                                        placeholder="Select an option"
+
+                                    <FormToggleGroup
+                                        type="single"
+                                        variant="outline"
+                                        spacing={3}
                                         field={field}
                                     >
                                         {({ Item }) => (
@@ -60,7 +64,8 @@ export default function CustomOrderItemInformation(): JSX.Element {
                                                 <Item value="wholesale">Wholesale</Item>
                                             </>
                                         )}
-                                    </FormSelect>
+                                    </FormToggleGroup>
+                                    <FormField.Error />
                                 </>
                             )}
                         </FormField>
@@ -72,8 +77,10 @@ export default function CustomOrderItemInformation(): JSX.Element {
                             {({ field }) => (
                                 <>
                                     <FormField.Label>What would you like to create?</FormField.Label>
-                                    <FormSelect
-                                        placeholder="Select an option"
+                                    <FormToggleGroup
+                                        type="single"
+                                        variant="outline"
+                                        spacing={3}
                                         field={field}
                                     >
                                         {({ Item }) => (
@@ -82,7 +89,8 @@ export default function CustomOrderItemInformation(): JSX.Element {
                                                 <Item value="living_rooms">Living Rooms</Item>
                                             </>
                                         )}
-                                    </FormSelect>
+                                    </FormToggleGroup>
+                                    <FormField.Error />
                                 </>
                             )}
                         </FormField>
@@ -94,17 +102,21 @@ export default function CustomOrderItemInformation(): JSX.Element {
                             {({ field }) => (
                                 <>
                                     <FormField.Label>Gender</FormField.Label>
-                                    <FormSelect
-                                        placeholder="Select an option"
+
+                                    <FormToggleGroup
+                                        type="single"
+                                        variant="outline"
+                                        spacing={3}
                                         field={field}
                                     >
                                         {({ Item }) => (
                                             <>
-                                                <Item value="female">Female</Item>
                                                 <Item value="male">Male</Item>
+                                                <Item value="female">Female</Item>
                                             </>
                                         )}
-                                    </FormSelect>
+                                    </FormToggleGroup>
+                                    <FormField.Error />
                                 </>
                             )}
                         </FormField>

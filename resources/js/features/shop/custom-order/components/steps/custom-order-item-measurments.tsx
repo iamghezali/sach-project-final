@@ -6,8 +6,8 @@ import Form from '@/components/form/form';
 import { FormButton } from '@/components/form/form-button';
 import { FormField } from '@/components/form/form-field';
 import { FormInput } from '@/components/form/form-input';
-import { FormSelect } from '@/components/form/form-select';
 import { FormTextarea } from '@/components/form/form-textarea';
+import { FormToggleGroup } from '@/components/form/form-toggle-group';
 import { Button } from '@/components/ui/button';
 import { FieldGroup, FieldSet } from '@/components/ui/field';
 import { useCustomOrder } from '@/features/shop/custom-order/providers/custom-order-provider';
@@ -80,9 +80,11 @@ export default function CustomOrderItemMeasurements(): JSX.Element {
                         {({ field }) => (
                             <>
                                 <FormField.Label>How would you like to provide measurements?</FormField.Label>
-                                <FormSelect
-                                    placeholder="Select an option"
+                                <FormToggleGroup
+                                    type="single"
+                                    spacing={3}
                                     field={field}
+                                    variant="outline"
                                 >
                                     {({ Item }) => (
                                         <>
@@ -90,7 +92,8 @@ export default function CustomOrderItemMeasurements(): JSX.Element {
                                             <Item value="custom">Custom</Item>
                                         </>
                                     )}
-                                </FormSelect>
+                                </FormToggleGroup>
+                                <FormField.Error />
                             </>
                         )}
                     </FormField>
@@ -103,9 +106,11 @@ export default function CustomOrderItemMeasurements(): JSX.Element {
                             {({ field }) => (
                                 <>
                                     <FormField.Label>Size</FormField.Label>
-                                    <FormSelect
-                                        placeholder="Select a size"
+                                    <FormToggleGroup
+                                        type="single"
+                                        spacing={3}
                                         field={field}
+                                        variant="outline"
                                     >
                                         {({ Item }) => (
                                             <>
@@ -116,7 +121,7 @@ export default function CustomOrderItemMeasurements(): JSX.Element {
                                                 <Item value="xl">XL</Item>
                                             </>
                                         )}
-                                    </FormSelect>
+                                    </FormToggleGroup>
                                     <FormField.Error />
                                 </>
                             )}
