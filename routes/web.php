@@ -20,7 +20,8 @@ Route::prefix('shop')->name('shop.')
     ->group(function () {
 
         Route::get('/checkout', fn () => Inertia::render('shop/checkout'))->name('checkout');
-       
+        Route::get('/custom-order', fn () => Inertia::render('shop/custom-order'))->name('custom-order');
+
         /**
          * Shop routes that requires Auth
          */
