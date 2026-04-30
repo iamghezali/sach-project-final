@@ -3,20 +3,28 @@ import type { JSX } from 'react';
 import { useFieldContext } from '@/components/form/form-field';
 import { Slider } from '@/components/ui/slider';
 
-export function Root({ ...props }: React.ComponentProps<typeof Slider>) {
+type FormSliderProps = React.ComponentProps<typeof Slider> & {
+    type?: 'single' | 'range';
+};
+
+export function Root({ type = 'single', ...props }: FormSliderProps) {
     const { field, fieldState, id } = useFieldContext();
 
-    const value = field.value != null ? [field.value] : undefined;
+    const sliderValue = type === 'single' ? (field.value != null ? [field.value] : undefined) : field.value;
 
     const handleValueChange = (newValue: number[]) => {
-        field.onChange(newValue[0]);
+        if (type === 'single') {
+            field.onChange(newValue[0]);
+        } else {
+            field.onChange(newValue);
+        }
     };
 
     return (
         <Slider
             id={id}
             aria-invalid={fieldState.invalid}
-            value={value}
+            value={sliderValue}
             onValueChange={handleValueChange}
             onBlur={field.onBlur}
             {...props}
