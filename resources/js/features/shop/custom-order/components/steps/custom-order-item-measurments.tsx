@@ -29,10 +29,10 @@ function toMeasurementsShape(values: MeasurementsForm): CreateOrderItemMeasureme
 
     return {
         measurement_type: 'custom',
-        shoulder: values.shoulder!,
-        waist: values.waist!,
-        chest: values.chest!,
-        height: values.height!,
+        shoulder: values.shoulder,
+        waist: values.waist,
+        chest: values.chest,
+        height: values.height,
         fitting_preference: values.fitting_preference,
     };
 }

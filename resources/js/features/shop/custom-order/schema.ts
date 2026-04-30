@@ -105,10 +105,10 @@ export const MeasurementsFormSchema = z
         measurement_type: z.enum(['standard', 'custom']),
         size: z.enum(['xs', 's', 'm', 'l', 'xl']),
         fitting_preference: z.string(),
-        shoulder: z.number().nullable(),
-        waist: z.number().nullable(),
-        chest: z.number().nullable(),
-        height: z.number().nullable(),
+        shoulder: z.number(),
+        waist: z.number(),
+        chest: z.number(),
+        height: z.number(),
     })
     .superRefine((data, ctx) => {
         if (data.measurement_type !== 'custom') {
