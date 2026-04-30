@@ -5,7 +5,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import Form from '@/components/form/form';
 import { FormButton } from '@/components/form/form-button';
 import { FormField } from '@/components/form/form-field';
-import { FormInput } from '@/components/form/form-input';
+import { FormSlider } from '@/components/form/form-slider';
 import { FormTextarea } from '@/components/form/form-textarea';
 import { FormToggleGroup } from '@/components/form/form-toggle-group';
 import { Button } from '@/components/ui/button';
@@ -42,10 +42,10 @@ function toFormDefaults(existing: CustomOrderItem['measurements']): Measurements
         measurement_type: existing.measurement_type,
         fitting_preference: existing.fitting_preference,
         size: 'size' in existing ? existing.size : 'xs',
-        shoulder: 'shoulder' in existing ? existing.shoulder : 1,
-        waist: 'waist' in existing ? existing.waist : 1,
-        chest: 'chest' in existing ? existing.chest : 1,
-        height: 'height' in existing ? existing.height : 1,
+        shoulder: 'shoulder' in existing ? existing.shoulder : 20,
+        waist: 'waist' in existing ? existing.waist : 20,
+        chest: 'chest' in existing ? existing.chest : 20,
+        height: 'height' in existing ? existing.height : 20,
     };
 }
 
@@ -134,10 +134,14 @@ export default function CustomOrderItemMeasurements(): JSX.Element {
                                 control={form.control}
                                 name="height"
                             >
-                                <FormField.Label>Height</FormField.Label>
-                                <FormInput
-                                    type="number"
+                                <div className="flex justify-between">
+                                    <FormField.Label>Height</FormField.Label>
+                                    <FormSlider.Value unit="cm" />
+                                </div>
+                                <FormSlider
                                     min={1}
+                                    max={100}
+                                    step={2}
                                 />
                                 <FormField.Error />
                             </FormField>
@@ -146,10 +150,14 @@ export default function CustomOrderItemMeasurements(): JSX.Element {
                                 control={form.control}
                                 name="shoulder"
                             >
-                                <FormField.Label>Shoulder</FormField.Label>
-                                <FormInput
-                                    type="number"
+                                <div className="flex justify-between">
+                                    <FormField.Label>Shoulder</FormField.Label>
+                                    <FormSlider.Value unit="cm" />
+                                </div>
+                                <FormSlider
                                     min={1}
+                                    max={100}
+                                    step={2}
                                 />
                                 <FormField.Error />
                             </FormField>
@@ -158,10 +166,14 @@ export default function CustomOrderItemMeasurements(): JSX.Element {
                                 control={form.control}
                                 name="chest"
                             >
-                                <FormField.Label>Chest</FormField.Label>
-                                <FormInput
-                                    type="number"
+                                <div className="flex justify-between">
+                                    <FormField.Label>Chest</FormField.Label>
+                                    <FormSlider.Value unit="cm" />
+                                </div>
+                                <FormSlider
                                     min={1}
+                                    max={100}
+                                    step={2}
                                 />
                                 <FormField.Error />
                             </FormField>
@@ -170,10 +182,14 @@ export default function CustomOrderItemMeasurements(): JSX.Element {
                                 control={form.control}
                                 name="waist"
                             >
-                                <FormField.Label>Waist</FormField.Label>
-                                <FormInput
-                                    type="number"
+                                <div className="flex justify-between">
+                                    <FormField.Label>Waist</FormField.Label>
+                                    <FormSlider.Value unit="cm" />
+                                </div>
+                                <FormSlider
                                     min={1}
+                                    max={100}
+                                    step={2}
                                 />
                                 <FormField.Error />
                             </FormField>
