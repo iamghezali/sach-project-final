@@ -2,7 +2,7 @@
 
 namespace App\Features\Auth\Data\Request;
 
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Spatie\LaravelData\Data;
 
 class LoginRequestData extends Data
