@@ -23,6 +23,10 @@ export default function CustomOrderItemInformation(): JSX.Element {
         resolver: zodResolver(CreateOrderItemInformationSchema),
     });
 
+    const {
+        formState: { isDirty },
+    } = form;
+
     const onSubmit: SubmitHandler<CreateOrderItemInformation> = (values) => {
         setOrderItemInformation(values);
 
@@ -60,8 +64,18 @@ export default function CustomOrderItemInformation(): JSX.Element {
                                         {({ Item }) => (
                                             <>
                                                 <Item value="individual">Individual</Item>
-                                                <Item value="company">Company</Item>
-                                                <Item value="wholesale">Wholesale</Item>
+                                                <Item
+                                                    value="company"
+                                                    disabled
+                                                >
+                                                    Company
+                                                </Item>
+                                                <Item
+                                                    value="wholesale"
+                                                    disabled
+                                                >
+                                                    Wholesale
+                                                </Item>
                                             </>
                                         )}
                                     </FormToggleGroup>
@@ -86,7 +100,12 @@ export default function CustomOrderItemInformation(): JSX.Element {
                                         {({ Item }) => (
                                             <>
                                                 <Item value="clothing">Clothing</Item>
-                                                <Item value="living_rooms">Living Rooms</Item>
+                                                <Item
+                                                    value="living_rooms"
+                                                    disabled
+                                                >
+                                                    Living Rooms
+                                                </Item>
                                             </>
                                         )}
                                     </FormToggleGroup>
@@ -111,8 +130,13 @@ export default function CustomOrderItemInformation(): JSX.Element {
                                     >
                                         {({ Item }) => (
                                             <>
-                                                <Item value="male">Male</Item>
                                                 <Item value="female">Female</Item>
+                                                <Item
+                                                    value="male"
+                                                    disabled
+                                                >
+                                                    Male
+                                                </Item>
                                             </>
                                         )}
                                     </FormToggleGroup>
@@ -177,7 +201,7 @@ export default function CustomOrderItemInformation(): JSX.Element {
 
                         <FormField
                             control={form.control}
-                            name="short_description"
+                            name="description"
                         >
                             <FormField.Label>Short Description</FormField.Label>
                             <FormTextarea className="min-h-24" />
@@ -224,7 +248,12 @@ export default function CustomOrderItemInformation(): JSX.Element {
                                 {isEditing ? 'Discard Changes' : 'Back'}
                             </Button>
 
-                            <FormButton control={form.control}>{isEditing ? 'Save' : 'Go to Measurments'}</FormButton>
+                            <FormButton
+                                control={form.control}
+                                disabled={isEditing && !isDirty}
+                            >
+                                {isEditing ? 'Save' : 'Go to Measurments'}
+                            </FormButton>
                         </div>
                     </FieldGroup>
                 </FieldSet>

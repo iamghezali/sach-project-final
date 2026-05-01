@@ -57,6 +57,10 @@ export default function CustomOrderItemMeasurements(): JSX.Element {
         defaultValues: toFormDefaults(orderItem.measurements),
     });
 
+    const {
+        formState: { isDirty },
+    } = form;
+
     const measurementType = useWatch({ control: form.control, name: 'measurement_type' });
     const isCustom = measurementType === 'custom';
 
@@ -221,7 +225,12 @@ export default function CustomOrderItemMeasurements(): JSX.Element {
                         >
                             {isEditing ? 'Discard Changes' : 'Back'}
                         </Button>
-                        <FormButton control={form.control}>{isEditing ? 'Save' : 'Review your item'}</FormButton>
+                        <FormButton
+                            control={form.control}
+                            disabled={isEditing && !isDirty}
+                        >
+                            {isEditing ? 'Save' : 'Review your item'}
+                        </FormButton>
                     </div>
                 </FieldGroup>
             </FieldSet>

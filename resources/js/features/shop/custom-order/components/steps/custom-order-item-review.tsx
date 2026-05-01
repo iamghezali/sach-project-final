@@ -50,7 +50,7 @@ export default function CustomOrderItemReview(): JSX.Element {
                     </div>
                     <div>
                         <span className="text-neutral-700">Short Description: </span>
-                        {orderItem.information.short_description ? orderItem.information.short_description : 'Empty'}
+                        {orderItem.information.description ? orderItem.information.description : 'Empty'}
                     </div>
                     <div>
                         <span className="text-neutral-700">Qauntity: </span>

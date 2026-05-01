@@ -46,7 +46,7 @@ const ORDER_ITEM_DEFAULTS: CustomOrderItem = {
         title: '',
         looking_for: '',
         provide_fabric: false,
-        short_description: '',
+        description: '',
         quantity: 1,
         preferred_due_date: minimumDueDateString(),
     },
