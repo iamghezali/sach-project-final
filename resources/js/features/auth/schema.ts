@@ -1,4 +1,11 @@
 import { z } from 'zod';
+import { apiResponseSchema } from '@/api/schema';
+
+const UserSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    email: z.string(),
+});
 
 /**
  * Login Request
@@ -13,6 +20,19 @@ export const LoginRequestSchema = z.object({
 });
 
 export type LoginRequest = z.infer<typeof LoginRequestSchema>;
+
+/**
+ * Login Response
+ */
+export const LoginResponseSchema = apiResponseSchema(
+    z.object({
+        user: UserSchema,
+    }),
+).and(
+    z.object({
+        redirectTo: z.string(),
+    }),
+);
 
 /**
  * Register Request
@@ -42,3 +62,32 @@ export const RegisterRequestSchema = z
     });
 
 export type RegisterRequest = z.infer<typeof RegisterRequestSchema>;
+
+/**
+ * Register Response
+ */
+export const RegisterResponseSchema = apiResponseSchema(
+    z.object({
+        user: UserSchema.extend({
+            joined: z.string(),
+        }),
+    }),
+).and(
+    z.object({
+        redirectTo: z.string(),
+    }),
+);
+
+/**
+ * User Query Response
+ */
+export const UserResponseSchema = apiResponseSchema(
+    z.object({
+        user: UserSchema,
+    }),
+);
+
+/**
+ * Logout Response
+ */
+export const LogoutResponseSchema = apiResponseSchema(z.void());

@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { usePage } from '@inertiajs/react';
 import type { JSX } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -8,11 +9,15 @@ import { FormCheckbox } from '@/components/form/form-checkbox';
 import { FormField } from '@/components/form/form-field';
 import { FormInput } from '@/components/form/form-input';
 import { FormPasswordInput } from '@/components/form/form-password-input';
-import { FieldGroup, FieldSet } from '@/components/ui/field';
+import { FieldError, FieldGroup, FieldSet } from '@/components/ui/field';
+import { useLogin } from '@/features/auth/mutations';
 import { LoginRequestSchema } from '@/features/auth/schema';
 import type { LoginRequest } from '@/features/auth/schema';
 
 export default function LoginForm(): JSX.Element {
+    const { mutateAsync: login } = useLogin();
+    const { url } = usePage();
+
     const form = useForm<LoginRequest>({
         defaultValues: {
             email: '',
@@ -22,8 +27,18 @@ export default function LoginForm(): JSX.Element {
         resolver: zodResolver(LoginRequestSchema),
     });
 
-    const onSubmit: SubmitHandler<LoginRequest> = (values) => {
-        console.log(values);
+    const onSubmit: SubmitHandler<LoginRequest> = async (values) => {
+        await login(
+            {
+                noRedirect: url === '/shop/checkout',
+                payload: values,
+            },
+            {
+                onError: (error) => {
+                    form.setError('root', { message: error.message });
+                },
+            },
+        );
     };
 
     return (
@@ -60,9 +75,11 @@ export default function LoginForm(): JSX.Element {
                         <FormField.Label>Remember me.</FormField.Label>
                     </FormField>
                 </FieldGroup>
-
-                <FormButton control={form.control}>Login</FormButton>
             </FieldSet>
+
+            {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
+
+            <FormButton control={form.control}>Login</FormButton>
         </Form>
     );
 }

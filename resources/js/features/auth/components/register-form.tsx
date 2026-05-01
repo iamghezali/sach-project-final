@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { usePage } from '@inertiajs/react';
 import type { JSX } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -9,11 +10,15 @@ import { FormField } from '@/components/form/form-field';
 import { FormInput } from '@/components/form/form-input';
 import { FormPasswordInput } from '@/components/form/form-password-input';
 import { FormRadioGroup } from '@/components/form/form-radio-group';
-import { FieldGroup, FieldSet } from '@/components/ui/field';
+import { FieldError, FieldGroup, FieldSet } from '@/components/ui/field';
+import { useRegister } from '@/features/auth/mutations';
 import { RegisterRequestSchema } from '@/features/auth/schema';
 import type { RegisterRequest } from '@/features/auth/schema';
 
 export default function RegisterForm(): JSX.Element {
+    const { mutateAsync: register } = useRegister();
+    const { url } = usePage();
+
     const form = useForm<RegisterRequest>({
         defaultValues: {
             first_name: '',
@@ -28,8 +33,18 @@ export default function RegisterForm(): JSX.Element {
         resolver: zodResolver(RegisterRequestSchema),
     });
 
-    const onSubmit: SubmitHandler<RegisterRequest> = (values) => {
-        console.log(values);
+    const onSubmit: SubmitHandler<RegisterRequest> = async (values) => {
+        await register(
+            {
+                noRedirect: url === '/shop/checkout',
+                payload: values,
+            },
+            {
+                onError: (error) => {
+                    form.setError('root', { message: error.message });
+                },
+            },
+        );
     };
 
     return (
@@ -74,7 +89,10 @@ export default function RegisterForm(): JSX.Element {
                             <>
                                 <FormField.Label>Gender</FormField.Label>
 
-                                <FormRadioGroup field={field}>
+                                <FormRadioGroup
+                                    field={field}
+                                    className="flex"
+                                >
                                     {({ Item }) => (
                                         <>
                                             <Item value="male">Male</Item>
@@ -124,10 +142,12 @@ export default function RegisterForm(): JSX.Element {
 
                         <FormField.Error />
                     </FormField>
-
-                    <FormButton control={form.control}>Register</FormButton>
                 </FieldGroup>
             </FieldSet>
+
+            {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
+
+            <FormButton control={form.control}>Register</FormButton>
         </Form>
     );
 }
