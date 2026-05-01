@@ -1,3 +1,4 @@
+import type { ApiError } from '@/api/errors';
 import type { Auth } from '@/types/auth';
 
 declare module '@inertiajs/core' {
@@ -8,5 +9,11 @@ declare module '@inertiajs/core' {
             sidebarOpen: boolean;
             [key: string]: unknown;
         };
+    }
+}
+
+declare module '@tanstack/react-query' {
+    interface Register {
+        defaultError: ApiError;
     }
 }
