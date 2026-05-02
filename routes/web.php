@@ -53,4 +53,9 @@ Route::prefix('dashboard')->name('dashboard.')
 
         Route::get('/', fn () => Inertia::render('dashboard/overview'))->name('overview');
 
+        /**
+         * Store Management
+         */
+        Route::get('/store/attributes', fn () => Inertia::render('dashboard/store/attributes/listing'))->name('store.attributes');
+
     });
