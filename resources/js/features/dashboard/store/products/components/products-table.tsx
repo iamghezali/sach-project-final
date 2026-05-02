@@ -1,0 +1,75 @@
+import { router } from '@inertiajs/react';
+import type { JSX } from 'react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useProductsList } from '@/features/dashboard/store/products/queries';
+import { Badge } from '@/components/ui/badge';
+
+export default function ProductsTable(): JSX.Element {
+    const { data: response, isLoading } = useProductsList();
+
+    if (isLoading) {
+        return <>Loading...</>;
+    }
+
+    if (!response?.data) {
+        return <>Loading Error</>;
+    }
+
+    const productsList = response.data;
+
+    return (
+        <Table>
+            <TableHeader>
+                <TableRow>
+                    <TableHead>ID</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Availabilty</TableHead>
+                    <TableHead>Starting from</TableHead>
+                    <TableHead>Status</TableHead>
+                </TableRow>
+            </TableHeader>
+
+            <TableBody>
+                {productsList.length !== 0 ? (
+                    productsList.map((product) => (
+                        <TableRow
+                            key={product.id}
+                            className="cursor-pointer"
+                            onClick={() => router.visit(`/dashboard/store/products/${product.id}`)}
+                        >
+                            <TableCell>{product.id}</TableCell>
+                            <TableCell>{product.name}</TableCell>
+
+                            <TableCell>
+                                <Badge variant={product.is_available ? 'secondary' : 'destructive'}>
+                                    {product.is_available ? 'Available' : 'Not Available'}
+                                </Badge>
+                            </TableCell>
+
+                            <TableCell>
+                                {parseFloat(product.starting_from) > 0 ? (
+                                    <>{product.starting_from} DZD</>
+                                ) : (
+                                    <span className="text-muted-foreground">NOT SET</span>
+                                )}
+                            </TableCell>
+
+                            <TableCell>
+                                <Badge>{product.status_label}</Badge>
+                            </TableCell>
+                        </TableRow>
+                    ))
+                ) : (
+                    <TableRow>
+                        <TableCell
+                            colSpan={4}
+                            className="text-center text-muted-foreground"
+                        >
+                            No Records are found.
+                        </TableCell>
+                    </TableRow>
+                )}
+            </TableBody>
+        </Table>
+    );
+}

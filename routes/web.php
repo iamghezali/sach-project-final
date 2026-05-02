@@ -56,6 +56,11 @@ Route::prefix('dashboard')->name('dashboard.')
         /**
          * Store Management
          */
+        Route::get('/store/products', fn () => Inertia::render('dashboard/store/products/listing'))->name('store.products');
+        Route::get('/store/products/{id}', fn ($id) => Inertia::render('dashboard/store/products/details', [
+            'id' => $id,
+        ]))->name('store.products.details');
+
         Route::get('/store/attributes', fn () => Inertia::render('dashboard/store/attributes/listing'))->name('store.attributes');
 
     });
