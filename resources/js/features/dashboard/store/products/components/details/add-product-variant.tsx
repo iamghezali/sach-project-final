@@ -60,7 +60,12 @@ export default function AddProductVariant({ productId, attributes }: AddProductV
 
     const handleDialog = (open: boolean) => {
         if (open) {
-            form.reset();
+            form.reset({
+                sku: '',
+                stock_quantity: 0,
+                price: 1000,
+                attribute_value_ids: attributes.map((attribute) => attribute.values[0]?.id ?? 0),
+            });
         }
 
         setIsOpen(open);

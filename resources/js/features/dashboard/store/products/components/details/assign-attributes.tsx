@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { JSX } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
 import Form from '@/components/form/form';
@@ -37,6 +37,8 @@ type AssignAttributesProps = {
     productID: number;
 };
 export default function AssignAttributes({ productID }: AssignAttributesProps): JSX.Element {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+
     const anchor = useComboboxAnchor();
 
     const { data: responseProduct, isLoading: isLoadingProduct } = useProductDetails(productID);
@@ -65,6 +67,10 @@ export default function AssignAttributes({ productID }: AssignAttributesProps): 
 
                     form.setError('root', { message: error.message });
                 },
+
+                onSuccess: () => {
+                    setIsOpen(false);
+                },
             },
         );
     };
@@ -85,9 +91,20 @@ export default function AssignAttributes({ productID }: AssignAttributesProps): 
 
     const attributesList = responseAttributes.data;
 
+    const handleDialog = (open: boolean) => {
+        if (open) {
+            form.reset();
+        }
+
+        setIsOpen(open);
+    };
+
     return (
         <div className="mt-4">
-            <Dialog>
+            <Dialog
+                open={isOpen}
+                onOpenChange={handleDialog}
+            >
                 <DialogTrigger asChild>
                     <Button>Assign Attributes</Button>
                 </DialogTrigger>
