@@ -41,19 +41,19 @@ export function useRegister() {
 export function useLogout() {
     const queryClient = useQueryClient();
 
+    const handleLogout = () => {
+        router.visit('/login', {
+            replace: true,
+            onSuccess: () => {
+                queryClient.clear();
+                router.clearHistory();
+            },
+        });
+    };
+
     return useMutation({
         mutationFn: authApi.logout,
-
-        onSuccess: () => {
-            queryClient.clear();
-            router.clearHistory();
-            router.visit('/login', { replace: true });
-        },
-
-        onError: () => {
-            queryClient.clear();
-            router.clearHistory();
-            router.visit('/login', { replace: true });
-        },
+        onSuccess: handleLogout,
+        onError: handleLogout,
     });
 }

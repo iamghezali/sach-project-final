@@ -1,0 +1,51 @@
+import { LayoutDashboardIcon, StoreIcon } from 'lucide-react';
+import React from 'react';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
+import { NavMain } from '@/layouts/app-layout/app-sidebar/nav-main';
+import { NavUser } from '@/layouts/app-layout/app-sidebar/nav-user';
+
+const menuData = {
+    navMain: [
+        {
+            title: 'Overview',
+            icon: LayoutDashboardIcon,
+            isActive: true,
+            items: [
+                {
+                    title: 'Dashboard',
+                    url: '/dashboard/',
+                },
+            ],
+        },
+        {
+            title: 'Store',
+            icon: StoreIcon,
+            isActive: true,
+            items: [
+                {
+                    title: 'Products',
+                    url: '/dashboard/store/products',
+                },
+                {
+                    title: 'Attributes',
+                    url: '/dashboard/store/attributes',
+                },
+            ],
+        },
+    ],
+};
+
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+    return (
+        <Sidebar {...props}>
+            <SidebarHeader>Logo</SidebarHeader>
+            <SidebarContent>
+                <NavMain items={menuData.navMain} />
+            </SidebarContent>
+
+            <SidebarFooter>
+                <NavUser />
+            </SidebarFooter>
+        </Sidebar>
+    );
+}

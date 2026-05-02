@@ -2,8 +2,6 @@ import { z } from 'zod';
 
 export const apiResponseSchema = <T extends z.ZodTypeAny>(dataSchema: T) =>
     z.union([
-        z.null(),
-        z.undefined(),
         z.object({
             message: z.string().optional(),
             data: dataSchema,
@@ -35,3 +33,5 @@ export const apiPaginatedResponseSchema = <T extends z.ZodTypeAny>(itemSchema: T
             total: z.number(),
         }),
     });
+
+export const apiNoContentSchema = z.void();

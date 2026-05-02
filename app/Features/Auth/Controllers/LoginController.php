@@ -43,9 +43,7 @@ class LoginController extends Controller
     {
         $this->logoutAction->execute($request);
 
-        return response()->json([
-            'message' => 'Logged out successfully',
-        ]);
+        return response()->noContent();
     }
 
     public function me(Request $request)
