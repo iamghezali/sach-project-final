@@ -54,6 +54,13 @@ Route::prefix('dashboard')->name('dashboard.')
         Route::get('/', fn () => Inertia::render('dashboard/overview'))->name('overview');
 
         /**
+         * User Management
+         */
+        Route::get('/users/customers', fn () => Inertia::render('dashboard/users/customers/listing'))->name('users.customers');
+        Route::get('/users/tailors', fn () => Inertia::render('dashboard/users/tailors/listing'))->name('users.tailors');
+        Route::get('/users/editors', fn () => Inertia::render('dashboard/users/editors/listing'))->name('users.editors');
+
+        /**
          * Store Management
          */
         Route::get('/store/products', fn () => Inertia::render('dashboard/store/products/listing'))->name('store.products');

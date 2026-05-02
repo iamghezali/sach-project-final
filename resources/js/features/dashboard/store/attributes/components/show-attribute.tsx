@@ -1,9 +1,9 @@
 import type { JSX } from 'react';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import NewAttributeValue from '@/features/dashboard/store/attributes/components/new-attribute-value';
 import { useAttributeWithValues } from '@/features/dashboard/store/attributes/queries';
 import { useSheetState } from '@/providers/sheet-provider';
-import NewAttributeValue from '@/features/dashboard/store/attributes/components/new-attribute-value';
 
 type ShowAttributeProps = {
     attributeID: number;

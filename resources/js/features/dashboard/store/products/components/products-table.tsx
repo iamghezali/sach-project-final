@@ -1,8 +1,8 @@
 import { router } from '@inertiajs/react';
 import type { JSX } from 'react';
+import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useProductsList } from '@/features/dashboard/store/products/queries';
-import { Badge } from '@/components/ui/badge';
 
 export default function ProductsTable(): JSX.Element {
     const { data: response, isLoading } = useProductsList();

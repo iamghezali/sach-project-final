@@ -1,4 +1,4 @@
-import { LayoutDashboardIcon, StoreIcon } from 'lucide-react';
+import { LayoutDashboardIcon, StoreIcon, UsersRoundIcon } from 'lucide-react';
 import React from 'react';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
 import { NavMain } from '@/layouts/app-layout/app-sidebar/nav-main';
@@ -14,6 +14,25 @@ const menuData = {
                 {
                     title: 'Dashboard',
                     url: '/dashboard/',
+                },
+            ],
+        },
+        {
+            title: 'Management',
+            icon: UsersRoundIcon,
+            isActive: true,
+            items: [
+                {
+                    title: 'Customers',
+                    url: '/dashboard/users/customers',
+                },
+                {
+                    title: 'Tailors',
+                    url: '/dashboard/users/tailors',
+                },
+                {
+                    title: 'Editors',
+                    url: '/dashboard/users/editors',
                 },
             ],
         },
