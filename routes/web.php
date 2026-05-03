@@ -19,6 +19,11 @@ Route::middleware('guest')->group(function () {
 Route::prefix('shop')->name('shop.')
     ->group(function () {
 
+        Route::get('/', fn () => Inertia::render('shop/listing'))->name('listing');
+        Route::get('/product/{slug}', fn ($slug) => Inertia::render('shop/product', [
+            'slug' => $slug,
+        ]))->name('product.details');
+
         Route::get('/checkout', fn () => Inertia::render('shop/checkout'))->name('checkout');
         Route::get('/custom-order', fn () => Inertia::render('shop/custom-order'))->name('custom-order');
 
