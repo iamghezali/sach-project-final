@@ -18,13 +18,16 @@ Route::middleware([])
     });
 
 Route::prefix('shop')->name('shop.')
-    ->middleware(['auth:sanctum', Role::accept(Role::CUSTOMER)])
     ->group(function () {
 
         require __DIR__.'/shop/products.php';
-        require __DIR__.'/shop/orders.php';
-        require __DIR__.'/shop/custom-orders.php';
 
+        Route::middleware(['auth:sanctum', Role::accept(Role::CUSTOMER)])->group(function () {
+
+            require __DIR__.'/shop/orders.php';
+            require __DIR__.'/shop/custom-orders.php';
+
+        });
     });
 
 Route::prefix('tailor')->name('tailor.')
