@@ -13,6 +13,11 @@ export const AttributeSchema = z.object({
     values: z.array(AttributeValueSchema),
 });
 
+export const ImageSchema = z.object({
+    url: z.string(),
+    order: z.int(),
+});
+
 export const ProductVariantSchema = z.object({
     id: z.number(),
     product_id: z.number(),
@@ -21,6 +26,7 @@ export const ProductVariantSchema = z.object({
     is_default: z.boolean(),
     is_in_stock: z.boolean(),
     attribute_value_ids: z.array(z.number()),
+    images: z.array(ImageSchema),
 });
 
 export const ProductSchema = z.object({

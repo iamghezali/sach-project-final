@@ -53,7 +53,22 @@ export default function ProductDetails(): JSX.Element {
                 {selectedVariant ? (
                     <>
                         <li>{selectedVariant.is_in_stock ? 'In Stock' : 'Out of Stock'}</li>
-                        <li>{formatPrice(parseFloat(selectedVariant.price))} DZD</li>
+                        <li>{formatPrice(selectedVariant.price)} DZD</li>
+
+                        <ul className="flex">
+                            {selectedVariant.images.map((_, i) => (
+                                <li
+                                    key={i}
+                                    className="rounded-2xl border p-2"
+                                >
+                                    <img
+                                        src={_.url}
+                                        alt=""
+                                        className="size-12"
+                                    />
+                                </li>
+                            ))}
+                        </ul>
                     </>
                 ) : (
                     <li>Select options</li>
