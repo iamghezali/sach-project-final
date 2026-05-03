@@ -1,14 +1,13 @@
 import { router, usePage } from '@inertiajs/react';
 import type { JSX } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
-import { Controller } from 'react-hook-form';
 import Form from '@/components/form/form';
 import { FormButton } from '@/components/form/form-button';
 import { FormField } from '@/components/form/form-field';
 import { FormInput } from '@/components/form/form-input';
 import { FormToggleGroup } from '@/components/form/form-toggle-group';
 import { Button } from '@/components/ui/button';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { FieldGroup, FieldSet } from '@/components/ui/field';
 import { useSelectVariant } from '@/features/shop/product/hooks/use-select-variant';
 import { useGetProduct } from '@/features/shop/product/queries';
 import type { Attribute, VariantSelection } from '@/features/shop/product/schema';
@@ -65,52 +64,56 @@ export default function ProductDetails(): JSX.Element {
                 form={form}
                 onSubmit={handleAddToCart}
             >
-                {sortedAttributes.map((attribute) => (
-                    <FormField
-                        key={attribute.id}
-                        name={`attributes.${attribute.name}`}
-                        control={form.control}
-                    >
-                        {({ field }) => (
-                            <>
-                                <FormField.Label>{attribute.name}</FormField.Label>
+                <FieldSet>
+                    <FieldGroup>
+                        {sortedAttributes.map((attribute) => (
+                            <FormField
+                                key={attribute.id}
+                                name={`attributes.${attribute.name}`}
+                                control={form.control}
+                            >
+                                {({ field }) => (
+                                    <>
+                                        <FormField.Label>{attribute.name}</FormField.Label>
 
-                                <FormToggleGroup
-                                    type="single"
-                                    variant="outline"
-                                    spacing={2}
-                                    field={field}
-                                >
-                                    {({ Item }) => (
-                                        <>
-                                            {attribute.values.map((value) => (
-                                                <Item
-                                                    key={value.id}
-                                                    value={value.id}
-                                                >
-                                                    {value.value}
-                                                </Item>
-                                            ))}
-                                        </>
-                                    )}
-                                </FormToggleGroup>
-                                <FormField.Error />
-                            </>
-                        )}
-                    </FormField>
-                ))}
+                                        <FormToggleGroup
+                                            type="single"
+                                            variant="outline"
+                                            spacing={2}
+                                            field={field}
+                                        >
+                                            {({ Item }) => (
+                                                <>
+                                                    {attribute.values.map((value) => (
+                                                        <Item
+                                                            key={value.id}
+                                                            value={value.id}
+                                                        >
+                                                            {value.value}
+                                                        </Item>
+                                                    ))}
+                                                </>
+                                            )}
+                                        </FormToggleGroup>
+                                        <FormField.Error />
+                                    </>
+                                )}
+                            </FormField>
+                        ))}
 
-                <FormField
-                    control={form.control}
-                    name="quantity"
-                >
-                    <FormField.Label>Quantity</FormField.Label>
-                    <FormInput
-                        type="number"
-                        min={1}
-                    />
-                    <FormField.Error />
-                </FormField>
+                        <FormField
+                            control={form.control}
+                            name="quantity"
+                        >
+                            <FormField.Label>Quantity</FormField.Label>
+                            <FormInput
+                                type="number"
+                                min={1}
+                            />
+                            <FormField.Error />
+                        </FormField>
+                    </FieldGroup>
+                </FieldSet>
 
                 {isComplete && !selectedVariant && <p className="text-red-500">Selected combination doesn't exist.</p>}
 
