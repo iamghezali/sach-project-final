@@ -3,6 +3,7 @@ import { productsApi } from '@/features/dashboard/store/products/api';
 import { productKeys } from '@/features/dashboard/store/products/queries';
 import type {
     AssignAttributesRequest,
+    ChangeProductStatusRequest,
     CreateProductVariantRequest,
     UpdateProductRequest,
 } from '@/features/dashboard/store/products/schema';
@@ -34,6 +35,20 @@ export function useUpdateProduct() {
             queryClient.invalidateQueries({
                 queryKey: productKeys.lists(),
             });
+        },
+    });
+}
+
+export function useChangeProductStatus() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: ({ id, payload }: { id: number; payload: ChangeProductStatusRequest }) =>
+            productsApi.changeProductStatus(id, payload),
+
+        onSuccess: (_, { id }) => {
+            queryClient.invalidateQueries({ queryKey: productKeys.product(id) });
+            queryClient.invalidateQueries({ queryKey: productKeys.lists() });
         },
     });
 }

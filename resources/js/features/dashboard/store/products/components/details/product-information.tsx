@@ -72,10 +72,7 @@ export default function ProductInformation({ productID }: ProductInformationProp
 
     return (
         <div className="mt-10">
-            <ChangeProductStatus
-                status={product.status}
-                productID={product.id}
-            />
+            <ChangeProductStatus productID={product.id} />
 
             <Form
                 form={form}

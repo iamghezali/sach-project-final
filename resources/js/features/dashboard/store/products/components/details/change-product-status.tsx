@@ -9,7 +9,6 @@ import {
     Trash2Icon,
 } from 'lucide-react';
 import type { JSX } from 'react';
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import type { buttonVariants } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
@@ -20,13 +19,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useChangeProductStatus } from '@/features/dashboard/store/products/mutations';
+import { useProductDetails } from '@/features/dashboard/store/products/queries';
 import type { ProductStatus } from '@/features/dashboard/store/products/schema';
 
 type ButtonVariant = VariantProps<typeof buttonVariants>['variant'];
 
 interface ChangeProductStatusProps {
     productID: number;
-    status: ProductStatus;
 }
 
 const PRIMARY_CONFIG: Record<
@@ -43,17 +43,23 @@ const PRIMARY_CONFIG: Record<
     archived: { label: 'Restore', icon: ArchiveRestoreIcon, action: 'draft', variant: 'outline' },
 };
 
-export default function ChangeProductStatus({
-    productID,
-    status: initialStatus,
-}: ChangeProductStatusProps): JSX.Element {
-    const [status, setStatus] = useState<ProductStatus>(initialStatus);
+export default function ChangeProductStatus({ productID }: ChangeProductStatusProps): JSX.Element {
+    const { data: response } = useProductDetails(productID);
+    const { mutateAsync: changeProductStatus, isPending } = useChangeProductStatus();
+
+    const status = response?.data?.status;
+
+    if (!status) {
+        return <></>;
+    }
+
     const { label, icon: Icon, action, variant } = PRIMARY_CONFIG[status];
 
-    function handleStatusChange(newStatus: ProductStatus) {
-        console.log(`product ${productID}: ${status} → ${newStatus}`);
-
-        setStatus(newStatus);
+    async function handleStatusChange(newStatus: ProductStatus) {
+        await changeProductStatus({
+            id: productID,
+            payload: { status: newStatus },
+        });
     }
 
     function handleDelete() {
@@ -64,7 +70,7 @@ export default function ChangeProductStatus({
         <ButtonGroup>
             <Button
                 variant={variant}
-                disabled={!action}
+                disabled={!action || isPending}
                 onClick={() => action && handleStatusChange(action)}
             >
                 <Icon />
@@ -76,6 +82,7 @@ export default function ChangeProductStatus({
                     <Button
                         size="icon"
                         variant={variant}
+                        disabled={isPending}
                     >
                         <ChevronDownIcon />
                     </Button>
@@ -88,6 +95,7 @@ export default function ChangeProductStatus({
                             Archive
                         </DropdownMenuItem>
                     )}
+
                     {status === 'published' && (
                         <>
                             <DropdownMenuItem onSelect={() => handleStatusChange('draft')}>

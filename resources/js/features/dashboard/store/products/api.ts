@@ -1,6 +1,7 @@
 import { apiRequest } from '@/api/client';
 import type {
     AssignAttributesRequest,
+    ChangeProductStatusRequest,
     CreateProductRequest,
     CreateProductVariantRequest,
     UpdateProductRequest,
@@ -11,6 +12,7 @@ import {
     CreateProductVariantResponseSchema,
     ProductDetailsResponseSchema,
     ProductsListResponseSchema,
+    UpdateProductRequestSchema,
 } from '@/features/dashboard/store/products/schema';
 
 export const productsApi = {
@@ -34,9 +36,16 @@ export const productsApi = {
         }),
 
     updateProduct: (id: number, payload: UpdateProductRequest) =>
-        apiRequest(CreateProductResponseSchema, {
+        apiRequest(UpdateProductRequestSchema, {
             url: `/products/${id}`,
             method: 'put',
+            data: payload,
+        }),
+
+    changeProductStatus: (id: number, payload: ChangeProductStatusRequest) =>
+        apiRequest(UpdateProductRequestSchema, {
+            url: `/products/${id}/status`,
+            method: 'patch',
             data: payload,
         }),
 
