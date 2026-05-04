@@ -9,6 +9,7 @@ import {
     Trash2Icon,
 } from 'lucide-react';
 import type { JSX } from 'react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import type { buttonVariants } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
@@ -56,10 +57,15 @@ export default function ChangeProductStatus({ productID }: ChangeProductStatusPr
     const { label, icon: Icon, action, variant } = PRIMARY_CONFIG[status];
 
     async function handleStatusChange(newStatus: ProductStatus) {
-        await changeProductStatus({
-            id: productID,
-            payload: { status: newStatus },
-        });
+        await changeProductStatus(
+            {
+                id: productID,
+                payload: { status: newStatus },
+            },
+            {
+                onError: (errors) => toast.error(errors.message, { position: 'bottom-right' }),
+            },
+        );
     }
 
     function handleDelete() {
