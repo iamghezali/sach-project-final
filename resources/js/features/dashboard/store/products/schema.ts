@@ -2,6 +2,14 @@ import z from 'zod';
 import { apiNoContentSchema, apiPaginatedResponseSchema, apiResponseSchema } from '@/api/schema';
 
 /**
+ * Product Status Schema
+ */
+export const ProductStatusSchema = z.enum(['published', 'draft', 'archived']);
+export type ProductStatus = z.infer<typeof ProductStatusSchema>;
+
+export const ProductStatusLabelSchema = z.enum(['Published', 'Draft', 'Archived']);
+
+/**
  * Product Schema
  */
 export const ProductSchema = z.object({
@@ -9,8 +17,8 @@ export const ProductSchema = z.object({
     name: z.string(),
     slug: z.string(),
     description: z.string().nullable(),
-    status: z.string(),
-    status_label: z.string(),
+    status: ProductStatusSchema,
+    status_label: ProductStatusLabelSchema,
     is_available: z.boolean(),
     starting_from: z.string(),
 });
@@ -20,7 +28,6 @@ export const ProductsListResponseSchema = apiPaginatedResponseSchema(ProductSche
 /**
  * Create Product Request
  */
-
 export const CreateProductRequestSchema = z.object({
     name: z.string().nonempty({ error: 'Product Name is Required' }),
     slug: z.string().nonempty({ error: 'Slug is Required' }),
@@ -76,7 +83,6 @@ export type ProductDetailsResponse = z.infer<typeof ProductDetailsResponseSchema
 /**
  * Update Product Request
  */
-
 export const UpdateProductRequestSchema = z.object({
     name: z.string().nonempty({ error: 'Product Name is Required' }).optional(),
     slug: z.string().nonempty({ error: 'Slug is Required' }).optional(),
@@ -91,6 +97,20 @@ export type UpdateProductRequest = z.infer<typeof UpdateProductRequestSchema>;
 export const UpdateProductResponseSchema = apiResponseSchema(ProductSchema);
 
 /**
+ * Change Product Status Request
+ */
+export const ChangeProductStatusRequestSchema = z.object({
+    status: ProductStatusSchema,
+});
+
+export type ChangeProductStatusRequest = z.infer<typeof ChangeProductStatusRequestSchema>;
+
+/**
+ * Change Product Status Response
+ */
+export const ChangeProductStatusResponseSchema = apiResponseSchema(ProductSchema);
+
+/**
  * Create Product Variant Request
  */
 export const CreateProductVariantRequestSchema = (attributeCount: number) =>
@@ -102,6 +122,7 @@ export const CreateProductVariantRequestSchema = (attributeCount: number) =>
             message: `Select exactly ${attributeCount} attribute value${attributeCount > 1 ? 's' : ''}`,
         }),
     });
+
 export type CreateProductVariantRequest = z.infer<ReturnType<typeof CreateProductVariantRequestSchema>>;
 
 /**

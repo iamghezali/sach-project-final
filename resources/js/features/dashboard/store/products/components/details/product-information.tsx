@@ -10,6 +10,7 @@ import { FormInput } from '@/components/form/form-input';
 import { FormTextarea } from '@/components/form/form-textarea';
 import { Badge } from '@/components/ui/badge';
 import { FieldError } from '@/components/ui/field';
+import ChangeProductStatus from '@/features/dashboard/store/products/components/details/change-product-status';
 import { useUpdateProduct } from '@/features/dashboard/store/products/mutations';
 import { useProductDetails } from '@/features/dashboard/store/products/queries';
 import { UpdateProductRequestSchema } from '@/features/dashboard/store/products/schema';
@@ -71,6 +72,11 @@ export default function ProductInformation({ productID }: ProductInformationProp
 
     return (
         <div className="mt-10">
+            <ChangeProductStatus
+                status={product.status}
+                productID={product.id}
+            />
+
             <Form
                 form={form}
                 onSubmit={onSubmit}
