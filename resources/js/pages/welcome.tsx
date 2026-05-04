@@ -1,42 +1,59 @@
+import { Link } from '@inertiajs/react';
 import type { JSX } from 'react';
 import TextReveal from '@/components/text-reveal';
+import { Button } from '@/components/ui/button';
 import ShopLayout from '@/layouts/shop-layout';
 
 export default function Welcome(): JSX.Element {
     return (
         <ShopLayout>
-            <TextReveal className="text-3xl/tight">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Labore ipsam nostrum dolorum voluptatibus
-                earum explicabo! Rem, alias dolor. Repellat neque rem voluptatem consequuntur nostrum reprehenderit
-                magni in iusto qui tempore, itaque facere, ad illo adipisci dolores quo quos, nisi delectus. Maxime
-                consectetur nam id sint quas pariatur quisquam, nisi ad possimus, quam, qui cumque fugiat adipisci?
-                Blanditiis id quaerat labore illo, ipsam exercitationem laboriosam quia consequuntur iure unde nulla
-                aliquid fugit voluptas voluptatum quisquam nam quod natus commodi ab provident earum non nisi. Repellat
-                placeat libero minima, aliquam sit totam natus enim quia fugit, iusto quisquam reiciendis iste ad
-                dolore. Natus aliquam ad nulla minima, sapiente error tenetur animi et magnam beatae mollitia eligendi,
-                quod dolorum eius facere temporibus aspernatur assumenda distinctio accusamus doloribus maiores nihil
-                sint fugiat repellat. Dolorem rerum, maxime voluptatem quos obcaecati quibusdam reiciendis dolore
-                eligendi eveniet distinctio dolor dignissimos ad impedit officia ea nemo tempore beatae a. Deserunt
-                reiciendis repudiandae aspernatur quasi cumque ut eveniet libero mollitia nesciunt corporis hic non,
-                accusamus adipisci vitae ullam, rem quia tenetur. Itaque, adipisci omnis earum, ad harum totam facilis
-                ratione dolor eos pariatur cumque aut inventore, placeat atque. Soluta maxime molestiae tenetur est quis
-                qui sit similique minima odit reprehenderit commodi velit quibusdam atque repellat adipisci nemo quod
-                optio officiis rem possimus nostrum ab tempore, eligendi incidunt. Nesciunt voluptas ipsa quisquam
-                reiciendis mollitia tempora, necessitatibus minima labore omnis nihil reprehenderit est culpa ab? Sed,
-                inventore voluptatem? Porro voluptatibus similique dolor exercitationem fugit odio. Consequatur eius
-                ipsum assumenda ad nemo. Quae suscipit cupiditate nemo necessitatibus dignissimos amet maxime unde eum
-                voluptas distinctio sint dolorum quidem, accusamus dolor excepturi, non consequuntur at ullam possimus
-                voluptate, tempora omnis ad quod. Dolorem asperiores rem qui ipsum unde laborum repellat esse, nisi
-                deserunt eaque minima, accusantium quos eligendi sit corrupti id exercitationem cum magni molestiae
-                incidunt fugit nemo voluptas. Itaque ipsum nostrum sunt ipsam dolorem, facere, exercitationem eaque
-                fugit magni, dignissimos quidem illo saepe. Sapiente incidunt sequi neque corporis nesciunt facere
-                repellat nisi quisquam nobis dolorum molestiae rem praesentium recusandae, delectus obcaecati molestias
-                impedit earum, commodi laudantium fugiat id consequatur rerum! Dignissimos distinctio possimus earum
-                aperiam enim veritatis dolorem temporibus, accusantium fuga deleniti ut aut asperiores? Nobis nulla
-                animi molestias, nisi dolorem aliquid id, quam nesciunt, sunt ipsum quidem quis pariatur ad. Dolorum
-                sequi molestiae voluptatem minima, perspiciatis optio dolore, quia quam nobis explicabo repudiandae
-                aperiam ab quo itaque distinctio quidem autem, possimus blanditiis.
-            </TextReveal>
+            <section>
+                <div className="hero-gradient mt-14 rounded-4xl px-4 py-19.25 lg:rounded-[4rem] lg:py-53">
+                    <div className="flex flex-col items-center">
+                        <h1 className="max-w-[14ch] text-center text-[2.375rem] font-bold lg:max-w-4xl lg:text-7xl/tight lg:font-semibold">
+                            Tailoring Your Style, Perfecting Your Space
+                        </h1>
+
+                        <p className="mt-3 max-w-5xl text-center text-base/tight text-pretty text-brand-neutral-alt-700 lg:text-2xl">
+                            From custom clothing to living room salons, SASH brings your ideas to life with a fully
+                            managed, hassle-free experience — from request to delivery.
+                        </p>
+                    </div>
+
+                    <div className="mt-6 flex flex-col items-center justify-center gap-4 lg:flex-row lg:gap-6">
+                        <Button
+                            className="w-62 text-white uppercase"
+                            variant="brand-primary"
+                            size="brand-lg"
+                            asChild
+                        >
+                            <Link>Create A Custom Order</Link>
+                        </Button>
+
+                        <Button
+                            className="w-62 uppercase"
+                            variant="brand-outline"
+                            size="brand-lg"
+                            asChild
+                        >
+                            <Link>Shop Ready-to-Wear</Link>
+                        </Button>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div className="mt-20 flex gap-8">
+                    <div className="sticky top-20 size-72.5 shrink-0 overflow-hidden rounded-xl bg-neutral-300"></div>
+
+                    <TextReveal className="text-6xl/tight font-medium capitalize">
+                        SASH offers a smarter way to create custom clothing and living room salons without the hassle.
+                        Upload your ideas, choose your preferences, and let our team take care of the rest — from
+                        pricing and production to quality checks and delivery. Designed for individuals, families, and
+                        institutions, SASH combines craftsmanship with convenience to deliver results you can trust.
+                    </TextReveal>
+                </div>
+            </section>
         </ShopLayout>
     );
 }

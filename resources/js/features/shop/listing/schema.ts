@@ -8,7 +8,7 @@ export const ProductSchema = z.object({
     description: z.string().nullable(),
     is_available: z.boolean(),
     starting_from: z.string(),
-    thumbnail: z.string(),
+    thumbnail: z.string().nullable(),
 });
 
 export const ProductListResponseSchema = apiPaginatedResponseSchema(ProductSchema);

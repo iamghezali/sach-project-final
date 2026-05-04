@@ -18,6 +18,13 @@ const buttonVariants = cva(
                 destructive:
                     'bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40',
                 link: 'text-primary underline-offset-4 hover:underline',
+
+                'brand-primary':
+                    'bg-brand-primary-200 text-brand-neutral-1000 hover:bg-brand-neutral-1000/95 hover:text-white',
+                'brand-secondary': 'bg-brand-secondary-300 text-white hover:bg-brand-neutral-1000/95',
+                'brand-outline':
+                    'border border-brand-neutral-1000 text-brand-neutral-1000 hover:bg-brand-neutral-1000/95 hover:text-white',
+                'brand-neutral': 'bg-brand-neutral-1000 text-white hover:bg-brand-neutral-1000/95',
             },
             size: {
                 default: 'h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2',
@@ -29,6 +36,9 @@ const buttonVariants = cva(
                     "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
                 'icon-sm': 'size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg',
                 'icon-lg': 'size-9',
+
+                'brand-md': 'h-10.75 gap-2 px-5 text-base font-semibold',
+                'brand-lg': 'h-12 gap-2 px-6 py-2',
             },
         },
         defaultVariants: {
