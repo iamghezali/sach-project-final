@@ -50,14 +50,14 @@ export default function RegisterForm(): JSX.Element {
     };
 
     return (
-        <div>
-            <h1 className="font-rubik text-4xl/tight font-semibold text-brand-neutral-1000">Register</h1>
+        <div className="text-brand-neutral-1000">
+            <h1 className="font-rubik text-4xl/tight font-semibold">Register</h1>
 
             <div className="mt-2 flex flex-col gap-6">
-                <span className="block text-xl font-medium text-brand-neutral-1000">Sign up with</span>
+                <span className="block text-xl font-medium">Sign up with</span>
                 <GoogleButton disabled>Sign up with Google</GoogleButton>
 
-                <span className="block text-xl/tight font-medium text-brand-neutral-1000 uppercase">Or</span>
+                <span className="block text-xl/tight font-medium uppercase">Or</span>
             </div>
 
             <div className="mt-6">
@@ -94,7 +94,6 @@ export default function RegisterForm(): JSX.Element {
                                 control={form.control}
                                 name="phone"
                             >
-                                <FormField.Label>Phone</FormField.Label>
                                 <FormInput
                                     variant="brand-primary"
                                     placeholder="Phone"
@@ -105,21 +104,25 @@ export default function RegisterForm(): JSX.Element {
                             <FormField
                                 control={form.control}
                                 name="gender"
+                                className="gap-5"
                             >
                                 {({ field }) => (
                                     <>
-                                        <FormField.Label className="text-2xl font-semibold text-brand-neutral-1000">
-                                            Gender
-                                        </FormField.Label>
+                                        <FormField.Label className="text-2xl font-semibold">Gender</FormField.Label>
 
                                         <FormRadioGroup
                                             field={field}
-                                            className="flex"
+                                            className="flex gap-8"
+                                            variant="brand-primary"
                                         >
                                             {({ Item }) => (
                                                 <>
-                                                    <Item value="male">Male</Item>
-                                                    <Item value="female">Female</Item>
+                                                    <Item value="male">
+                                                        <span className="text-base">Male</span>
+                                                    </Item>
+                                                    <Item value="female">
+                                                        <span className="text-base">Female</span>
+                                                    </Item>
                                                 </>
                                             )}
                                         </FormRadioGroup>
@@ -144,7 +147,7 @@ export default function RegisterForm(): JSX.Element {
                                 name="password"
                             >
                                 <FormPasswordInput placeholder="Password" />
-                                <FieldDescription className="mt-1 block text-xs leading-4 text-pretty text-brand-neutral-1000/80">
+                                <FieldDescription className="/80 mt-1 block text-xs leading-4 text-pretty">
                                     Minimum 8 characters with at least one uppercase, one lowercase, one special
                                     character and a number.
                                 </FieldDescription>

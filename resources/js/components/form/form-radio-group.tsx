@@ -1,8 +1,13 @@
+import type { VariantProps } from 'class-variance-authority';
 import type { JSX } from 'react';
 import React from 'react';
 import { useFieldContext } from '@/components/form/form-field';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import type { radioGroupItemVariants } from '@/components/ui/radio-group';
+import { cn } from '@/lib/utils';
+
+type RadioGroupVariantProps = VariantProps<typeof radioGroupItemVariants>;
 
 type FormRadioGroupItemProps<TValue extends string> = {
     value: TValue;
@@ -14,16 +19,20 @@ type FormRadioGroupChildren<TValue extends string> = {
     Item: (props: FormRadioGroupItemProps<TValue>) => JSX.Element;
 };
 
-interface FormRadioGroupProps<TValue extends string> extends Omit<
-    React.ComponentProps<typeof RadioGroup>,
-    'value' | 'onValueChange' | 'onBlur' | 'ref' | 'aria-invalid' | 'children'
-> {
+interface FormRadioGroupProps<TValue extends string>
+    extends
+        Omit<
+            React.ComponentProps<typeof RadioGroup>,
+            'value' | 'onValueChange' | 'onBlur' | 'ref' | 'aria-invalid' | 'children'
+        >,
+        RadioGroupVariantProps {
     field?: { value: TValue; [key: string]: any };
     children: ((components: FormRadioGroupChildren<TValue>) => React.ReactNode) | React.ReactNode;
 }
 
 export function FormRadioGroup<TValue extends string>({
     field: fieldProp,
+    variant,
     children,
     ...props
 }: FormRadioGroupProps<TValue>) {
@@ -36,6 +45,7 @@ export function FormRadioGroup<TValue extends string>({
         <RadioGroupFieldItem
             {...itemProps}
             name={name}
+            variant={variant}
         />
     );
 
@@ -57,6 +67,7 @@ type RadioGroupItemProps<TValue extends string> = {
     name: string;
     children: React.ReactNode;
     disabled?: boolean;
+    variant?: RadioGroupVariantProps['variant'];
 } & Omit<React.ComponentProps<typeof Field>, 'value' | 'id' | 'disabled'>;
 
 function RadioGroupFieldItem<TValue extends string>({
@@ -64,6 +75,8 @@ function RadioGroupFieldItem<TValue extends string>({
     name,
     children,
     disabled,
+    variant,
+    className,
     ...itemProps
 }: RadioGroupItemProps<TValue>) {
     const id = `${name}-${value}`;
@@ -71,13 +84,14 @@ function RadioGroupFieldItem<TValue extends string>({
     return (
         <Field
             orientation="horizontal"
-            className="w-auto *:data-[slot=field-label]:flex-none"
+            className={cn('w-auto *:data-[slot=field-label]:flex-none', className)}
             {...itemProps}
         >
             <RadioGroupItem
                 value={value}
                 id={id}
                 disabled={disabled}
+                variant={variant}
             />
             <FieldLabel
                 htmlFor={id}
