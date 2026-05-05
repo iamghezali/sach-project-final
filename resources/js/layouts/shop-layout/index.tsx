@@ -8,7 +8,7 @@ type ShopLayoutProps = {
 
 export default function ShopLayout({ children }: ShopLayoutProps): JSX.Element {
     return (
-        <div className="px-4">
+        <div className="min-h-screen bg-brand-neutral-100 px-4">
             <div className="mx-auto max-w-330 px-4 pt-8">
                 <ShopHeader />
                 <main>{children}</main>
