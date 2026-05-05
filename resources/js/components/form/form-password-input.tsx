@@ -8,8 +8,9 @@ export function FormPasswordInput({ ...props }: React.ComponentProps<typeof Inpu
     const { showPassword, toggle } = usePasswordVisibility();
 
     return (
-        <InputGroup>
+        <InputGroup className="h-12 border-black">
             <InputGroupInput
+                className="px-4"
                 id={id}
                 aria-invalid={fieldState.invalid}
                 {...props}
@@ -17,7 +18,10 @@ export function FormPasswordInput({ ...props }: React.ComponentProps<typeof Inpu
                 type={showPassword ? 'text' : 'password'}
             />
 
-            <InputGroupAddon align="inline-end">
+            <InputGroupAddon
+                align="inline-end"
+                className="px-3"
+            >
                 <InputGroupButton
                     size="icon-sm"
                     className="bg-transparent hover:bg-transparent"
