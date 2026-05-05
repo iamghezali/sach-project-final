@@ -127,6 +127,8 @@ export default function CheckoutAddress(): JSX.Element {
                                 <FormSelect
                                     placeholder="Select your country"
                                     field={field}
+                                    variant="brand-primary"
+                                    size="brand-primary"
                                 >
                                     {({ Item }) => (
                                         <>
@@ -250,6 +252,8 @@ export default function CheckoutAddress(): JSX.Element {
                                         <FormSelect
                                             placeholder="Select your country"
                                             field={field}
+                                            variant="brand-primary"
+                                            size="brand-primary"
                                         >
                                             {({ Item }) => (
                                                 <>
