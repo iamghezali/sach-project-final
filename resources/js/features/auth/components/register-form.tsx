@@ -38,7 +38,7 @@ export default function RegisterForm(): JSX.Element {
     const onSubmit: SubmitHandler<RegisterRequest> = async (values) => {
         await register(
             {
-                noRedirect: url === '/shop/checkout',
+                noRedirect: url.startsWith('/shop/checkout'),
                 payload: values,
             },
             {

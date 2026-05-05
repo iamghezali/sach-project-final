@@ -32,7 +32,7 @@ export default function LoginForm(): JSX.Element {
     const onSubmit: SubmitHandler<LoginRequest> = async (values) => {
         await login(
             {
-                noRedirect: url === '/shop/checkout',
+                noRedirect: url.startsWith('/shop/checkout'),
                 payload: values,
             },
             {
