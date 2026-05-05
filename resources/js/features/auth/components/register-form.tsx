@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
+import { ArrowRightIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -10,7 +11,8 @@ import { FormField } from '@/components/form/form-field';
 import { FormInput } from '@/components/form/form-input';
 import { FormPasswordInput } from '@/components/form/form-password-input';
 import { FormRadioGroup } from '@/components/form/form-radio-group';
-import { FieldError, FieldGroup, FieldSet } from '@/components/ui/field';
+import { FieldContent, FieldDescription, FieldError, FieldGroup, FieldSet } from '@/components/ui/field';
+import GoogleButton from '@/features/auth/components/google-button';
 import { useRegister } from '@/features/auth/mutations';
 import { RegisterRequestSchema } from '@/features/auth/schema';
 import type { RegisterRequest } from '@/features/auth/schema';
@@ -48,106 +50,173 @@ export default function RegisterForm(): JSX.Element {
     };
 
     return (
-        <Form
-            form={form}
-            onSubmit={onSubmit}
-        >
-            <FieldSet>
-                <FieldGroup>
-                    <FormField
-                        control={form.control}
-                        name="first_name"
-                    >
-                        <FormField.Label>First Name</FormField.Label>
-                        <FormInput />
-                        <FormField.Error />
-                    </FormField>
+        <div>
+            <h1 className="font-rubik text-4xl/tight font-semibold text-brand-neutral-1000">Register</h1>
 
-                    <FormField
-                        control={form.control}
-                        name="last_name"
-                    >
-                        <FormField.Label>Last Name</FormField.Label>
-                        <FormInput />
-                        <FormField.Error />
-                    </FormField>
+            <div className="mt-2 flex flex-col gap-6">
+                <span className="block text-xl font-medium text-brand-neutral-1000">Sign up with</span>
+                <GoogleButton disabled>Sign up with Google</GoogleButton>
 
-                    <FormField
-                        control={form.control}
-                        name="phone"
-                    >
-                        <FormField.Label>Phone</FormField.Label>
-                        <FormInput />
-                        <FormField.Error />
-                    </FormField>
+                <span className="block text-xl/tight font-medium text-brand-neutral-1000 uppercase">Or</span>
+            </div>
 
-                    <FormField
-                        control={form.control}
-                        name="gender"
-                    >
-                        {({ field }) => (
-                            <>
-                                <FormField.Label>Gender</FormField.Label>
-
-                                <FormRadioGroup
-                                    field={field}
-                                    className="flex"
-                                >
-                                    {({ Item }) => (
-                                        <>
-                                            <Item value="male">Male</Item>
-                                            <Item value="female">Female</Item>
-                                        </>
-                                    )}
-                                </FormRadioGroup>
+            <div className="mt-6">
+                <Form
+                    form={form}
+                    onSubmit={onSubmit}
+                    className="flex flex-col gap-6"
+                >
+                    <FieldSet>
+                        <FieldGroup>
+                            <FormField
+                                control={form.control}
+                                name="first_name"
+                            >
+                                <FormInput
+                                    variant="brand-primary"
+                                    placeholder="First Name"
+                                />
                                 <FormField.Error />
-                            </>
-                        )}
-                    </FormField>
+                            </FormField>
 
-                    <FormField
+                            <FormField
+                                control={form.control}
+                                name="last_name"
+                            >
+                                <FormInput
+                                    variant="brand-primary"
+                                    placeholder="Last Name"
+                                />
+                                <FormField.Error />
+                            </FormField>
+
+                            <FormField
+                                control={form.control}
+                                name="phone"
+                            >
+                                <FormField.Label>Phone</FormField.Label>
+                                <FormInput
+                                    variant="brand-primary"
+                                    placeholder="Phone"
+                                />
+                                <FormField.Error />
+                            </FormField>
+
+                            <FormField
+                                control={form.control}
+                                name="gender"
+                            >
+                                {({ field }) => (
+                                    <>
+                                        <FormField.Label className="text-2xl font-semibold text-brand-neutral-1000">
+                                            Gender
+                                        </FormField.Label>
+
+                                        <FormRadioGroup
+                                            field={field}
+                                            className="flex"
+                                        >
+                                            {({ Item }) => (
+                                                <>
+                                                    <Item value="male">Male</Item>
+                                                    <Item value="female">Female</Item>
+                                                </>
+                                            )}
+                                        </FormRadioGroup>
+                                        <FormField.Error />
+                                    </>
+                                )}
+                            </FormField>
+
+                            <FormField
+                                control={form.control}
+                                name="email"
+                            >
+                                <FormInput
+                                    variant="brand-primary"
+                                    placeholder="Email"
+                                />
+                                <FormField.Error />
+                            </FormField>
+
+                            <FormField
+                                control={form.control}
+                                name="password"
+                            >
+                                <FormPasswordInput placeholder="Password" />
+                                <FieldDescription className="mt-1 block text-xs leading-4 text-pretty text-brand-neutral-1000/80">
+                                    Minimum 8 characters with at least one uppercase, one lowercase, one special
+                                    character and a number.
+                                </FieldDescription>
+                                <FormField.Error />
+                            </FormField>
+
+                            <FormField
+                                control={form.control}
+                                name="password_confirmation"
+                            >
+                                <FormPasswordInput placeholder="Confirm password" />
+                                <FormField.Error />
+                            </FormField>
+
+                            <FormField
+                                control={form.control}
+                                name="user_agreement"
+                                orientation="horizontal"
+                            >
+                                <FormCheckbox variant="brand-primary" />
+                                <FieldContent>
+                                    <FormField.Label>
+                                        {' '}
+                                        <span className="text-base leading-5.5 font-normal text-pretty">
+                                            By clicking 'Register' you agree to our website Sache Terms & Conditions,
+                                            Sache{' '}
+                                            <Link
+                                                className="underline"
+                                                href="#"
+                                            >
+                                                Privacy Notice
+                                            </Link>{' '}
+                                            and{' '}
+                                            <Link
+                                                className="underline"
+                                                href="#"
+                                            >
+                                                Terms & Conditions.
+                                            </Link>
+                                        </span>
+                                    </FormField.Label>
+                                </FieldContent>
+
+                                <FormField.Error />
+                            </FormField>
+                        </FieldGroup>
+                    </FieldSet>
+
+                    {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
+
+                    <FormButton
                         control={form.control}
-                        name="email"
+                        className="w-full justify-between px-4 uppercase"
+                        size="brand-lg"
+                        variant="brand-neutral"
                     >
-                        <FormField.Label>Email</FormField.Label>
-                        <FormInput />
-                        <FormField.Error />
-                    </FormField>
+                        Register
+                        <ArrowRightIcon strokeWidth={3} />
+                    </FormButton>
 
-                    <FormField
-                        control={form.control}
-                        name="password"
-                    >
-                        <FormField.Label>Password</FormField.Label>
-                        <FormPasswordInput />
-                        <FormField.Error />
-                    </FormField>
-
-                    <FormField
-                        control={form.control}
-                        name="password_confirmation"
-                    >
-                        <FormField.Label>Confirm password</FormField.Label>
-                        <FormPasswordInput />
-                        <FormField.Error />
-                    </FormField>
-
-                    <FormField
-                        control={form.control}
-                        name="user_agreement"
-                        orientation="horizontal"
-                    >
-                        <FormCheckbox />
-                        <FormField.Label>Agree to user agreement.</FormField.Label>
-
-                        <FormField.Error />
-                    </FormField>
-                </FieldGroup>
-            </FieldSet>
-
-            {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
-
-            <FormButton control={form.control}>Register</FormButton>
-        </Form>
+                    <span className="mt-3 block">
+                        Have an Account?{' '}
+                        <Link
+                            className="underline"
+                            href="/login"
+                        >
+                            Login
+                        </Link>
+                        .
+                    </span>
+                </Form>
+            </div>
+        </div>
     );
 }
