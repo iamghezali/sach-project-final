@@ -10,7 +10,7 @@ import { FormCheckbox } from '@/components/form/form-checkbox';
 import { FormField } from '@/components/form/form-field';
 import { FormInput } from '@/components/form/form-input';
 import { FormPasswordInput } from '@/components/form/form-password-input';
-import { FieldError, FieldGroup, FieldSet } from '@/components/ui/field';
+import { FieldContent, FieldError, FieldGroup, FieldSet } from '@/components/ui/field';
 import GoogleButton from '@/features/auth/components/google-button';
 import { useLogin } from '@/features/auth/mutations';
 import { LoginRequestSchema } from '@/features/auth/schema';
@@ -94,20 +94,21 @@ export default function LoginForm(): JSX.Element {
                                 control={form.control}
                                 name="remember"
                                 orientation="horizontal"
-                                className="items-baseline"
                             >
-                                <FormCheckbox />
-                                <FormField.Label>
-                                    <span className="text-base font-normal text-pretty">
-                                        Keep me logged in - applies to all log in options below.{' '}
-                                        <Link
-                                            className="underline"
-                                            href="#"
-                                        >
-                                            More info
-                                        </Link>
-                                    </span>
-                                </FormField.Label>
+                                <FormCheckbox variant="brand-primary" />
+                                <FieldContent>
+                                    <FormField.Label>
+                                        <span className="text-base font-normal text-pretty">
+                                            Keep me logged in - applies to all log in options below.{' '}
+                                            <Link
+                                                className="underline"
+                                                href="#"
+                                            >
+                                                More info
+                                            </Link>
+                                        </span>
+                                    </FormField.Label>
+                                </FieldContent>
                             </FormField>
                         </FieldGroup>
                     </FieldSet>
