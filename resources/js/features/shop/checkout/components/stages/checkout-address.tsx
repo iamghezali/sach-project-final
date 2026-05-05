@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ArrowRightIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import { useEffect } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
@@ -56,15 +57,20 @@ export default function CheckoutAddress(): JSX.Element {
                 form={form}
                 onSubmit={onSubmit}
             >
-                <FieldSet>
-                    <FieldLegend>Enter your shipping Address</FieldLegend>
+                <FieldSet className="gap-6">
+                    <div>
+                        <FieldLegend className="my-0">Enter your shipping Address</FieldLegend>
+                    </div>
 
-                    <FieldGroup>
+                    <FieldGroup className="gap-6">
                         <FormField
                             control={form.control}
                             name="shipping_address.full_name"
                         >
-                            <FormInput placeholder="Full Name" />
+                            <FormInput
+                                placeholder="Full Name"
+                                variant="brand-primary"
+                            />
                             <FormField.Error />
                         </FormField>
 
@@ -72,7 +78,10 @@ export default function CheckoutAddress(): JSX.Element {
                             control={form.control}
                             name="shipping_address.address_line_1"
                         >
-                            <FormInput placeholder="Address Line 1" />
+                            <FormInput
+                                placeholder="Address Line 1"
+                                variant="brand-primary"
+                            />
                             <FormField.Error />
                         </FormField>
 
@@ -80,7 +89,10 @@ export default function CheckoutAddress(): JSX.Element {
                             control={form.control}
                             name="shipping_address.address_line_2"
                         >
-                            <FormInput placeholder="Address Line 2" />
+                            <FormInput
+                                placeholder="Address Line 2"
+                                variant="brand-primary"
+                            />
                             <FormField.Error />
                         </FormField>
 
@@ -88,7 +100,10 @@ export default function CheckoutAddress(): JSX.Element {
                             control={form.control}
                             name="shipping_address.postal_code"
                         >
-                            <FormInput placeholder="ZIP Code" />
+                            <FormInput
+                                placeholder="ZIP Code"
+                                variant="brand-primary"
+                            />
                             <FormField.Error />
                         </FormField>
 
@@ -126,29 +141,43 @@ export default function CheckoutAddress(): JSX.Element {
                             control={form.control}
                             name="shipping_address.phone"
                         >
-                            <FormInput placeholder="Phone" />
+                            <FormInput
+                                placeholder="Phone"
+                                variant="brand-primary"
+                            />
                             <FormField.Error />
                         </FormField>
                     </FieldGroup>
                 </FieldSet>
 
-                <Field orientation="horizontal">
+                <Field
+                    orientation="horizontal"
+                    className="mt-6"
+                >
                     <Checkbox
                         id="use-same-address"
                         checked={useSameAddress}
                         onCheckedChange={setUseSameAddress}
+                        variant="brand-primary"
                     />
                     <FieldContent>
-                        <FieldLabel htmlFor="use-same-address">Use this address for billing</FieldLabel>
+                        <FieldLabel
+                            htmlFor="use-same-address"
+                            className="text-base"
+                        >
+                            Use this address for invoicing
+                        </FieldLabel>
                     </FieldContent>
                 </Field>
 
                 <Collapsible open={!useSameAddress}>
                     <CollapsibleContent>
-                        <FieldSet>
-                            <FieldLegend>Enter your billing Address</FieldLegend>
+                        <FieldSet className="mt-6 gap-6">
+                            <div>
+                                <FieldLegend className="my-0">Enter your billing Address</FieldLegend>
+                            </div>
 
-                            <FieldGroup>
+                            <FieldGroup className="gap-6">
                                 <FormField
                                     control={form.control}
                                     name="billing_address.full_name"
@@ -157,6 +186,7 @@ export default function CheckoutAddress(): JSX.Element {
                                         placeholder="Full Name"
                                         disabled={!!useSameAddress}
                                         readOnly={!!useSameAddress}
+                                        variant="brand-primary"
                                     />
                                     <FormField.Error />
                                 </FormField>
@@ -169,6 +199,7 @@ export default function CheckoutAddress(): JSX.Element {
                                         placeholder="Address Line 1"
                                         disabled={!!useSameAddress}
                                         readOnly={!!useSameAddress}
+                                        variant="brand-primary"
                                     />
                                     <FormField.Error />
                                 </FormField>
@@ -181,6 +212,7 @@ export default function CheckoutAddress(): JSX.Element {
                                         placeholder="Address Line 2"
                                         disabled={!!useSameAddress}
                                         readOnly={!!useSameAddress}
+                                        variant="brand-primary"
                                     />
                                     <FormField.Error />
                                 </FormField>
@@ -193,6 +225,7 @@ export default function CheckoutAddress(): JSX.Element {
                                         placeholder="ZIP Code"
                                         disabled={!!useSameAddress}
                                         readOnly={!!useSameAddress}
+                                        variant="brand-primary"
                                     />
                                     <FormField.Error />
                                 </FormField>
@@ -235,6 +268,7 @@ export default function CheckoutAddress(): JSX.Element {
                                         placeholder="Phone"
                                         disabled={!!useSameAddress}
                                         readOnly={!!useSameAddress}
+                                        variant="brand-primary"
                                     />
                                     <FormField.Error />
                                 </FormField>
@@ -243,7 +277,15 @@ export default function CheckoutAddress(): JSX.Element {
                     </CollapsibleContent>
                 </Collapsible>
 
-                <FormButton control={form.control}>Continue</FormButton>
+                <FormButton
+                    control={form.control}
+                    className="mt-6 w-full justify-between px-4 uppercase"
+                    size="brand-lg"
+                    variant="brand-neutral"
+                >
+                    Continue
+                    <ArrowRightIcon strokeWidth={3} />
+                </FormButton>
             </Form>
         </div>
     );

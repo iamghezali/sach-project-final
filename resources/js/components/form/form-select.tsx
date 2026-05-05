@@ -25,7 +25,6 @@ interface FormSelectProps<TValue extends SupportedTypes> extends Omit<
         [key: string]: any;
     };
     placeholder?: string;
-    triggerClassName?: string;
     children: ((components: FormSelectChildren<TValue>) => React.ReactNode) | React.ReactNode;
 }
 
@@ -33,7 +32,6 @@ export function FormSelect<TValue extends SupportedTypes>({
     field: fieldProp,
     children,
     placeholder,
-    triggerClassName,
     ...props
 }: FormSelectProps<TValue>) {
     const fieldcontext = useFieldContext();
@@ -70,10 +68,7 @@ export function FormSelect<TValue extends SupportedTypes>({
             value={safeValue}
             onValueChange={handleValueChange}
         >
-            <SelectTrigger
-                className={triggerClassName}
-                aria-invalid={fieldState?.invalid}
-            >
+            <SelectTrigger aria-invalid={fieldState?.invalid}>
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>
 
