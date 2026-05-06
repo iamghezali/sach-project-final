@@ -50,7 +50,7 @@ function RadioGroupItem({
                 <span
                     className={cn(
                         'absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-foreground',
-                        variant === 'brand-primary' && 'size-3 bg-brand-neutral-1000',
+                        variant === 'brand-primary' && 'size-3.75 bg-brand-neutral-1000',
                     )}
                 />
             </RadioGroupPrimitive.Indicator>

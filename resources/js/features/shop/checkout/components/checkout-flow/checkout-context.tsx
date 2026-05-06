@@ -129,6 +129,10 @@ export const CheckoutFlowProvider = ({ stages, isLoggedIn, stageComponents, chil
             type: 'SYNC_LOGIN_STATE',
             isLoggedIn,
         });
+
+        if (isLoggedIn) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     }, [isLoggedIn]);
 
     return (

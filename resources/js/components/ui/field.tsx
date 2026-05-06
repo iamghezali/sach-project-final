@@ -57,15 +57,28 @@ const fieldVariants = cva('group/field flex w-full gap-2 data-[invalid=true]:tex
             responsive:
                 'flex-col *:w-full @md/field-group:flex-row @md/field-group:items-center @md/field-group:*:w-auto @md/field-group:has-[>[data-slot=field-content]]:items-start @md/field-group:*:data-[slot=field-label]:flex-auto [&>.sr-only]:w-auto @md/field-group:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px',
         },
+        variant: {
+            default: '',
+            'brand-primary': '',
+        },
     },
+    compoundVariants: [
+        {
+            variant: 'brand-primary',
+            orientation: 'horizontal',
+            class: 'gap-8 has-[>[data-slot=field-content]]:items-center',
+        },
+    ],
     defaultVariants: {
         orientation: 'vertical',
+        variant: 'default',
     },
 });
 
 function Field({
     className,
     orientation = 'vertical',
+    variant,
     ...props
 }: React.ComponentProps<'div'> & VariantProps<typeof fieldVariants>) {
     return (
@@ -73,7 +86,7 @@ function Field({
             role="group"
             data-slot="field"
             data-orientation={orientation}
-            className={cn(fieldVariants({ orientation }), className)}
+            className={cn(fieldVariants({ orientation, variant }), className)}
             {...props}
         />
     );
@@ -89,15 +102,36 @@ function FieldContent({ className, ...props }: React.ComponentProps<'div'>) {
     );
 }
 
-function FieldLabel({ className, ...props }: React.ComponentProps<typeof Label>) {
+const fieldLabelVariants = cva(
+    [
+        'group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 dark:has-data-checked:border-primary/20 dark:has-data-checked:bg-primary/10',
+        'has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col',
+    ],
+    {
+        variants: {
+            variant: {
+                default:
+                    'has-data-checked:border-primary/30 has-data-checked:bg-primary/5 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5',
+                'brand-primary':
+                    'has-data-checked:border-brand-neutral-1000 has-data-checked:bg-transparent has-[>[data-slot=field]]:rounded-xl has-[>[data-slot=field]]:border-2 *:data-[slot=field]:px-4 *:data-[slot=field]:py-5',
+            },
+        },
+
+        defaultVariants: {
+            variant: 'default',
+        },
+    },
+);
+
+function FieldLabel({
+    className,
+    variant,
+    ...props
+}: React.ComponentProps<typeof Label> & VariantProps<typeof fieldLabelVariants>) {
     return (
         <Label
             data-slot="field-label"
-            className={cn(
-                'group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-data-checked:border-primary/30 has-data-checked:bg-primary/5 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5 dark:has-data-checked:border-primary/20 dark:has-data-checked:bg-primary/10',
-                'has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col',
-                className,
-            )}
+            className={cn(fieldLabelVariants({ variant }), className)}
             {...props}
         />
     );

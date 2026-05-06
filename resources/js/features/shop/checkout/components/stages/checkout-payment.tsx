@@ -44,7 +44,10 @@ export default function CheckoutPayment(): JSX.Element {
                         >
                             {({ field }) => (
                                 <>
-                                    <FormCardRadioGroup field={field}>
+                                    <FormCardRadioGroup
+                                        field={field}
+                                        variant="brand-primary"
+                                    >
                                         {({ Item }) => (
                                             <>
                                                 <Item value="cod">

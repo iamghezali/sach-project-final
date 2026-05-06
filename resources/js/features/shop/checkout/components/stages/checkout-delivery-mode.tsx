@@ -46,7 +46,10 @@ export default function CheckoutDeliveryMode(): JSX.Element {
                         >
                             {({ field }) => (
                                 <>
-                                    <FormCardRadioGroup field={field}>
+                                    <FormCardRadioGroup
+                                        field={field}
+                                        variant="brand-primary"
+                                    >
                                         {({ Item }) => (
                                             <>
                                                 <Item value="yalidine">

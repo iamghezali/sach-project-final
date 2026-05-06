@@ -1,4 +1,4 @@
-import { CheckIcon } from 'lucide-react';
+import { CheckIcon, SquarePenIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -26,11 +26,18 @@ export const CheckoutStage = ({ stage, children, ref }: CheckoutStageProps) => {
         <Collapsible
             ref={ref}
             open={isActive}
-            className="border"
+            className="scroll-mt-5 rounded-2xl bg-brand-shade-white"
         >
-            <div className="flex items-center justify-between p-4">
-                <h2 className="flex items-center gap-2 text-2xl font-medium">
-                    {stage.valid ? <CheckIcon className="text-green-500" /> : <span>{`${stageIndex} .`}</span>}
+            <div className="flex items-center justify-between px-7 py-4">
+                <h2 className="flex items-center gap-2.5 text-[1.625rem] font-medium">
+                    {stage.valid ? (
+                        <CheckIcon
+                            className="text-green-500"
+                            strokeWidth={3}
+                        />
+                    ) : (
+                        <span>{`${stageIndex} .`}</span>
+                    )}
                     {stage.label}
                 </h2>
                 {showEditButton && (
@@ -40,12 +47,13 @@ export const CheckoutStage = ({ stage, children, ref }: CheckoutStageProps) => {
                         onClick={() => editStage(stage.id)}
                     >
                         Edit
+                        <SquarePenIcon />
                     </Button>
                 )}
             </div>
 
             <CollapsibleContent>
-                <div className="px-4 pb-7">{children}</div>
+                <div className="px-7 pb-4">{children}</div>
             </CollapsibleContent>
         </Collapsible>
     );

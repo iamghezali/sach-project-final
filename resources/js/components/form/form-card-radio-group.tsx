@@ -19,12 +19,14 @@ interface FormRadioGroupProps<TValue extends string> extends Omit<
     'value' | 'onValueChange' | 'onBlur' | 'ref' | 'aria-invalid' | 'children'
 > {
     field?: { value: TValue; [key: string]: any };
+    variant?: React.ComponentProps<typeof FieldLabel>['variant'];
     children: ((components: FormRadioGroupChildren<TValue>) => React.ReactNode) | React.ReactNode;
 }
 
 export function FormCardRadioGroup<TValue extends string>({
     field: fieldProp,
     children,
+    variant,
     ...props
 }: FormRadioGroupProps<TValue>) {
     const fieldcontext = useFieldContext();
@@ -34,6 +36,7 @@ export function FormCardRadioGroup<TValue extends string>({
 
     const Item: FormRadioGroupChildren<TValue>['Item'] = (itemProps) => (
         <RadioGroupFieldItem
+            variant={variant}
             {...itemProps}
             name={name}
         />
@@ -63,6 +66,7 @@ function RadioGroupFieldItem<TValue extends string>({
     value,
     name,
     children,
+    variant = 'default',
     disabled,
     ...itemProps
 }: RadioGroupItemProps<TValue>) {
@@ -72,12 +76,17 @@ function RadioGroupFieldItem<TValue extends string>({
         <FieldLabel
             htmlFor={id}
             {...itemProps}
+            variant={variant}
         >
-            <Field orientation="horizontal">
+            <Field
+                variant={variant}
+                orientation="horizontal"
+            >
                 <RadioGroupItem
                     id={id}
                     value={value}
                     disabled={disabled}
+                    variant={variant}
                 />
 
                 <FieldContent>{children}</FieldContent>
