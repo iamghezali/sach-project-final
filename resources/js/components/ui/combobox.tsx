@@ -76,11 +76,9 @@ const ComboboxContext = React.createContext<ComboboxContextValue>({
 
 const useComboboxContext = () => React.useContext(ComboboxContext);
 
-function Combobox<T>({
-    children,
-    variant,
-    ...props
-}: React.ComponentProps<typeof ComboboxPrimitive.Root<T>> & ComboboxContextValue) {
+export type ComboboxProps<T> = React.ComponentProps<typeof ComboboxPrimitive.Root<T>> & ComboboxContextValue;
+
+function Combobox<T>({ children, variant, ...props }: ComboboxProps<T>) {
     return (
         <ComboboxContext.Provider value={{ variant }}>
             <ComboboxPrimitive.Root {...props}>{children}</ComboboxPrimitive.Root>

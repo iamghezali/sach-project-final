@@ -1,7 +1,7 @@
-import type { Combobox as ComboboxPrimitive } from '@base-ui/react';
 import type { JSX } from 'react';
 import type { FieldValues, Path, PathValue } from 'react-hook-form';
 import { useFieldContext } from '@/components/form/form-field';
+import type { ComboboxProps } from '@/components/ui/combobox';
 import {
     Combobox,
     ComboboxContent,
@@ -20,7 +20,7 @@ type ComboboxOption<TValue extends string> = {
 type OmittedComboboxProps = 'value' | 'onValueChange' | 'items' | 'itemToStringValue';
 
 interface FormComboboxProps<T extends FieldValues, TName extends Path<T>> extends Omit<
-    ComboboxPrimitive.Root.Props<ComboboxOption<PathValue<T, TName>>>,
+    ComboboxProps<ComboboxOption<PathValue<T, TName>>>,
     OmittedComboboxProps
 > {
     placeholder?: string;
@@ -47,7 +47,6 @@ export default function FormCombobox<T extends FieldValues, TName extends Path<T
             itemToStringValue={(option) => option.label}
             value={options.find((o) => o.value === field.value) ?? null}
             onValueChange={(option) => field.onChange(option?.value ?? '')}
-            variant="brand-primary"
         >
             <ComboboxInput
                 aria-invalid={fieldState.invalid}

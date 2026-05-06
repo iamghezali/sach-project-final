@@ -114,6 +114,7 @@ export default function CheckoutAddress(): JSX.Element {
                             <FormCombobox
                                 placeholder="Willaya"
                                 options={willayas}
+                                variant="brand-primary"
                             />
 
                             <FormField.Error />
@@ -239,6 +240,7 @@ export default function CheckoutAddress(): JSX.Element {
                                     <FormCombobox
                                         placeholder="Willaya"
                                         options={willayas}
+                                        variant="brand-primary"
                                     />
 
                                     <FormField.Error />
