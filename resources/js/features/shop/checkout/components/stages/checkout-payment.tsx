@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ArrowRightIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -61,7 +62,15 @@ export default function CheckoutPayment(): JSX.Element {
                     </FieldGroup>
                 </FieldSet>
 
-                <FormButton control={form.control}>Continue</FormButton>
+                <FormButton
+                    control={form.control}
+                    className="mt-6 w-full justify-between px-4 uppercase"
+                    size="brand-lg"
+                    variant="brand-neutral"
+                >
+                    Continue
+                    <ArrowRightIcon strokeWidth={3} />
+                </FormButton>
             </Form>
         </div>
     );

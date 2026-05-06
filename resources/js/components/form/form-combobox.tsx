@@ -47,6 +47,7 @@ export default function FormCombobox<T extends FieldValues, TName extends Path<T
             itemToStringValue={(option) => option.label}
             value={options.find((o) => o.value === field.value) ?? null}
             onValueChange={(option) => field.onChange(option?.value ?? '')}
+            variant="brand-primary"
         >
             <ComboboxInput
                 aria-invalid={fieldState.invalid}

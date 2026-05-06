@@ -1,5 +1,3 @@
-'use client';
-
 import * as React from 'react';
 import { Combobox as ComboboxPrimitive } from '@base-ui/react';
 
@@ -7,8 +5,88 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@/components/ui/input-group';
 import { ChevronDownIcon, XIcon, CheckIcon } from 'lucide-react';
+import { cva, VariantProps } from 'class-variance-authority';
 
-const Combobox = ComboboxPrimitive.Root;
+const comboboxInputGroupVariants = cva('w-auto', {
+    variants: {
+        variant: {
+            default: '',
+            'brand-primary': 'h-12 border border-brand-neutral-1000',
+        },
+    },
+    defaultVariants: {
+        variant: 'default',
+    },
+});
+
+const comboboxInputGroupInputVariants = cva('', {
+    variants: {
+        variant: {
+            default: '',
+            'brand-primary': 'px-4',
+        },
+    },
+    defaultVariants: {
+        variant: 'default',
+    },
+});
+
+const comboboxContentVariants = cva(
+    'group/combobox-content relative max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-[calc(var(--anchor-width)+--spacing(7))] origin-(--transform-origin) overflow-hidden rounded-lg shadow-md ring-1 ring-foreground/10 duration-100 data-[chips=true]:min-w-(--anchor-width) data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-8 *:data-[slot=input-group]:border-input/30 *:data-[slot=input-group]:bg-input/30 *:data-[slot=input-group]:shadow-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95',
+    {
+        variants: {
+            variant: {
+                default: 'bg-popover text-popover-foreground',
+                'brand-primary': 'border border-brand-neutral-1000 bg-brand-neutral-100',
+            },
+        },
+        defaultVariants: {
+            variant: 'default',
+        },
+    },
+);
+
+const comboboxOffsetVariant = {
+    sideOffset: {
+        default: 6,
+        'brand-primary': 16,
+    },
+} as const;
+
+const comboboxItemVariants = cva(
+    "relative flex w-full cursor-default items-center gap-2 rounded-md py-1 text-sm outline-hidden select-none data-highlighted:bg-accent data-highlighted:text-accent-foreground not-data-[variant=destructive]:data-highlighted:**:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+    {
+        variants: {
+            variant: {
+                default: 'pr-8 pl-1.5',
+                'brand-primary': 'h-10 px-4',
+            },
+        },
+        defaultVariants: {
+            variant: 'default',
+        },
+    },
+);
+
+type ComboboxContextValue = VariantProps<typeof comboboxInputGroupVariants>;
+
+const ComboboxContext = React.createContext<ComboboxContextValue>({
+    variant: 'default',
+});
+
+const useComboboxContext = () => React.useContext(ComboboxContext);
+
+function Combobox<T>({
+    children,
+    variant,
+    ...props
+}: React.ComponentProps<typeof ComboboxPrimitive.Root<T>> & ComboboxContextValue) {
+    return (
+        <ComboboxContext.Provider value={{ variant }}>
+            <ComboboxPrimitive.Root {...props}>{children}</ComboboxPrimitive.Root>
+        </ComboboxContext.Provider>
+    );
+}
 
 function ComboboxValue({ ...props }: ComboboxPrimitive.Value.Props) {
     return (
@@ -56,15 +134,30 @@ function ComboboxInput({
     disabled = false,
     showTrigger = true,
     showClear = false,
+    variant,
     ...props
 }: ComboboxPrimitive.Input.Props & {
     showTrigger?: boolean;
     showClear?: boolean;
-}) {
+} & ComboboxContextValue) {
+    const context = useComboboxContext();
+
     return (
-        <InputGroup className={cn('w-auto', className)}>
+        <InputGroup
+            className={cn(
+                comboboxInputGroupVariants({
+                    variant: context.variant ?? variant,
+                }),
+                className,
+            )}
+        >
             <ComboboxPrimitive.Input
-                render={<InputGroupInput disabled={disabled} />}
+                render={
+                    <InputGroupInput
+                        className={comboboxInputGroupInputVariants({ variant: context.variant ?? variant })}
+                        disabled={disabled}
+                    />
+                }
                 {...props}
             />
             <InputGroupAddon align="inline-end">
@@ -74,7 +167,10 @@ function ComboboxInput({
                         variant="ghost"
                         asChild
                         data-slot="input-group-button"
-                        className="group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent"
+                        className={cn(
+                            'group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent',
+                            context.variant === 'brand-primary' && 'relative right-2',
+                        )}
                         disabled={disabled}
                     >
                         <ComboboxTrigger />
@@ -94,14 +190,20 @@ function ComboboxContent({
     align = 'start',
     alignOffset = 0,
     anchor,
+    variant,
     ...props
 }: ComboboxPrimitive.Popup.Props &
-    Pick<ComboboxPrimitive.Positioner.Props, 'side' | 'align' | 'sideOffset' | 'alignOffset' | 'anchor'>) {
+    Pick<ComboboxPrimitive.Positioner.Props, 'side' | 'align' | 'sideOffset' | 'alignOffset' | 'anchor'> &
+    ComboboxContextValue) {
+    const context = useComboboxContext();
+
+    const variantSideOffset = comboboxOffsetVariant.sideOffset[context.variant ?? 'default'] ?? sideOffset;
+
     return (
         <ComboboxPrimitive.Portal>
             <ComboboxPrimitive.Positioner
                 side={side}
-                sideOffset={sideOffset}
+                sideOffset={variantSideOffset}
                 align={align}
                 alignOffset={alignOffset}
                 anchor={anchor}
@@ -112,7 +214,9 @@ function ComboboxContent({
                     data-slot="combobox-content"
                     data-chips={!!anchor}
                     className={cn(
-                        'group/combobox-content relative max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-[calc(var(--anchor-width)+--spacing(7))] origin-(--transform-origin) overflow-hidden rounded-lg bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[chips=true]:min-w-(--anchor-width) data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-8 *:data-[slot=input-group]:border-input/30 *:data-[slot=input-group]:bg-input/30 *:data-[slot=input-group]:shadow-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95',
+                        comboboxContentVariants({
+                            variant: context.variant ?? variant,
+                        }),
                         className,
                     )}
                     {...props}
@@ -135,12 +239,16 @@ function ComboboxList({ className, ...props }: ComboboxPrimitive.List.Props) {
     );
 }
 
-function ComboboxItem({ className, children, ...props }: ComboboxPrimitive.Item.Props) {
+function ComboboxItem({ className, children, variant, ...props }: ComboboxPrimitive.Item.Props & ComboboxContextValue) {
+    const context = useComboboxContext();
+
     return (
         <ComboboxPrimitive.Item
             data-slot="combobox-item"
             className={cn(
-                "relative flex w-full cursor-default items-center gap-2 rounded-md py-1 pr-8 pl-1.5 text-sm outline-hidden select-none data-highlighted:bg-accent data-highlighted:text-accent-foreground not-data-[variant=destructive]:data-highlighted:**:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+                comboboxItemVariants({
+                    variant: context.variant ?? variant,
+                }),
                 className,
             )}
             {...props}
