@@ -89,13 +89,15 @@ export default function CheckoutValidation(): JSX.Element {
                     </FieldLabel>
                 </RadioGroup>
 
-                <Textarea
-                    value={checkoutData.notes}
-                    variant="brand-primary"
-                    className="resize-none disabled:opacity-100"
-                    readOnly
-                    disabled
-                />
+                {checkoutData.notes !== '' && (
+                    <Textarea
+                        value={checkoutData.notes}
+                        variant="brand-primary"
+                        className="min-h-auto resize-none disabled:bg-transparent disabled:opacity-100"
+                        readOnly
+                        disabled
+                    />
+                )}
             </div>
 
             <div className="flex flex-col gap-6">

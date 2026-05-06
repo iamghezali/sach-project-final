@@ -7,8 +7,9 @@ import Form from '@/components/form/form';
 import { FormButton } from '@/components/form/form-button';
 import { FormCardRadioGroup } from '@/components/form/form-card-radio-group';
 import { FormField } from '@/components/form/form-field';
-import { FieldGroup, FieldLegend, FieldSet } from '@/components/ui/field';
+import { FieldGroup, FieldSet } from '@/components/ui/field';
 import { useCheckoutFlow } from '@/features/shop/checkout/components/checkout-flow/checkout-context';
+import PaymentOptionItem from '@/features/shop/checkout/options/payment-option-item';
 import { PaymentOptionSchema } from '@/features/shop/checkout/schema';
 import type { PaymentOption } from '@/features/shop/checkout/schema';
 
@@ -34,8 +35,8 @@ export default function CheckoutPayment(): JSX.Element {
                 form={form}
                 onSubmit={onSubmit}
             >
-                <FieldSet>
-                    <FieldLegend>Choose a Payment Option</FieldLegend>
+                <FieldSet className="gap-6">
+                    <span className="block text-xl font-medium">Choose a Payment Option</span>
 
                     <FieldGroup>
                         <FormField
@@ -51,10 +52,7 @@ export default function CheckoutPayment(): JSX.Element {
                                         {({ Item }) => (
                                             <>
                                                 <Item value="cod">
-                                                    <div className="flex justify-between">
-                                                        <span>Cash On Delivery</span>
-                                                        <span>12,000.00 DZD</span>
-                                                    </div>
+                                                    <PaymentOptionItem price={12000} />
                                                 </Item>
                                             </>
                                         )}

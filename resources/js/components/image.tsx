@@ -3,32 +3,21 @@ import type { JSX } from 'react';
 import imageFallback from '@/assets/placeholder.svg';
 import { cn } from '@/lib/utils';
 
-interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'src'> {
-    src: string | null | undefined;
-    fallbackClassName?: string;
-}
-
-function ImageFallback(): JSX.Element {
-    return (
-        <img
-            src={imageFallback}
-            alt="Image unavailable"
-        />
-    );
-}
-
-export default function Image({ src, alt, className, ...rest }: ImageProps): JSX.Element {
+export default function Image({
+    src,
+    alt,
+    className,
+    ...rest
+}: React.ImgHTMLAttributes<HTMLImageElement>): JSX.Element {
     const [hasError, setHasError] = useState(false);
 
-    if (!src || hasError) {
-        return <ImageFallback />;
-    }
+    const isFallback = !src || hasError;
 
     return (
         <img
-            src={src}
-            alt={alt ?? ''}
             className={cn(className)}
+            src={isFallback ? imageFallback : src}
+            alt={isFallback ? 'Image unavailable' : (alt ?? '')}
             onError={() => setHasError(true)}
             {...rest}
         />

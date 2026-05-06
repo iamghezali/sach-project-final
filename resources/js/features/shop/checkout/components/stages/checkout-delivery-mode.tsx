@@ -8,8 +8,9 @@ import { FormButton } from '@/components/form/form-button';
 import { FormCardRadioGroup } from '@/components/form/form-card-radio-group';
 import { FormField } from '@/components/form/form-field';
 import { FormTextarea } from '@/components/form/form-textarea';
-import { FieldGroup, FieldLegend, FieldSet } from '@/components/ui/field';
+import { FieldGroup, FieldSet } from '@/components/ui/field';
 import { useCheckoutFlow } from '@/features/shop/checkout/components/checkout-flow/checkout-context';
+import DeliveryOptionItem from '@/features/shop/checkout/options/delivery-option-item';
 import type { DeliveryOption } from '@/features/shop/checkout/schema';
 import { DeliveryOptionSchema } from '@/features/shop/checkout/schema';
 
@@ -36,8 +37,8 @@ export default function CheckoutDeliveryMode(): JSX.Element {
                 form={form}
                 onSubmit={onSubmit}
             >
-                <FieldSet>
-                    <FieldLegend>Choose a Delivery</FieldLegend>
+                <FieldSet className="gap-6">
+                    <span className="block text-xl font-medium">Choose a Delivery</span>
 
                     <FieldGroup>
                         <FormField
@@ -53,11 +54,7 @@ export default function CheckoutDeliveryMode(): JSX.Element {
                                         {({ Item }) => (
                                             <>
                                                 <Item value="yalidine">
-                                                    <div className="flex justify-between">
-                                                        <span>Yalidine</span>
-                                                        <span>Fast Delivery 24 - 48h</span>
-                                                        <span>800.00 DZD</span>
-                                                    </div>
+                                                    <DeliveryOptionItem price={800} />
                                                 </Item>
                                             </>
                                         )}

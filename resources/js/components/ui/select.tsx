@@ -11,7 +11,7 @@ const selectTriggerVariants = cva(
         variants: {
             variant: {
                 default: 'border-input bg-transparent',
-                'brand-primary': 'border-brand-neutral-1000 bg-brand-neutral-100',
+                'brand-primary': 'border-brand-neutral-1000',
             },
             size: {
                 default: 'h-8 py-2 pr-2 pl-2.5',

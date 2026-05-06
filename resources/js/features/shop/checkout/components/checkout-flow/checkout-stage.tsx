@@ -53,7 +53,7 @@ export const CheckoutStage = ({ stage, children, ref }: CheckoutStageProps) => {
             </div>
 
             <CollapsibleContent>
-                <div className="px-7 pb-4">{children}</div>
+                <div className="px-7 py-4">{children}</div>
             </CollapsibleContent>
         </Collapsible>
     );

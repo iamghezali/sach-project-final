@@ -12,7 +12,7 @@ import { FormInput } from '@/components/form/form-input';
 import { FormSelect } from '@/components/form/form-select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
-import { Field, FieldContent, FieldGroup, FieldLabel, FieldLegend, FieldSet } from '@/components/ui/field';
+import { Field, FieldContent, FieldGroup, FieldLabel, FieldSet } from '@/components/ui/field';
 import { useCheckoutFlow } from '@/features/shop/checkout/components/checkout-flow/checkout-context';
 import { willayas } from '@/features/shop/checkout/options/willayas';
 import type { Addresses } from '@/features/shop/checkout/schema';
@@ -58,9 +58,7 @@ export default function CheckoutAddress(): JSX.Element {
                 onSubmit={onSubmit}
             >
                 <FieldSet className="gap-6">
-                    <div>
-                        <FieldLegend className="my-0">Enter your shipping Address</FieldLegend>
-                    </div>
+                    <span className="block text-xl font-medium">Enter your shipping Address</span>
 
                     <FieldGroup className="gap-6">
                         <FormField
@@ -166,7 +164,7 @@ export default function CheckoutAddress(): JSX.Element {
                     <FieldContent>
                         <FieldLabel
                             htmlFor="use-same-address"
-                            className="text-base"
+                            className="text-base font-normal"
                         >
                             Use this address for invoicing
                         </FieldLabel>
@@ -175,10 +173,8 @@ export default function CheckoutAddress(): JSX.Element {
 
                 <Collapsible open={!useSameAddress}>
                     <CollapsibleContent>
-                        <FieldSet className="mt-6 gap-6">
-                            <div>
-                                <FieldLegend className="my-0">Enter your billing Address</FieldLegend>
-                            </div>
+                        <FieldSet className="mt-8 gap-6">
+                            <span className="block text-xl font-medium">Enter your billing Address</span>
 
                             <FieldGroup className="gap-6">
                                 <FormField
