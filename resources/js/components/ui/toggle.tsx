@@ -21,6 +21,15 @@ const toggleVariants = cva(
                     'inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-lg border border-brand-neutral-alt-500 text-black disabled:text-brand-neutral-alt-500',
                     'hover:border-[#D89DBA]/70 hover:bg-[#D89DBA]/50 data-[state=on]:border-[#D89DBA] data-[state=on]:bg-[#D89DBA]',
                 ],
+
+                'brand-co-sizes': [
+                    'flex-1 rounded-lg bg-brand-shade-white text-brand-neutral-1000 hover:bg-brand-neutral-1000/90 hover:text-white disabled:bg-brand-neutral-200 disabled:text-brand-neutral-500',
+                    'data-[state=on]:bg-brand-neutral-1000 data-[state=on]:text-white',
+                ],
+                'brand-co-measurment-type': [
+                    'items-center justify-center rounded-lg border border-brand-neutral-alt-500',
+                    'hover:border-brand-primary-100/50 hover:bg-brand-primary-100/70 data-[state=on]:border-brand-primary-100 data-[state=on]:bg-brand-primary-100',
+                ],
             },
             size: {
                 default: 'h-8 min-w-8 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2',
@@ -28,6 +37,9 @@ const toggleVariants = cva(
                 lg: 'h-9 min-w-9 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2',
 
                 'brand-co-item': 'h-12 font-normal',
+                'brand-co-size-item': 'h-12 text-sm font-medium',
+
+                'brand-co-measurment-type': "h-48 w-78 [&_svg:not([class*='size-'])]:size-20",
             },
         },
         defaultVariants: {

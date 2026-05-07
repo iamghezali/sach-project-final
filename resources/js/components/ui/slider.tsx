@@ -2,15 +2,59 @@ import * as React from 'react';
 import { Slider as SliderPrimitive } from 'radix-ui';
 
 import { cn } from '@/lib/utils';
+import { cva, VariantProps } from 'class-variance-authority';
+
+const trackVariants = cva(
+    'relative grow overflow-hidden rounded-full data-horizontal:h-1 data-horizontal:w-full data-vertical:h-full data-vertical:w-1',
+    {
+        variants: {
+            variant: {
+                default: 'bg-muted',
+                'brand-primary': 'bg-brand-primary-300/20',
+            },
+        },
+        defaultVariants: {
+            variant: 'default',
+        },
+    },
+);
+
+const rangeVariants = cva('absolute select-none data-horizontal:h-full data-vertical:w-full', {
+    variants: {
+        variant: {
+            default: 'bg-primary',
+            'brand-primary': 'bg-brand-primary-300',
+        },
+    },
+    defaultVariants: {
+        variant: 'default',
+    },
+});
+
+const thumbVariants = cva(
+    'relative block shrink-0 rounded-full border border-ring ring-ring/50 transition-[color,box-shadow] select-none after:absolute after:-inset-2 hover:ring-3 focus-visible:ring-3 focus-visible:outline-hidden active:ring-3 disabled:pointer-events-none disabled:opacity-50',
+    {
+        variants: {
+            variant: {
+                default: 'size-3 bg-white',
+                'brand-primary': 'size-4 bg-white',
+            },
+        },
+        defaultVariants: {
+            variant: 'default',
+        },
+    },
+);
 
 function Slider({
     className,
     defaultValue,
     value,
+    variant,
     min = 0,
     max = 100,
     ...props
-}: React.ComponentProps<typeof SliderPrimitive.Root>) {
+}: React.ComponentProps<typeof SliderPrimitive.Root> & VariantProps<typeof trackVariants>) {
     const _values = React.useMemo(
         () => (Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [min, max]),
         [value, defaultValue, min, max],
@@ -31,18 +75,18 @@ function Slider({
         >
             <SliderPrimitive.Track
                 data-slot="slider-track"
-                className="relative grow overflow-hidden rounded-full bg-muted data-horizontal:h-1 data-horizontal:w-full data-vertical:h-full data-vertical:w-1"
+                className={cn(trackVariants({ variant }))}
             >
                 <SliderPrimitive.Range
                     data-slot="slider-range"
-                    className="absolute bg-primary select-none data-horizontal:h-full data-vertical:w-full"
+                    className={cn(rangeVariants({ variant }))}
                 />
             </SliderPrimitive.Track>
             {Array.from({ length: _values.length }, (_, index) => (
                 <SliderPrimitive.Thumb
                     data-slot="slider-thumb"
                     key={index}
-                    className="relative block size-3 shrink-0 rounded-full border border-ring bg-white ring-ring/50 transition-[color,box-shadow] select-none after:absolute after:-inset-2 hover:ring-3 focus-visible:ring-3 focus-visible:outline-hidden active:ring-3 disabled:pointer-events-none disabled:opacity-50"
+                    className={cn(thumbVariants({ variant }))}
                 />
             ))}
         </SliderPrimitive.Root>
