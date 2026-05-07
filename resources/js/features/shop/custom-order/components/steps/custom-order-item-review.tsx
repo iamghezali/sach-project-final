@@ -1,6 +1,8 @@
+import { ArrowLeftIcon, ArrowRightIcon, SquarePenIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import { Button } from '@/components/ui/button';
 import { useCustomOrder } from '@/features/shop/custom-order/providers/custom-order-provider';
+import { cn } from '@/lib/utils';
 
 export default function CustomOrderItemReview(): JSX.Element {
     const { setStep, orderItem, isEditing, addOrUpdateOrderItem } = useCustomOrder();
@@ -12,109 +14,159 @@ export default function CustomOrderItemReview(): JSX.Element {
     };
 
     return (
-        <>
-            <div className="flex flex-col gap-4">
-                <div className="rounded-lg border p-3">
-                    <div className="flex justify-between">
-                        <h2 className="text-lg">Information</h2>
+        <div className="mt-7.5 flex flex-col gap-10.5">
+            <div className="flex flex-col gap-10.5">
+                <div className="flex flex-col gap-8 rounded-2xl border border-brand-neutral-1000 px-6 py-7.5">
+                    <div className="flex justify-between text-[1.75rem] leading-[1.4] font-semibold">
+                        <h2>Item Information</h2>
                         <Button
                             onClick={() => setStep('step-2')}
-                            variant="secondary"
+                            variant="brand-primary"
+                            size="brand-md"
                         >
                             Edit
+                            <SquarePenIcon />
                         </Button>
                     </div>
-                    <div>
-                        <span className="text-neutral-700">What is this order for?: </span>
-                        {orderItem.information.item_is_for}
+
+                    <div className="flex flex-col gap-7">
+                        <h3 className="text-2xl font-medium text-brand-neutral-1000">Order Type</h3>
+
+                        <div className="flex flex-col gap-6 text-xl">
+                            <InformationItem
+                                property="What is this order for?"
+                                value={orderItem.information.item_is_for}
+                            />
+
+                            <InformationItem
+                                property="What would you like to create?"
+                                value={orderItem.information.item_type}
+                            />
+
+                            <InformationItem
+                                property="Gender?"
+                                value={orderItem.information.item_for_gender}
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <span className="text-neutral-700">What would you like to create?: </span>
-                        {orderItem.information.item_type}
-                    </div>
-                    <div>
-                        <span className="text-neutral-700">Gender?: </span>
-                        {orderItem.information.item_for_gender}
-                    </div>
-                    <div>
-                        <span className="text-neutral-700">Order title?: </span>
-                        {orderItem.information.title}
-                    </div>
-                    <div>
-                        <span className="text-neutral-700">What are you looking for?: </span>
-                        {orderItem.information.looking_for}
-                    </div>
-                    <div>
-                        <span className="text-neutral-700">Will you provide fabric?: </span>
-                        {orderItem.information.provide_fabric ? 'yes' : 'no'}
-                    </div>
-                    <div>
-                        <span className="text-neutral-700">Short Description: </span>
-                        {orderItem.information.description ? orderItem.information.description : 'Empty'}
-                    </div>
-                    <div>
-                        <span className="text-neutral-700">Qauntity: </span>
-                        {orderItem.information.quantity}
-                    </div>
-                    <div>
-                        <span className="text-neutral-700">Preferred Delivery date: </span>
-                        {orderItem.information.preferred_due_date}
+
+                    <div className="flex flex-col gap-7">
+                        <h3 className="text-2xl font-medium text-brand-neutral-1000">Order Details</h3>
+
+                        <div className="flex flex-col gap-6 text-xl">
+                            <div className="flex items-baseline justify-between">
+                                <InformationItem
+                                    className="flex-1"
+                                    property="Order Title"
+                                    value={orderItem.information.title}
+                                />
+
+                                <InformationItem
+                                    className="flex-1"
+                                    property="What are you looking for?"
+                                    value={orderItem.information.looking_for}
+                                />
+                            </div>
+
+                            <InformationItem
+                                property="Will you provide the fabric?"
+                                value={orderItem.information.provide_fabric ? 'Yes' : 'No - I want SASH to provide it'}
+                            />
+
+                            <InformationItem
+                                property="Short Description"
+                                value={
+                                    orderItem.information.description
+                                        ? orderItem.information.description
+                                        : 'Not Specified'
+                                }
+                            />
+
+                            <div className="flex items-baseline justify-between">
+                                <InformationItem
+                                    className="flex-1"
+                                    property="Quantity:"
+                                    value={orderItem.information.quantity}
+                                />
+
+                                <InformationItem
+                                    className="flex-1"
+                                    property="Preferred Delivery Date:"
+                                    value={orderItem.information.preferred_due_date}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div className="rounded-lg border p-3">
-                    <div className="flex justify-between">
-                        <h2 className="text-lg">Measurments</h2>
+                <div className="flex flex-col gap-7 rounded-2xl border border-brand-neutral-1000 px-6 py-7.5">
+                    <div className="flex justify-between text-[1.75rem] leading-[1.4] font-semibold">
+                        <h2>Measurements</h2>
                         <Button
                             onClick={() => setStep('step-3')}
-                            variant="secondary"
+                            variant="brand-primary"
+                            size="brand-md"
                         >
                             Edit
+                            <SquarePenIcon />
                         </Button>
                     </div>
-                    <div>
-                        <span className="text-neutral-700">How would you like to provide measurements?: </span>
-                        {orderItem.measurements.measurement_type} measurements
-                    </div>
 
-                    {orderItem.measurements.measurement_type === 'standard' && (
-                        <div>
-                            <span className="text-neutral-700">Size: </span>
-                            <span className="uppercase">{orderItem.measurements.size}</span>
-                        </div>
-                    )}
+                    <div className="flex flex-col gap-6 text-xl">
+                        <InformationItem
+                            property="How would you like to provide measurements?"
+                            value={orderItem.measurements.measurement_type}
+                        />
 
-                    {orderItem.measurements.measurement_type === 'custom' && (
-                        <>
-                            <div>
-                                <span className="text-neutral-700">Height: </span>
-                                {orderItem.measurements.height}cm
-                            </div>
-                            <div>
-                                <span className="text-neutral-700">Chest: </span>
-                                {orderItem.measurements.chest}cm
-                            </div>
-                            <div>
-                                <span className="text-neutral-700">Waist: </span>
-                                {orderItem.measurements.waist}cm
-                            </div>
-                            <div>
-                                <span className="text-neutral-700">Shoulder Width: </span>
-                                {orderItem.measurements.shoulder}cm
-                            </div>
-                        </>
-                    )}
+                        {orderItem.measurements.measurement_type === 'standard' && (
+                            <InformationItem
+                                property="Size:"
+                                className="uppercase"
+                                value={orderItem.measurements.size}
+                            />
+                        )}
 
-                    <div>
-                        <span className="text-neutral-700">Fitting preferrence?: </span>
-                        {orderItem.measurements.fitting_preference
-                            ? orderItem.measurements.fitting_preference
-                            : 'Empty'}
+                        {orderItem.measurements.measurement_type === 'custom' && (
+                            <div className="flex justify-between">
+                                <div className="flex flex-1 flex-col gap-6">
+                                    <InformationItem
+                                        property="Height:"
+                                        value={`${orderItem.measurements.height} cm`}
+                                    />
+
+                                    <InformationItem
+                                        property="Shoulder:"
+                                        value={`${orderItem.measurements.shoulder} cm`}
+                                    />
+                                </div>
+
+                                <div className="flex flex-1 flex-col gap-6">
+                                    <InformationItem
+                                        property="Chest:"
+                                        value={`${orderItem.measurements.chest} cm`}
+                                    />
+
+                                    <InformationItem
+                                        property="Waist:"
+                                        value={`${orderItem.measurements.waist} cm`}
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        <InformationItem
+                            property="Fitting preference"
+                            value={
+                                orderItem.measurements.fitting_preference
+                                    ? orderItem.measurements.fitting_preference
+                                    : 'Not Specified'
+                            }
+                        />
                     </div>
                 </div>
             </div>
 
-            <div>
+            <div className="flex items-center justify-between">
                 <Button
                     type="button"
                     variant="brand-neutral"
@@ -129,6 +181,7 @@ export default function CustomOrderItemReview(): JSX.Element {
                         setStep('step-3');
                     }}
                 >
+                    <ArrowLeftIcon strokeWidth={3} />
                     {isEditing ? 'Cancel' : 'Back'}
                 </Button>
                 <Button
@@ -137,8 +190,21 @@ export default function CustomOrderItemReview(): JSX.Element {
                     onClick={HandleClick}
                 >
                     {isEditing ? 'Save Item' : 'Create Item'}
+                    <ArrowRightIcon strokeWidth={3} />
                 </Button>
             </div>
-        </>
+        </div>
     );
 }
+
+type InformationItemProps = {
+    property: string;
+    value: string | number;
+} & React.ComponentProps<'div'>;
+
+const InformationItem = ({ property, value, ...props }: InformationItemProps) => (
+    <div {...props}>
+        <span className="text-brand-neutral-alt-600">{property} </span>
+        <span className="inline-block font-medium first-letter:uppercase">{value}</span>
+    </div>
+);
