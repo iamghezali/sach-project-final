@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PlusIcon } from 'lucide-react';
+import { ArrowRightIcon, PlusIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm, useWatch } from 'react-hook-form';
@@ -43,7 +43,9 @@ export default function CustomOrderFolder(): JSX.Element {
     };
 
     return (
-        <div>
+        <div className="flex flex-col gap-8">
+            <h1 className="text-[2.875rem] font-bold">Create a Custom Order</h1>
+
             <Form
                 form={form}
                 onSubmit={onSubmit}
@@ -73,14 +75,16 @@ export default function CustomOrderFolder(): JSX.Element {
                 </FieldSet>
             </Form>
 
-            <div>
+            <div className="flex justify-end">
                 <Button
                     disabled={!isOrderValid}
                     onClick={form.handleSubmit(handleConfirmOrder)}
                     variant="brand-primary"
                     size="brand-md"
+                    className="w-60"
                 >
                     Confirm Order
+                    <ArrowRightIcon strokeWidth={3} />
                 </Button>
             </div>
         </div>

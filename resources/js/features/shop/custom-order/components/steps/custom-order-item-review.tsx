@@ -2,7 +2,6 @@ import { ArrowLeftIcon, ArrowRightIcon, SquarePenIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import { Button } from '@/components/ui/button';
 import { useCustomOrder } from '@/features/shop/custom-order/providers/custom-order-provider';
-import { cn } from '@/lib/utils';
 
 export default function CustomOrderItemReview(): JSX.Element {
     const { setStep, orderItem, isEditing, addOrUpdateOrderItem } = useCustomOrder();

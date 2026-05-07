@@ -168,6 +168,7 @@ export default function CustomOrderItemMeasurements(): JSX.Element {
                                                     <Button
                                                         variant="link"
                                                         className="h-auto p-0 uppercase"
+                                                        disabled
                                                     >
                                                         Size Chart
                                                     </Button>
