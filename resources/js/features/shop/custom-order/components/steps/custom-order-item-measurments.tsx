@@ -205,14 +205,15 @@ export default function CustomOrderItemMeasurements(): JSX.Element {
                         name="fitting_preference"
                     >
                         <FormField.Label>Fitting Preference</FormField.Label>
-                        <FormTextarea />
+                        <FormTextarea variant="brand-primary" />
                         <FormField.Error />
                     </FormField>
 
                     <div>
                         <Button
                             type="button"
-                            variant="secondary"
+                            variant="brand-neutral"
+                            size="brand-md"
                             onClick={() => {
                                 if (isEditing) {
                                     setStep('step-4');
@@ -228,6 +229,8 @@ export default function CustomOrderItemMeasurements(): JSX.Element {
                         <FormButton
                             control={form.control}
                             disabled={isEditing && !isDirty}
+                            variant="brand-primary"
+                            size="brand-md"
                         >
                             {isEditing ? 'Save' : 'Review your item'}
                         </FormButton>

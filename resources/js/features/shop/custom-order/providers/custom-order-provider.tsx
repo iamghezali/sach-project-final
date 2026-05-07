@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { minimumDueDateString } from '@/features/shop/custom-order/schema';
 import type { CustomOrder, CustomOrderItem } from '@/features/shop/custom-order/schema';
@@ -122,6 +122,10 @@ export const CustomOrderProvider = ({ children }: CustomOrderProviderProps) => {
             items: prev.items?.filter((_, i) => i !== index) || [],
         }));
     };
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [step]);
 
     return (
         <CustomOrderContext.Provider

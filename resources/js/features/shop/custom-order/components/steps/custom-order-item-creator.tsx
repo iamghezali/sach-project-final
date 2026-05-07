@@ -9,49 +9,49 @@ export default function CustomOrderItemCreator(): JSX.Element {
     const { step } = useCustomOrder();
 
     return (
-        <>
-            <div>Item Creator</div>
-            <Tabs value={step}>
-                <TabsContent value="step-2">
-                    <h1 className="text-2xl">Item Information</h1>
-                </TabsContent>
-                <TabsContent value="step-3">
-                    <h1 className="text-2xl">Item Measurements</h1>
-                </TabsContent>
-                <TabsContent value="step-4">
-                    <h1 className="text-2xl">Item Review</h1>
-                </TabsContent>
+        <Tabs
+            value={step}
+            className="gap-3"
+        >
+            <TabsContent value="step-2">
+                <h1 className="text-[2.875rem] font-bold">Create a New Item</h1>
+            </TabsContent>
+            <TabsContent value="step-3">
+                <h1 className="text-[2.875rem] font-bold">Provide Measurement</h1>
+            </TabsContent>
+            <TabsContent value="step-4">
+                <h1 className="text-[2.875rem] font-bold">Review Your Item</h1>
+            </TabsContent>
 
-                <TabsList className="gap-2 bg-transparent group-data-horizontal/tabs:h-auto group-data-horizontal/tabs:p-0">
-                    <TabsTrigger
-                        value="step-2"
-                        disabled={step !== 'step-2'}
-                        className="h-2 w-40 bg-muted data-active:bg-primary group-data-[variant=default]/tabs-list:data-active:shadow-none"
-                    />
-                    <TabsTrigger
-                        value="step-3"
-                        disabled={step !== 'step-3'}
-                        className="h-2 w-40 bg-muted data-active:bg-primary group-data-[variant=default]/tabs-list:data-active:shadow-none"
-                    />
-                    <TabsTrigger
-                        value="step-4"
-                        disabled={step !== 'step-4'}
-                        className="h-2 w-40 bg-muted data-active:bg-primary group-data-[variant=default]/tabs-list:data-active:shadow-none"
-                    />
-                </TabsList>
+            <TabsList className="gap-4.5 bg-transparent group-data-horizontal/tabs:h-auto group-data-horizontal/tabs:p-0">
+                <TabsTrigger
+                    value="step-2"
+                    disabled={step !== 'step-2'}
+                    className="h-1.5 w-66.25 bg-brand-neutral-alt-400 data-active:bg-brand-primary-300 group-data-[variant=default]/tabs-list:data-active:shadow-none"
+                />
+                <TabsTrigger
+                    value="step-3"
+                    disabled={step !== 'step-3'}
+                    className="h-1.5 w-66.25 bg-brand-neutral-alt-400 data-active:bg-brand-primary-300 group-data-[variant=default]/tabs-list:data-active:shadow-none"
+                />
+                <TabsTrigger
+                    value="step-4"
+                    disabled={step !== 'step-4'}
+                    className="h-1.5 w-66.25 bg-brand-neutral-alt-400 data-active:bg-brand-primary-300 group-data-[variant=default]/tabs-list:data-active:shadow-none"
+                />
+            </TabsList>
 
-                <TabsContent value="step-2">
-                    <CustomOrderItemInformation />
-                </TabsContent>
+            <TabsContent value="step-2">
+                <CustomOrderItemInformation />
+            </TabsContent>
 
-                <TabsContent value="step-3">
-                    <CustomOrderItemMeasurments />
-                </TabsContent>
+            <TabsContent value="step-3">
+                <CustomOrderItemMeasurments />
+            </TabsContent>
 
-                <TabsContent value="step-4">
-                    <CustomOrderItemReview />
-                </TabsContent>
-            </Tabs>
-        </>
+            <TabsContent value="step-4">
+                <CustomOrderItemReview />
+            </TabsContent>
+        </Tabs>
     );
 }

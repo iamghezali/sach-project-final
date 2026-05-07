@@ -117,7 +117,8 @@ export default function CustomOrderItemReview(): JSX.Element {
             <div>
                 <Button
                     type="button"
-                    variant="secondary"
+                    variant="brand-neutral"
+                    size="brand-md"
                     onClick={() => {
                         if (isEditing) {
                             setStep('step-1');
@@ -130,7 +131,13 @@ export default function CustomOrderItemReview(): JSX.Element {
                 >
                     {isEditing ? 'Cancel' : 'Back'}
                 </Button>
-                <Button onClick={HandleClick}>{isEditing ? 'Save Item' : 'Create Item'}</Button>
+                <Button
+                    variant="brand-primary"
+                    size="brand-md"
+                    onClick={HandleClick}
+                >
+                    {isEditing ? 'Save Item' : 'Create Item'}
+                </Button>
             </div>
         </>
     );

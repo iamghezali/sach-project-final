@@ -7,7 +7,11 @@ export default function CustomOrder(): JSX.Element {
     return (
         <ShopLayout>
             <CustomOrderProvider>
-                <CustomOrderCreator />
+                <section>
+                    <div className="mt-8">
+                        <CustomOrderCreator />
+                    </div>
+                </section>
             </CustomOrderProvider>
         </ShopLayout>
     );

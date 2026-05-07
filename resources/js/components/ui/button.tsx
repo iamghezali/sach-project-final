@@ -24,7 +24,9 @@ const buttonVariants = cva(
                 'brand-secondary': 'bg-brand-secondary-300 text-white hover:bg-brand-neutral-1000/95',
                 'brand-outline':
                     'border border-brand-neutral-1000 text-brand-neutral-1000 hover:bg-brand-neutral-1000/95 hover:text-white',
-                'brand-neutral': 'bg-brand-neutral-1000 text-white hover:bg-brand-neutral-1000/95',
+                'brand-neutral': 'bg-brand-neutral-900 text-white hover:bg-brand-neutral-1000/95',
+                'brand-accent':
+                    'gap-4 rounded-2xl border border-brand-primary-200 bg-brand-primary-100/60 hover:bg-brand-primary-100/40',
             },
             size: {
                 default: 'h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2',
@@ -39,6 +41,7 @@ const buttonVariants = cva(
 
                 'brand-md': 'h-10.75 gap-2 px-5 text-base font-semibold',
                 'brand-lg': 'h-12 gap-2 px-6 py-2',
+                'brand-vertical': 'h-47 w-full flex-col text-xl',
             },
         },
         defaultVariants: {

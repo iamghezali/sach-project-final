@@ -113,7 +113,7 @@ const fieldLabelVariants = cva(
                 default:
                     'has-data-checked:border-primary/30 has-data-checked:bg-primary/5 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5',
                 'brand-primary':
-                    'has-data-checked:border-brand-neutral-1000 has-data-checked:bg-transparent has-[>[data-slot=field]]:rounded-xl has-[>[data-slot=field]]:border-2 *:data-[slot=field]:px-4 *:data-[slot=field]:py-5',
+                    'text-xl leading-[1.4] font-normal has-data-checked:border-brand-neutral-1000 has-data-checked:bg-transparent has-[>[data-slot=field]]:rounded-xl has-[>[data-slot=field]]:border-2 *:data-[slot=field]:px-4 *:data-[slot=field]:py-5',
             },
         },
 

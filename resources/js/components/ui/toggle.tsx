@@ -11,11 +11,23 @@ const toggleVariants = cva(
             variant: {
                 default: 'bg-transparent',
                 outline: 'border border-input bg-transparent hover:bg-muted',
+
+                'brand-co-type': [
+                    'inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-brand-neutral-alt-500 text-black disabled:bg-brand-neutral-200 disabled:text-brand-neutral-500',
+                    'hover:border-brand-primary-100/50 hover:bg-brand-primary-100/70 data-[state=on]:border-brand-primary-100 data-[state=on]:bg-brand-primary-100',
+                ],
+
+                'brand-co-gender': [
+                    'inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-lg border border-brand-neutral-alt-500 text-black disabled:text-brand-neutral-alt-500',
+                    'hover:border-[#D89DBA]/70 hover:bg-[#D89DBA]/50 data-[state=on]:border-[#D89DBA] data-[state=on]:bg-[#D89DBA]',
+                ],
             },
             size: {
                 default: 'h-8 min-w-8 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2',
                 sm: "h-7 min-w-7 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
                 lg: 'h-9 min-w-9 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2',
+
+                'brand-co-item': 'h-12 font-normal',
             },
         },
         defaultVariants: {
