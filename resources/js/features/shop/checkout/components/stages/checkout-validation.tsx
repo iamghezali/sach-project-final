@@ -1,15 +1,27 @@
 import { ArrowRightIcon } from 'lucide-react';
+import { useEffect } from 'react';
 import type { JSX } from 'react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Field, FieldContent, FieldLabel } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
+import { useCart } from '@/features/shop/cart/hooks/use-cart';
 import { useCheckoutFlow } from '@/features/shop/checkout/components/checkout-flow/checkout-context';
 import { getWillayaLabel } from '@/features/shop/checkout/options/willayas';
 
 export default function CheckoutValidation(): JSX.Element {
-    const { checkoutData, useSameAddress } = useCheckoutFlow();
+    const { checkoutData, useSameAddress, prepareItemsFromCart } = useCheckoutFlow();
+    const { cart, isReady } = useCart();
+
+    /**
+     * Sync Cart Items
+     */
+    useEffect(() => {
+        if (isReady && cart.length > 0) {
+            prepareItemsFromCart(cart);
+        }
+    }, [cart, isReady, prepareItemsFromCart]);
 
     return (
         <div className="flex flex-col gap-8">

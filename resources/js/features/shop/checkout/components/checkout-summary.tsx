@@ -1,10 +1,8 @@
-import { Link } from '@inertiajs/react';
 import type { JSX } from 'react';
-import { Button } from '@/components/ui/button';
 import { getAttributeValue, useCart } from '@/features/shop/cart/hooks/use-cart';
 import { formatPrice } from '@/lib/format-price';
 
-export default function CartSummary(): JSX.Element {
+export default function CheckoutSummary(): JSX.Element {
     const { cart, subtotal, isReady } = useCart();
     const delivery_cost = 800;
 
@@ -49,9 +47,7 @@ export default function CartSummary(): JSX.Element {
                 </li>
                 <li className="flex items-center justify-between">
                     <span>Delivery</span>
-                    <span className="text-brand-neutral-1000/80">
-                        {cart.length === 0 ? '-' : `${formatPrice(delivery_cost)} DZD`}
-                    </span>
+                    <span className="text-brand-neutral-1000/80">{formatPrice(delivery_cost)} DZD</span>
                 </li>
                 <li className="flex items-center justify-between">
                     <span>Sales Tax</span>
@@ -59,20 +55,9 @@ export default function CartSummary(): JSX.Element {
                 </li>
                 <li className="flex items-center justify-between text-xl font-semibold">
                     <span>Total</span>
-                    <span className="text-brand-neutral-1000/80">
-                        {cart.length === 0 ? '-' : `${formatPrice(subtotal + delivery_cost)} DZD`}
-                    </span>
+                    <span className="text-brand-neutral-1000/80">{formatPrice(subtotal + delivery_cost)} DZD</span>
                 </li>
             </ul>
-
-            <Button
-                className="mt-6 w-full uppercase"
-                asChild
-                variant="brand-neutral"
-                size="brand-lg"
-            >
-                <Link href="/shop/checkout">Checkout</Link>
-            </Button>
         </div>
     );
 }

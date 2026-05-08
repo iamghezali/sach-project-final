@@ -31,7 +31,6 @@ export default function CheckoutAddress(): JSX.Element {
     const onSubmit: SubmitHandler<Addresses> = (values) => {
         appendCheckoutData(values);
         confirmStage('step-2', 'step-3');
-        console.log(values);
     };
 
     const shipping_address = useWatch({

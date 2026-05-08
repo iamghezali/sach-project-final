@@ -8,6 +8,7 @@ import { FormButton } from '@/components/form/form-button';
 import { FormCardRadioGroup } from '@/components/form/form-card-radio-group';
 import { FormField } from '@/components/form/form-field';
 import { FieldGroup, FieldSet } from '@/components/ui/field';
+import { useCart } from '@/features/shop/cart/hooks/use-cart';
 import { useCheckoutFlow } from '@/features/shop/checkout/components/checkout-flow/checkout-context';
 import PaymentOptionItem from '@/features/shop/checkout/options/payment-option-item';
 import { PaymentOptionSchema } from '@/features/shop/checkout/schema';
@@ -15,6 +16,7 @@ import type { PaymentOption } from '@/features/shop/checkout/schema';
 
 export default function CheckoutPayment(): JSX.Element {
     const { confirmStage, checkoutData, appendCheckoutData } = useCheckoutFlow();
+    const { subtotal } = useCart();
 
     const form = useForm<PaymentOption>({
         resolver: zodResolver(PaymentOptionSchema),
@@ -52,7 +54,7 @@ export default function CheckoutPayment(): JSX.Element {
                                         {({ Item }) => (
                                             <>
                                                 <Item value="cod">
-                                                    <PaymentOptionItem price={12000} />
+                                                    <PaymentOptionItem price={subtotal + 800} />
                                                 </Item>
                                             </>
                                         )}

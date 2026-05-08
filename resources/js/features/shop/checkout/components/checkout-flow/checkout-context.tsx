@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useReducer, useRef, useState } from 'react';
 import type { Dispatch, JSX, ReactNode, RefObject, SetStateAction } from 'react';
 
+import type { CartItem } from '@/features/shop/cart/hooks/use-cart';
 import { reducer } from '@/features/shop/checkout/components/checkout-flow/checkout-reducer';
 import type { Action, Stage, State } from '@/features/shop/checkout/components/checkout-flow/checkout-reducer';
 import type { StageID } from '@/features/shop/checkout/components/stages/checkout-stages-config';
@@ -21,6 +22,7 @@ type CheckoutFlowContextType = {
 
     checkoutData: Partial<CheckoutData>;
     appendCheckoutData: (data: Partial<CheckoutData>) => void;
+    prepareItemsFromCart: (cart: CartItem[]) => void;
     clearCheckoutData: () => void;
 };
 
@@ -120,6 +122,23 @@ export const CheckoutFlowProvider = ({ stages, isLoggedIn, stageComponents, chil
         setCheckoutData((prev) => ({ ...prev, ...data }));
     }, []);
 
+    const prepareItemsFromCart = useCallback(
+        (cart: CartItem[]) => {
+            const items: CheckoutData['items'] = cart
+                .filter(
+                    (item): item is typeof item & { variant: NonNullable<typeof item.variant> } =>
+                        item.variant !== undefined && item.variant !== null,
+                )
+                .map((item) => ({
+                    product_variant_id: item.variant.id,
+                    quantity: item.quantity,
+                }));
+
+            appendCheckoutData({ items });
+        },
+        [appendCheckoutData],
+    );
+
     const clearCheckoutData = () => {
         setCheckoutData(DEFAULT_CHECKOUT_DATA);
     };
@@ -151,6 +170,7 @@ export const CheckoutFlowProvider = ({ stages, isLoggedIn, stageComponents, chil
 
                 checkoutData,
                 appendCheckoutData,
+                prepareItemsFromCart,
                 clearCheckoutData,
             }}
         >
