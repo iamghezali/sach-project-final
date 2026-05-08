@@ -30,6 +30,11 @@ const toggleVariants = cva(
                     'items-center justify-center rounded-lg border border-brand-neutral-alt-500',
                     'hover:border-brand-primary-100/50 hover:bg-brand-primary-100/70 data-[state=on]:border-brand-primary-100 data-[state=on]:bg-brand-primary-100',
                 ],
+
+                'brand-colors-filter': [
+                    'rounded-lg bg-transparent ring-3 ring-transparent hover:bg-transparent hover:ring-brand-neutral-300/30',
+                    'data-[state=on]:bg-transparent data-[state=on]:ring-brand-neutral-1000',
+                ],
             },
             size: {
                 default: 'h-8 min-w-8 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2',

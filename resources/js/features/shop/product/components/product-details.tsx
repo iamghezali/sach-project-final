@@ -90,40 +90,94 @@ export default function ProductDetails(): JSX.Element {
             >
                 <FieldSet>
                     <FieldGroup>
-                        {sortedAttributes.map((attribute) => (
-                            <FormField
-                                key={attribute.id}
-                                name={`attributes.${attribute.name}`}
-                                control={form.control}
-                            >
-                                {({ field }) => (
-                                    <>
-                                        <FormField.Label>{attribute.name}</FormField.Label>
+                        {sortedAttributes.map((attribute) => {
+                            if (attribute.name === 'Color') {
+                                return (
+                                    <FormField
+                                        key={attribute.id}
+                                        name={`attributes.${attribute.name}`}
+                                        control={form.control}
+                                    >
+                                        {({ field }) => (
+                                            <>
+                                                <FormField.Label>{attribute.name}</FormField.Label>
 
-                                        <FormToggleGroup
-                                            type="single"
-                                            variant="outline"
-                                            spacing={2}
-                                            field={field}
-                                        >
-                                            {({ Item }) => (
-                                                <>
-                                                    {attribute.values.map((value) => (
-                                                        <Item
-                                                            key={value.id}
-                                                            value={value.id}
-                                                        >
-                                                            {value.value}
-                                                        </Item>
-                                                    ))}
-                                                </>
-                                            )}
-                                        </FormToggleGroup>
-                                        <FormField.Error />
-                                    </>
-                                )}
-                            </FormField>
-                        ))}
+                                                <FormToggleGroup
+                                                    type="single"
+                                                    variant="brand-colors-filter"
+                                                    spacing={2}
+                                                    field={field}
+                                                >
+                                                    {({ Item }) => (
+                                                        <>
+                                                            {attribute.values.map((value) => (
+                                                                <Item
+                                                                    key={value.id}
+                                                                    value={value.id}
+                                                                >
+                                                                    {value.value}
+                                                                </Item>
+                                                            ))}
+                                                        </>
+                                                    )}
+                                                </FormToggleGroup>
+                                                <FormField.Error />
+                                            </>
+                                        )}
+                                    </FormField>
+                                );
+                            }
+
+                            if (attribute.name === 'Size') {
+                                return (
+                                    <FormField
+                                        key={attribute.id}
+                                        name={`attributes.${attribute.name}`}
+                                        control={form.control}
+                                    >
+                                        {({ field }) => (
+                                            <>
+                                                <div className="flex items-center justify-between">
+                                                    <FormField.Label className="text-base leading-none uppercase">
+                                                        {attribute.name}
+                                                    </FormField.Label>
+
+                                                    <Button
+                                                        variant="link"
+                                                        className="h-auto p-0 uppercase"
+                                                        disabled
+                                                    >
+                                                        Size Chart
+                                                    </Button>
+                                                </div>
+
+                                                <FormToggleGroup
+                                                    type="single"
+                                                    variant="brand-co-sizes"
+                                                    size="brand-co-size-item"
+                                                    spacing={1}
+                                                    field={field}
+                                                >
+                                                    {({ Item }) => (
+                                                        <>
+                                                            {attribute.values.map((value) => (
+                                                                <Item
+                                                                    key={value.id}
+                                                                    value={value.id}
+                                                                >
+                                                                    {value.value}
+                                                                </Item>
+                                                            ))}
+                                                        </>
+                                                    )}
+                                                </FormToggleGroup>
+                                                <FormField.Error />
+                                            </>
+                                        )}
+                                    </FormField>
+                                );
+                            }
+                        })}
 
                         <FormField
                             control={form.control}
@@ -133,6 +187,7 @@ export default function ProductDetails(): JSX.Element {
                             <FormInput
                                 type="number"
                                 min={1}
+                                variant="brand-primary"
                             />
                             <FormField.Error />
                         </FormField>
@@ -148,6 +203,8 @@ export default function ProductDetails(): JSX.Element {
                 <FormButton
                     control={form.control}
                     disabled={!isComplete || !selectedVariant?.is_in_stock}
+                    variant="brand-neutral"
+                    size="brand-lg"
                 >
                     Add to cart
                 </FormButton>
@@ -158,6 +215,8 @@ export default function ProductDetails(): JSX.Element {
                         form.handleSubmit(handleAddToCart);
                         router.visit('/shop/checkout/');
                     }}
+                    variant="brand-secondary"
+                    size="brand-lg"
                 >
                     Buy it Now
                 </Button>
