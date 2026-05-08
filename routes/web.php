@@ -24,8 +24,8 @@ Route::prefix('shop')->name('shop.')
             'slug' => $slug,
         ]))->name('product.details');
 
+        Route::get('/cart', fn () => Inertia::render('shop/cart'))->name('cart');
         Route::get('/checkout', fn () => Inertia::render('shop/checkout'))->name('checkout');
-        Route::get('/custom-order', fn () => Inertia::render('shop/custom-order'))->name('custom-order');
 
         /**
          * Shop routes that requires Auth
@@ -33,6 +33,7 @@ Route::prefix('shop')->name('shop.')
         Route::middleware(['auth:sanctum', Role::accept(Role::CUSTOMER)])->group(function () {
 
             Route::get('/orders/my', fn () => Inertia::render('shop/orders/my'))->name('orders.my');
+            Route::get('/custom-order', fn () => Inertia::render('shop/custom-order'))->name('custom-order');
 
         });
 

@@ -8,6 +8,8 @@ import { FormInput } from '@/components/form/form-input';
 import { FormToggleGroup } from '@/components/form/form-toggle-group';
 import { Button } from '@/components/ui/button';
 import { FieldGroup, FieldSet } from '@/components/ui/field';
+import { useCart } from '@/features/shop/cart/hooks/use-cart';
+import type { CartItem } from '@/features/shop/cart/hooks/use-cart';
 import { useSelectVariant } from '@/features/shop/product/hooks/use-select-variant';
 import { useGetProduct } from '@/features/shop/product/queries';
 import type { Attribute, VariantSelection } from '@/features/shop/product/schema';
@@ -28,6 +30,7 @@ export default function ProductDetails(): JSX.Element {
     const { props } = usePage<{ slug: string }>();
     const { data: response, isLoading } = useGetProduct(props.slug);
     const { form, selectedVariant, isComplete } = useSelectVariant(response?.data);
+    const { addOrUpdateCartItem } = useCart();
 
     if (isLoading) {
         return <p>Loading product...</p>;
@@ -40,8 +43,14 @@ export default function ProductDetails(): JSX.Element {
     const product = response.data;
     const sortedAttributes = getSortedAttributes(product.attributes);
 
-    const handleAddToCart: SubmitHandler<VariantSelection> = () => {
-        console.log(selectedVariant);
+    const handleAddToCart: SubmitHandler<VariantSelection> = (values) => {
+        const selectedItem: CartItem = {
+            product: product,
+            variant: selectedVariant,
+            quantity: values.quantity,
+        };
+
+        addOrUpdateCartItem(selectedItem);
     };
 
     return (
