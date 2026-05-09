@@ -27,14 +27,14 @@ class ClothingOrderItemInformationData extends Data
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'item_is_for' => ['required', Rule::in(ItemFor::values())],        // [NEW]
-            'item_type' => ['required', Rule::in(ItemType::values())],         // [NEW]
+            'item_is_for' => ['required', Rule::in(ItemFor::values())],
+            'item_type' => ['required', Rule::in(ItemType::values())],
             'item_for_gender' => ['required', Rule::in(Gender::values())],
             'looking_for' => ['required', 'string', 'max:255'],
             'provide_fabric' => ['required', 'boolean'],
             'description' => ['required', 'string', 'max:2000'],
             'quantity' => ['required', 'integer', 'min:1'],
-            'preferred_due_date' => ['required', 'date', 'after:'.now()->addDays(5)->toDateString()],
+            'preferred_due_date' => ['required', 'date', 'after_or_equal:'.now()->addDays(5)->toDateString()],
         ];
     }
 }

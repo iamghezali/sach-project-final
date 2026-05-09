@@ -1,4 +1,5 @@
 import z from 'zod';
+import { apiResponseSchema } from '@/api/schema';
 
 const minimumDueDate = (): Date => {
     const date = new Date();
@@ -58,7 +59,7 @@ export type CreateOrderItemInformation = z.infer<typeof CreateOrderItemInformati
  */
 
 const BaseMeasurementsSchema = z.object({
-    fitting_preference: z.string(),
+    fitting_preference: z.string().nullable(),
 });
 
 const StandardSizeSchema = BaseMeasurementsSchema.extend({
@@ -127,3 +128,8 @@ export const MeasurementsFormSchema = z
     });
 
 export type MeasurementsForm = z.infer<typeof MeasurementsFormSchema>;
+
+/**
+ * Custom Order Response
+ */
+export const CustomOrderResponseSchema = apiResponseSchema(CustomOrderSchema);

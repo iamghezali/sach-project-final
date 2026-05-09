@@ -10,12 +10,14 @@ import { FormInput } from '@/components/form/form-input';
 import { Button } from '@/components/ui/button';
 import { FieldGroup, FieldSet } from '@/components/ui/field';
 import CustomOrderItemsList from '@/features/shop/custom-order/components/steps/custom-order-items-list';
+import { usePlaceClothingOrder } from '@/features/shop/custom-order/mutations';
 import { useCustomOrder } from '@/features/shop/custom-order/providers/custom-order-provider';
 import type { CreateCustomOrderFolder } from '@/features/shop/custom-order/schema';
 import { CreateCustomOrderFolderSchema, CustomOrderSchema } from '@/features/shop/custom-order/schema';
 
 export default function CustomOrderFolder(): JSX.Element {
     const { setStep, customOrder, saveOrderTitle } = useCustomOrder();
+    const { mutateAsync: placeClothingOrder } = usePlaceClothingOrder();
 
     const form = useForm<CreateCustomOrderFolder>({
         defaultValues: {
@@ -39,7 +41,10 @@ export default function CustomOrderFolder(): JSX.Element {
             return;
         }
 
-        console.log(currentPayload);
+        placeClothingOrder(currentPayload, {
+            onSuccess: (response) => console.log('success', response),
+            onError: (errors) => console.log('errors', errors),
+        });
     };
 
     return (
