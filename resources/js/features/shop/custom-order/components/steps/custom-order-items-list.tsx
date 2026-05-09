@@ -68,6 +68,7 @@ export default function CustomOrderItemsList({ items }: CustomOrderItemsListProp
 
                         <div className="flex flex-col gap-2">
                             <Button
+                                type="button"
                                 onClick={() => editOrderItem(i)}
                                 className="w-35 font-medium"
                                 variant="brand-primary"
@@ -77,6 +78,7 @@ export default function CustomOrderItemsList({ items }: CustomOrderItemsListProp
                                 <SquarePenIcon />
                             </Button>
                             <Button
+                                type="button"
                                 onClick={() => removeOrderItem(i)}
                                 className="w-35 font-medium"
                                 variant="destructive"
