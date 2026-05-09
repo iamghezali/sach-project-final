@@ -33,6 +33,10 @@ Route::prefix('shop')->name('shop.')
         Route::middleware(['auth:sanctum', Role::accept(Role::CUSTOMER)])->group(function () {
 
             Route::get('/orders/my', fn () => Inertia::render('shop/orders/my'))->name('orders.my');
+            Route::get('/orders/my/{id}/order', fn ($id) => Inertia::render('shop/orders/details', [
+                'id' => $id,
+            ]))->name('orders.my.order');
+
             Route::get('/custom-order', fn () => Inertia::render('shop/custom-order'))->name('custom-order');
 
         });
