@@ -80,4 +80,9 @@ Route::prefix('dashboard')->name('dashboard.')
 
         Route::get('/store/attributes', fn () => Inertia::render('dashboard/store/attributes/listing'))->name('store.attributes');
 
+        /**
+         * Orders
+         */
+        Route::get('/orders', fn () => Inertia::render('dashboard/orders/ready-to-wear/listing'))->name('orders');
+        Route::get('/custom-orders', fn () => Inertia::render('dashboard/orders/custom-orders/listing'))->name('custom-orders');
     });

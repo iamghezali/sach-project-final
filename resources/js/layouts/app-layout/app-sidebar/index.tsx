@@ -1,4 +1,4 @@
-import { LayoutDashboardIcon, StoreIcon, UsersRoundIcon } from 'lucide-react';
+import { LayoutDashboardIcon, ShoppingBasketIcon, StoreIcon, UsersRoundIcon } from 'lucide-react';
 import React from 'react';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
 import { NavMain } from '@/layouts/app-layout/app-sidebar/nav-main';
@@ -14,6 +14,21 @@ const menuData = {
                 {
                     title: 'Dashboard',
                     url: '/dashboard/',
+                },
+            ],
+        },
+        {
+            title: 'Orders',
+            icon: ShoppingBasketIcon,
+            isActive: true,
+            items: [
+                {
+                    title: 'Custom Orders',
+                    url: '/dashboard/custom-orders',
+                },
+                {
+                    title: 'Ready to Wear',
+                    url: '/dashboard/orders',
                 },
             ],
         },
