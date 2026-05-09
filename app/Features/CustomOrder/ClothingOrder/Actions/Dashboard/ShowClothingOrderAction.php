@@ -9,7 +9,7 @@ class ShowClothingOrderAction
     public function execute(int $orderId): ClothingOrder
     {
         return ClothingOrder::query()
-            ->with(['items'])
+            ->with(['items', 'user', 'items.tailor'])
             ->findOrFail($orderId);
     }
 }

@@ -13,6 +13,7 @@ use App\Features\CustomOrder\ClothingOrder\Data\Dashboard\Request\AssignOrderIte
 use App\Features\CustomOrder\ClothingOrder\Data\Dashboard\Request\AttachOfferRequestData;
 use App\Features\CustomOrder\ClothingOrder\Data\Dashboard\Request\ChangeClothingOrderItemStatusRequestData;
 use App\Features\CustomOrder\ClothingOrder\Data\Dashboard\Request\ChangeClothingOrderStatusRequestData;
+use App\Features\CustomOrder\ClothingOrder\Data\Dashboard\Response\ClothingOrderData;
 use App\Http\Controllers\Controller;
 
 class ClothingOrderController extends Controller
@@ -38,7 +39,9 @@ class ClothingOrderController extends Controller
     {
         $order = $this->showClothingOrderAction->execute($orderID);
 
-        return response()->json($order);
+        return response()->json([
+            'data' => ClothingOrderData::from($order)->include('items'),
+        ]);
     }
 
     public function showOrderItem(int $orderID, int $itemID)
