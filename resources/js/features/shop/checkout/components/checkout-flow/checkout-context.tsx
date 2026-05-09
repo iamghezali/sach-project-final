@@ -20,7 +20,7 @@ type CheckoutFlowContextType = {
     useSameAddress: boolean | 'indeterminate';
     setUseSameAddress: Dispatch<SetStateAction<boolean | 'indeterminate'>>;
 
-    checkoutData: Partial<CheckoutData>;
+    checkoutData: CheckoutData;
     appendCheckoutData: (data: Partial<CheckoutData>) => void;
     prepareItemsFromCart: (cart: CartItem[]) => void;
     clearCheckoutData: () => void;
@@ -45,7 +45,7 @@ type CheckoutFlowProviderProps = {
     isLoggedIn: boolean;
 };
 
-const DEFAULT_CHECKOUT_DATA: Partial<CheckoutData> = {
+const DEFAULT_CHECKOUT_DATA: CheckoutData = {
     shipping_address: {
         full_name: '',
         phone: '',
@@ -73,7 +73,7 @@ const DEFAULT_CHECKOUT_DATA: Partial<CheckoutData> = {
 export const CheckoutFlowProvider = ({ stages, isLoggedIn, stageComponents, children }: CheckoutFlowProviderProps) => {
     const stagesRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [useSameAddress, setUseSameAddress] = useState<boolean | 'indeterminate'>(true);
-    const [checkoutData, setCheckoutData] = useState<Partial<CheckoutData>>(DEFAULT_CHECKOUT_DATA);
+    const [checkoutData, setCheckoutData] = useState<CheckoutData>(DEFAULT_CHECKOUT_DATA);
 
     const [state, dispatch] = useReducer(reducer, {
         stages: stages.map((s) => {

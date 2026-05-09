@@ -1,5 +1,22 @@
+import { useState } from 'react';
 import type { JSX } from 'react';
+import OrderSuccessMessage from '@/features/shop/orders/components/order-success-message';
+import { useSuccessMessage } from '@/hooks/use-success-message';
+import ShopLayout from '@/layouts/shop-layout';
 
 export default function My(): JSX.Element {
-    return <>My Orders</>;
+    const { getSuccessMessage } = useSuccessMessage();
+    const [show] = useState(() => getSuccessMessage());
+
+    return (
+        <ShopLayout>
+            {show ? (
+                <OrderSuccessMessage />
+            ) : (
+                <>
+                    <div>My ORDERS</div>
+                </>
+            )}
+        </ShopLayout>
+    );
 }

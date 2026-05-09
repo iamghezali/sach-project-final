@@ -1,7 +1,8 @@
 import { z } from 'zod';
+import { apiResponseSchema } from '@/api/schema';
 
 /**
- * Order Request
+ * Checkout Data
  */
 
 const AddressSchema = z.object({
@@ -68,3 +69,53 @@ export const PaymentOptionSchema = CheckoutDataSchema.pick({
 });
 
 export type PaymentOption = z.infer<typeof PaymentOptionSchema>;
+
+/**
+ * Place Order Request
+ */
+export type OrderRequest = z.infer<typeof CheckoutDataSchema>;
+
+/**
+ * Order Response
+ */
+export const AddressResponseSchema = z.object({
+    id: z.number(),
+    fullName: z.string(),
+    phone: z.string(),
+    addressLine1: z.string(),
+    addressLine2: z.string().nullable(),
+    willaya: z.string(),
+    postalCode: z.string(),
+    country: z.string(),
+});
+
+export const ProductVariantResponseSchema = z.object({
+    id: z.number(),
+    sku: z.string(),
+    price: z.string(),
+});
+
+export const OrderItemResponseSchema = z.object({
+    id: z.number(),
+    productName: z.string(),
+    variantName: z.string(),
+    sku: z.string(),
+    quantity: z.number(),
+    unitPrice: z.string(),
+    subtotal: z.string(),
+    productVariant: ProductVariantResponseSchema,
+});
+
+export const OrderResponseSchema = apiResponseSchema(
+    z.object({
+        id: z.number(),
+        total: z.string(),
+        notes: z.string().nullable(),
+        createdAt: z.string(),
+        shippingAddress: AddressResponseSchema,
+        billingAddress: AddressResponseSchema,
+        items: z.array(OrderItemResponseSchema),
+    }),
+);
+
+export type OrderResponse = z.infer<typeof OrderResponseSchema>;

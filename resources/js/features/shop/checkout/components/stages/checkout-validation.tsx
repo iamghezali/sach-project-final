@@ -1,18 +1,25 @@
+import { router } from '@inertiajs/react';
 import { ArrowRightIcon } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import type { JSX } from 'react';
+import type { ApiError } from '@/api/errors';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Field, FieldContent, FieldLabel } from '@/components/ui/field';
+import { Field, FieldContent, FieldError, FieldLabel } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { useCart } from '@/features/shop/cart/hooks/use-cart';
 import { useCheckoutFlow } from '@/features/shop/checkout/components/checkout-flow/checkout-context';
+import { usePlaceOrder } from '@/features/shop/checkout/mutations';
 import { getWillayaLabel } from '@/features/shop/checkout/options/willayas';
+import { useSuccessMessage } from '@/hooks/use-success-message';
 
 export default function CheckoutValidation(): JSX.Element {
-    const { checkoutData, useSameAddress, prepareItemsFromCart } = useCheckoutFlow();
-    const { cart, isReady } = useCart();
+    const { checkoutData, useSameAddress, clearCheckoutData, prepareItemsFromCart } = useCheckoutFlow();
+    const { cart, clearCart, isReady } = useCart();
+    const { mutateAsync: placeOrder } = usePlaceOrder();
+    const [errors, setErrors] = useState<ApiError>();
+    const { setSuccessMessage } = useSuccessMessage();
 
     /**
      * Sync Cart Items
@@ -22,6 +29,22 @@ export default function CheckoutValidation(): JSX.Element {
             prepareItemsFromCart(cart);
         }
     }, [cart, isReady, prepareItemsFromCart]);
+
+    const handleValidation = () => {
+        placeOrder(checkoutData, {
+            onSuccess: () => {
+                setSuccessMessage();
+                router.visit('/shop/orders/my?success', {
+                    onFinish: () => {
+                        clearCart();
+                        clearCheckoutData();
+                    },
+                });
+            },
+
+            onError: (errors) => setErrors(errors),
+        });
+    };
 
     return (
         <div className="flex flex-col gap-8">
@@ -153,10 +176,10 @@ export default function CheckoutValidation(): JSX.Element {
                     </FieldContent>
                 </Field>
 
+                {errors && <FieldError>{errors.message}</FieldError>}
+
                 <Button
-                    onClick={() => {
-                        console.log('checkout-data', checkoutData);
-                    }}
+                    onClick={handleValidation}
                     className="w-full justify-between px-4 uppercase"
                     size="brand-lg"
                     variant="brand-neutral"
