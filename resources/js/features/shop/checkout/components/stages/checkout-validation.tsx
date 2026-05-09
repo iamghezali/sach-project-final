@@ -13,13 +13,15 @@ import { useCheckoutFlow } from '@/features/shop/checkout/components/checkout-fl
 import { usePlaceOrder } from '@/features/shop/checkout/mutations';
 import { getWillayaLabel } from '@/features/shop/checkout/options/willayas';
 import { useSuccessMessage } from '@/hooks/use-success-message';
+import { formatPrice } from '@/lib/format-price';
 
 export default function CheckoutValidation(): JSX.Element {
     const { checkoutData, useSameAddress, clearCheckoutData, prepareItemsFromCart } = useCheckoutFlow();
-    const { cart, clearCart, isReady } = useCart();
+    const { cart, clearCart, subtotal, isReady } = useCart();
     const { mutateAsync: placeOrder } = usePlaceOrder();
     const [errors, setErrors] = useState<ApiError>();
     const { setSuccessMessage } = useSuccessMessage();
+    const delivery_cost = 800;
 
     /**
      * Sync Cart Items
@@ -117,7 +119,7 @@ export default function CheckoutValidation(): JSX.Element {
                                 <div className="flex justify-between">
                                     <span>Yalidine</span>
                                     <span>Fast Delivery 24 - 48h</span>
-                                    <span>800.00 DZD</span>
+                                    <span>{formatPrice(delivery_cost)} DZD</span>
                                 </div>
                             </FieldContent>
                         </Field>
@@ -154,7 +156,7 @@ export default function CheckoutValidation(): JSX.Element {
                             <FieldContent>
                                 <div className="flex justify-between">
                                     <span>Cash On Delivery</span>
-                                    <span>12,000.00 DZD</span>
+                                    <span>{formatPrice(subtotal + delivery_cost)} DZD</span>
                                 </div>
                             </FieldContent>
                         </Field>
