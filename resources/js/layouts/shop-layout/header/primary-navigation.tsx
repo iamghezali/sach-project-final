@@ -27,8 +27,8 @@ export default function PrimaryNavigation(): JSX.Element {
 
                     <NavigationMenuItem>
                         <NavigationMenuLink
-                            asChild
                             className={navigationMenuTriggerStyle()}
+                            asChild
                         >
                             <Link href="/shop?category=living-rooms">Living Rooms</Link>
                         </NavigationMenuLink>
@@ -42,7 +42,7 @@ export default function PrimaryNavigation(): JSX.Element {
                                 <NavigationMenuLink asChild>
                                     <Link href="/shop?category=hidjab">Hidjab Collections</Link>
                                 </NavigationMenuLink>
-                                <NavigationMenuLink>
+                                <NavigationMenuLink asChild>
                                     <Link href="/shop?category=abbaya">Abbaya Collections</Link>
                                 </NavigationMenuLink>
                             </div>
