@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { router } from '@inertiajs/react';
 import { ArrowRightIcon, PlusIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
@@ -7,17 +8,18 @@ import Form from '@/components/form/form';
 import { FormButton } from '@/components/form/form-button';
 import { FormField } from '@/components/form/form-field';
 import { FormInput } from '@/components/form/form-input';
-import { Button } from '@/components/ui/button';
-import { FieldGroup, FieldSet } from '@/components/ui/field';
+import { FieldError, FieldGroup, FieldSet } from '@/components/ui/field';
 import CustomOrderItemsList from '@/features/shop/custom-order/components/steps/custom-order-items-list';
 import { usePlaceClothingOrder } from '@/features/shop/custom-order/mutations';
 import { useCustomOrder } from '@/features/shop/custom-order/providers/custom-order-provider';
 import type { CreateCustomOrderFolder } from '@/features/shop/custom-order/schema';
 import { CreateCustomOrderFolderSchema, CustomOrderSchema } from '@/features/shop/custom-order/schema';
+import { useSuccessMessage } from '@/hooks/use-success-message';
 
 export default function CustomOrderFolder(): JSX.Element {
     const { setStep, customOrder, saveOrderTitle } = useCustomOrder();
     const { mutateAsync: placeClothingOrder } = usePlaceClothingOrder();
+    const { setSuccessMessage } = useSuccessMessage();
 
     const form = useForm<CreateCustomOrderFolder>({
         defaultValues: {
@@ -36,14 +38,20 @@ export default function CustomOrderFolder(): JSX.Element {
     const currentPayload = { ...customOrder, title };
     const isOrderValid = CustomOrderSchema.safeParse(currentPayload).success;
 
-    const handleConfirmOrder: SubmitHandler<CreateCustomOrderFolder> = () => {
+    const handleConfirmOrder: SubmitHandler<CreateCustomOrderFolder> = async () => {
         if (!isOrderValid) {
             return;
         }
 
-        placeClothingOrder(currentPayload, {
-            onSuccess: (response) => console.log('success', response),
-            onError: (errors) => console.log('errors', errors),
+        await placeClothingOrder(currentPayload, {
+            onSuccess: () => {
+                setSuccessMessage();
+                router.visit('/shop/orders/my?success', { replace: true });
+            },
+
+            onError: (error) => {
+                form.setError('root', { message: error.message });
+            },
         });
     };
 
@@ -72,6 +80,7 @@ export default function CustomOrderFolder(): JSX.Element {
                             control={form.control}
                             variant="brand-accent"
                             size="brand-vertical"
+                            showSpinner={false}
                         >
                             <PlusIcon className="size-13.5 rounded-full bg-brand-primary-100 p-4 text-brand-primary-300" />
                             Add new item
@@ -80,8 +89,11 @@ export default function CustomOrderFolder(): JSX.Element {
                 </FieldSet>
             </Form>
 
+            {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
+
             <div className="flex justify-end">
-                <Button
+                <FormButton
+                    control={form.control}
                     disabled={!isOrderValid}
                     onClick={form.handleSubmit(handleConfirmOrder)}
                     variant="brand-primary"
@@ -90,7 +102,7 @@ export default function CustomOrderFolder(): JSX.Element {
                 >
                     Confirm Order
                     <ArrowRightIcon strokeWidth={3} />
-                </Button>
+                </FormButton>
             </div>
         </div>
     );

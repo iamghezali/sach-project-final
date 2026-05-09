@@ -7,11 +7,13 @@ import { Button } from '@/components/ui/button';
 type SubmitButtonProps<T extends FieldValues> = Omit<ComponentProps<typeof Button>, 'type'> & {
     control: Control<T>;
     isLoading?: boolean;
+    showSpinner?: boolean;
 };
 
 export function FormButton<T extends FieldValues>({
     control,
     isLoading,
+    showSpinner = true,
     children,
     disabled,
     ...props
@@ -26,7 +28,7 @@ export function FormButton<T extends FieldValues>({
             disabled={isDisabled}
             {...props}
         >
-            {(isLoading || isSubmitting) && <LoaderCircleIcon className="animate-spin" />}
+            {(isLoading || isSubmitting) && showSpinner && <LoaderCircleIcon className="animate-spin" />}
             {children}
         </Button>
     );
