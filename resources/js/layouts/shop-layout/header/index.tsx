@@ -1,13 +1,12 @@
 import { Link } from '@inertiajs/react';
-import { ArrowRightIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import logo_horizontal from '@/assets/logo-horizontal.svg';
-import { Button } from '@/components/ui/button';
 import PrimaryNavigation from '@/layouts/shop-layout/header/primary-navigation';
+import SecondaryNavigation from '@/layouts/shop-layout/header/secondary-navigation';
 
 export default function ShopHeader(): JSX.Element {
     return (
-        <header>
+        <header className="relative z-50">
             <div className="flex h-28 items-center justify-between rounded-3xl bg-brand-shade-white px-8 py-8.5">
                 <div className="flex flex-1 items-center">
                     <PrimaryNavigation />
@@ -18,22 +17,13 @@ export default function ShopHeader(): JSX.Element {
                         <img
                             className="h-22.5"
                             src={logo_horizontal}
-                            alt=""
+                            alt="Logo Sach Horizontal variant"
                         />
                     </Link>
                 </div>
 
                 <div className="flex flex-1 items-center justify-end">
-                    <Button
-                        variant="brand-primary"
-                        size="brand-md"
-                        asChild
-                    >
-                        <Link href="/shop/custom-order">
-                            Custom Order
-                            <ArrowRightIcon strokeWidth={3} />
-                        </Link>
-                    </Button>
+                    <SecondaryNavigation />
                 </div>
             </div>
         </header>

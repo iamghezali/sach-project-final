@@ -10,8 +10,13 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
+import { useCurrentUser } from '@/features/auth/queries';
 
 export default function PrimaryNavigation(): JSX.Element {
+    const { data: response } = useCurrentUser();
+
+    const isLoggedIn = !!response?.data?.user;
+
     return (
         <>
             <NavigationMenu viewport={false}>
@@ -26,12 +31,21 @@ export default function PrimaryNavigation(): JSX.Element {
                     </NavigationMenuItem>
 
                     <NavigationMenuItem>
-                        <NavigationMenuLink
-                            className={navigationMenuTriggerStyle()}
-                            asChild
-                        >
-                            <Link href="/shop?category=living-rooms">Living Rooms</Link>
-                        </NavigationMenuLink>
+                        {isLoggedIn ? (
+                            <NavigationMenuLink
+                                className={navigationMenuTriggerStyle()}
+                                asChild
+                            >
+                                <Link href="/shop/orders/my">My Orders</Link>
+                            </NavigationMenuLink>
+                        ) : (
+                            <NavigationMenuLink
+                                className={navigationMenuTriggerStyle()}
+                                asChild
+                            >
+                                <Link href="/shop?category=living-rooms">Living Rooms</Link>
+                            </NavigationMenuLink>
+                        )}
                     </NavigationMenuItem>
 
                     <NavigationMenuItem>
