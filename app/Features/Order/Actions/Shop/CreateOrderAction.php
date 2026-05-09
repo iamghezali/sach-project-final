@@ -68,7 +68,7 @@ class CreateOrderAction
 
             if ($requestedQty > $variant->stock_quantity) {
                 throw OrderException::insufficientStock(
-                    "{$variant->product->name} {$variant->label}"
+                    "{$variant->product->name} {$variant->label()}"
                 );
             }
         }
