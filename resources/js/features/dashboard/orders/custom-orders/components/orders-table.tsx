@@ -1,3 +1,4 @@
+import { router } from '@inertiajs/react';
 import type { JSX } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -32,7 +33,11 @@ export default function OrdersTable(): JSX.Element {
             <TableBody>
                 {orders.length !== 0 ? (
                     orders.map((order) => (
-                        <TableRow key={order.id}>
+                        <TableRow
+                            key={order.id}
+                            className="cursor-pointer"
+                            onClick={() => router.visit(`/dashboard/custom-orders/${order.id}`)}
+                        >
                             <TableCell>{order.id}</TableCell>
                             <TableCell>{order.title}</TableCell>
                             <TableCell>{order.user.name}</TableCell>

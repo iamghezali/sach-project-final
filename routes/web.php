@@ -84,5 +84,9 @@ Route::prefix('dashboard')->name('dashboard.')
          * Orders
          */
         Route::get('/orders', fn () => Inertia::render('dashboard/orders/ready-to-wear/listing'))->name('orders');
+
         Route::get('/custom-orders', fn () => Inertia::render('dashboard/orders/custom-orders/listing'))->name('custom-orders');
+        Route::get('/custom-orders/{id}', fn ($id) => Inertia::render('dashboard/orders/custom-orders/order-folder', [
+            'id' => $id,
+        ]))->name('custom-orders.folder');
     });
