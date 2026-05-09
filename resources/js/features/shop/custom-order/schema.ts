@@ -36,7 +36,7 @@ export const CreateOrderItemInformationSchema = z.object({
     item_for_gender: z.enum(['male', 'female']),
     looking_for: z.string().nonempty({ error: 'This field is Required.' }),
     provide_fabric: z.boolean(),
-    description: z.string(),
+    description: z.string().nonempty({ error: 'Description is required.' }),
     quantity: z.number().min(1, { error: 'Quantity must be at least 1' }),
     preferred_due_date: z
         .string()

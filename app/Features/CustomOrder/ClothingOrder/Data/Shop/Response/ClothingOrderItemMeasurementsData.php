@@ -16,7 +16,7 @@ class ClothingOrderItemMeasurementsData extends Data
         public readonly ?float $height,
         public readonly ?float $waist,
         public readonly ?float $chest,
-        public readonly ?string $fitting_preferrence,
+        public readonly ?string $fitting_preference,
     ) {}
 
     public static function fromModel(ClothingOrderItem $item): self
@@ -28,7 +28,7 @@ class ClothingOrderItemMeasurementsData extends Data
             height: $item->height,
             waist: $item->waist,
             chest: $item->chest,
-            fitting_preferrence: $item->fitting_preferrence,
+            fitting_preference: $item->fitting_preference,
         );
     }
 
@@ -36,7 +36,7 @@ class ClothingOrderItemMeasurementsData extends Data
     {
         $base = [
             'measurement_type' => $this->measurement_type,
-            'fitting_preferrence' => $this->fitting_preferrence,
+            'fitting_preference' => $this->fitting_preference,
         ];
 
         if ($this->measurement_type === MeasurementType::Standard) {

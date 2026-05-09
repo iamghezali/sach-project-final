@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Features\CustomOrder\ClothingOrder\Enums\ClothingOrderItemStatus;
 use App\Features\CustomOrder\ClothingOrder\Enums\Gender;
+use App\Features\CustomOrder\ClothingOrder\Enums\ItemFor;
+use App\Features\CustomOrder\ClothingOrder\Enums\ItemType;
 use App\Features\CustomOrder\ClothingOrder\Enums\MeasurementType;
 use App\Features\CustomOrder\ClothingOrder\Enums\Size;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -14,8 +16,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'clothing_order_id',
     'tailor_id',
     'title',
-    'gender',
+    'item_is_for',
+    'item_type',
+    'item_for_gender',
     'looking_for',
+    'provide_fabric',
     'description',
     'quantity',
     'preferred_due_date',
@@ -25,7 +30,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'height',
     'waist',
     'chest',
-    'fitting_preferrence',
+    'fitting_preference',
     'status',
     'offer_price',
     'offer_due_date',
@@ -35,7 +40,10 @@ class ClothingOrderItem extends Model
     protected function casts(): array
     {
         return [
-            'gender' => Gender::class,
+            'item_is_for' => ItemFor::class,
+            'item_type' => ItemType::class,
+            'item_for_gender' => Gender::class,
+            'provide_fabric' => 'boolean',
             'measurement_type' => MeasurementType::class,
             'status' => ClothingOrderItemStatus::class,
             'size' => Size::class,

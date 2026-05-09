@@ -20,8 +20,11 @@ return new class extends Migration
 
             // Information
             $table->string('title');
-            $table->string('gender');
+            $table->string('item_is_for');
+            $table->string('item_type');
+            $table->string('item_for_gender');
             $table->string('looking_for');
+            $table->boolean('provide_fabric')->default(false);
             $table->text('description');
             $table->unsignedInteger('quantity');
             $table->date('preferred_due_date');
@@ -33,7 +36,7 @@ return new class extends Migration
             $table->decimal('height', 6, 2)->nullable();
             $table->decimal('waist', 6, 2)->nullable();
             $table->decimal('chest', 6, 2)->nullable();
-            $table->string('fitting_preferrence')->nullable();
+            $table->string('fitting_preference')->nullable();
 
             $table->string('status')->default(ClothingOrderItemStatus::Pending->value);
 
