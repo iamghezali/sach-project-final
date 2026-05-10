@@ -27,7 +27,7 @@ class LoginController extends Controller
                 'data' => [
                     'user' => UserData::from($user),
                 ],
-                'redirectTo' => $user->homeRoute(),
+                'redirectTo' => session()->pull('url.intended', $user->homeRoute()),
             ]);
 
         } catch (AuthenticationException) {

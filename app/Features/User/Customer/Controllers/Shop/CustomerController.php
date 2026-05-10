@@ -22,7 +22,7 @@ class CustomerController extends Controller
             'data' => [
                 'user' => CustomerData::from($customer),
             ],
-            'redirectTo' => $customer->homeRoute(),
+            'redirectTo' => session()->pull('url.intended', $customer->homeRoute()),
         ]);
     }
 }
