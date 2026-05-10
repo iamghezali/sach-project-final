@@ -42,6 +42,8 @@ export function useLogout() {
     const queryClient = useQueryClient();
 
     const handleLogout = () => {
+        queryClient.setQueryData(authKeys.user(), null);
+
         router.visit('/login', {
             replace: true,
             onSuccess: () => {

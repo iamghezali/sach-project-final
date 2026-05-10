@@ -73,7 +73,7 @@ export default function ProductDetails(): JSX.Element {
                                     <img
                                         src={_.url}
                                         alt=""
-                                        className="size-12"
+                                        className="size-60"
                                     />
                                 </li>
                             ))}
