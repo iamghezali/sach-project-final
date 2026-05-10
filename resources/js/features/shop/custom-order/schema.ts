@@ -105,7 +105,7 @@ export const MeasurementsFormSchema = z
     .object({
         measurement_type: z.enum(['standard', 'custom']),
         size: z.enum(['xs', 's', 'm', 'l', 'xl']),
-        fitting_preference: z.string(),
+        fitting_preference: z.string().nullable(),
         shoulder: z.number(),
         waist: z.number(),
         chest: z.number(),

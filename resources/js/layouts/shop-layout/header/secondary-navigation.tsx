@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { ArrowRightIcon, LogInIcon, LogOutIcon, ShoppingCartIcon, UserIcon, UserPlusIcon } from 'lucide-react';
+import { ArrowRightIcon, LogInIcon, LogOutIcon, UserIcon, UserPlusIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import { Button } from '@/components/ui/button';
 import {

@@ -76,12 +76,17 @@ const ComboboxContext = React.createContext<ComboboxContextValue>({
 
 const useComboboxContext = () => React.useContext(ComboboxContext);
 
-export type ComboboxProps<T> = React.ComponentProps<typeof ComboboxPrimitive.Root<T>> & ComboboxContextValue;
+export type ComboboxProps<T, Multiple extends boolean | undefined = false> = ComboboxPrimitive.Root.Props<T, Multiple> &
+    ComboboxContextValue;
 
-function Combobox<T>({ children, variant, ...props }: ComboboxProps<T>) {
+function Combobox<T, Multiple extends boolean | undefined = false>({
+    children,
+    variant,
+    ...props
+}: ComboboxProps<T, Multiple>) {
     return (
         <ComboboxContext.Provider value={{ variant }}>
-            <ComboboxPrimitive.Root {...props}>{children}</ComboboxPrimitive.Root>
+            <ComboboxPrimitive.Root<T, Multiple> {...props}>{children}</ComboboxPrimitive.Root>
         </ComboboxContext.Provider>
     );
 }
