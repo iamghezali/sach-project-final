@@ -1,5 +1,5 @@
 import z from 'zod';
-import { apiPaginatedResponseSchema, apiResponseSchema } from '@/api/schema';
+import { apiNoContentSchema, apiPaginatedResponseSchema, apiResponseSchema } from '@/api/schema';
 
 const UserSchema = z.object({
     id: z.number(),
@@ -91,3 +91,14 @@ export type ItemInformation = z.infer<typeof ItemInformationSchema>;
 export type Measurements = z.infer<typeof MeasurementsSchema>;
 export type StandardMeasurements = z.infer<typeof StandardMeasurementsSchema>;
 export type CustomMeasurements = z.infer<typeof CustomMeasurementsSchema>;
+
+// -------------- Assign
+
+export const AssignToTailorRequestSchema = z.object({
+    tailor_email: z.email().nullable(),
+    item_id: z.number().int().positive().nullable(),
+});
+
+export type AssignToTailorRequest = z.infer<typeof AssignToTailorRequestSchema>;
+
+export const AssignToTailorResponseSchema = apiNoContentSchema;

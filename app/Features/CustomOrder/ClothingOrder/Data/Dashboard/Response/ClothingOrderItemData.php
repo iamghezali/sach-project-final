@@ -38,7 +38,7 @@ class ClothingOrderItemData extends Data
             created_at: $item->created_at->format('Y-m-d'),
             updated_at: $item->updated_at->format('Y-m-d'),
             offer_price: $item->offer_price,
-            offer_due_date: $item->offer_due_date,
+            offer_due_date: $item->offer_due_date?->format('Y-m-d'),
             tailor: $item->tailor ? TailorData::fromModel($item->tailor) : null,
         );
     }

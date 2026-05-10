@@ -34,7 +34,7 @@ export default function OrderInformation({ orderID }: OrderInformationProps): JS
                 </div>
                 <Badge>{order.status_label}</Badge>
 
-                <AssignAll />
+                <AssignAll orderID={orderID} />
             </div>
 
             <Separator />
@@ -69,6 +69,7 @@ export default function OrderInformation({ orderID }: OrderInformationProps): JS
                     <OrderItem
                         key={item.id}
                         item={item}
+                        orderID={orderID}
                     />
                 ))}
             </div>

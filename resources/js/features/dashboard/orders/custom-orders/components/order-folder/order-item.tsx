@@ -40,7 +40,7 @@ function MeasurementDetails({ measurements }: { measurements: Measurements }) {
     );
 }
 
-export function OrderItem({ item }: { item: ClothingOrderItem }) {
+export function OrderItem({ item, orderID }: { orderID: number; item: ClothingOrderItem }) {
     const { information: info, measurements } = item;
 
     return (
@@ -56,7 +56,11 @@ export function OrderItem({ item }: { item: ClothingOrderItem }) {
                     </span>
                 </span>
 
-                <AssignSingle className="ml-auto" />
+                <AssignSingle
+                    className="ml-auto"
+                    orderItemID={item.id}
+                    orderID={orderID}
+                />
             </div>
 
             <div className="flex items-start justify-between gap-2">

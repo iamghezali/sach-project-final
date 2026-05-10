@@ -68,6 +68,8 @@ class ClothingOrderController extends Controller
 
     public function assignOrderItems(AssignOrderItemsRequestData $data, int $orderID)
     {
-        return $this->assignClothingOrderItemsAction->execute($data, $orderID);
+        $this->assignClothingOrderItemsAction->execute($data, $orderID);
+
+        return response()->noContent();
     }
 }
