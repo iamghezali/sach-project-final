@@ -6,6 +6,8 @@ use App\Features\CustomOrder\ClothingOrder\Actions\Tailor\ListClothingOrdersActi
 use App\Features\CustomOrder\ClothingOrder\Actions\Tailor\MarkClothingOrderItemAsDoneAction;
 use App\Features\CustomOrder\ClothingOrder\Actions\Tailor\ShowClothingOrderAction;
 use App\Features\CustomOrder\ClothingOrder\Actions\Tailor\ShowClothingOrderItemAction;
+use App\Features\CustomOrder\ClothingOrder\Data\Tailor\Response\ClothingOrderData;
+use App\Features\CustomOrder\ClothingOrder\Data\Tailor\Response\ClothingOrderItemData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -29,7 +31,7 @@ class ClothingOrderController extends Controller
     {
         $order = $this->showClothingOrderAction->execute($orderID, $request->user());
 
-        return $order;
+        return ClothingOrderData::from($order)->include('items');
     }
 
     public function showItem(Request $request, int $orderID, int $itemID)
@@ -37,7 +39,7 @@ class ClothingOrderController extends Controller
         $orderItem = $this->showClothingOrderItemAction
             ->execute($request->user(), $orderID, $itemID);
 
-        return $orderItem;
+        return ClothingOrderItemData::from($orderItem);
     }
 
     public function markItemDone(Request $request, int $orderID, int $itemID)
@@ -45,6 +47,6 @@ class ClothingOrderController extends Controller
         $orderItem = $this->markClothingOrderItemAsDoneAction
             ->execute($request->user(), $orderID, $itemID);
 
-        return $orderItem;
+        return ClothingOrderItemData::from($orderItem);
     }
 }
