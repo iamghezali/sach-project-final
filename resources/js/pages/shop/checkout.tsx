@@ -5,7 +5,7 @@ import CheckoutStages from '@/features/shop/checkout/components/checkout-stages'
 import CheckoutSummary from '@/features/shop/checkout/components/checkout-summary';
 import ShopLayout from '@/layouts/shop-layout';
 
-export default function Checkout(): JSX.Element {
+export default function Checkout(): JSX.Element | null {
     const { cart, isReady } = useCart();
 
     if (!isReady) {
@@ -14,6 +14,8 @@ export default function Checkout(): JSX.Element {
 
     if (cart.length === 0) {
         router.visit('/shop/cart/', { replace: true });
+
+        return null;
     }
 
     return (
