@@ -1,8 +1,7 @@
 import type { JSX } from 'react';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { OrderItem } from '@/features/tailor/orders/components/order-item';
+import { OrderListItem } from '@/features/tailor/orders/components/order-list-item';
 import { useOrderFolder } from '@/features/tailor/orders/queries';
 
 type FolderItemsProps = {
@@ -28,7 +27,6 @@ export default function FolderItems({ orderID }: FolderItemsProps): JSX.Element 
                     <div className="space-y-1">
                         <h1 className="text-xl font-semibold">{order.title}</h1>
                     </div>
-                    <Badge>{order.status_label}</Badge>
                 </div>
 
                 <Separator />
@@ -60,9 +58,10 @@ export default function FolderItems({ orderID }: FolderItemsProps): JSX.Element 
                     </h2>
 
                     {order.items.map((item) => (
-                        <OrderItem
+                        <OrderListItem
                             key={item.id}
                             item={item}
+                            orderID={orderID}
                         />
                     ))}
                 </div>

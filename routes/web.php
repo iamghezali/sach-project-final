@@ -54,6 +54,11 @@ Route::prefix('tailor')->name('tailor.')
         Route::get('/orders/{id}', fn ($id) => Inertia::render('tailor/orders/folder', [
             'id' => $id,
         ]))->name('orders.folder');
+
+        Route::get('/orders/{orderID}/item/{itemID}', fn ($orderID, $itemID) => Inertia::render('tailor/orders/details', [
+            'orderID' => $orderID,
+            'itemID' => $itemID,
+        ]))->name('orders.item');
     });
 
 /**

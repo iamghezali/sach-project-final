@@ -1,4 +1,6 @@
+import { Link } from '@inertiajs/react';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import type { Measurements, OrderItem } from '@/features/tailor/orders/schema';
 
@@ -39,7 +41,7 @@ function MeasurementDetails({ measurements }: { measurements: Measurements }) {
     );
 }
 
-export function OrderItem({ item }: { item: OrderItem }) {
+export function OrderListItem({ orderID, item }: { orderID: number; item: OrderItem }) {
     const { information: info, measurements } = item;
 
     return (
@@ -71,13 +73,7 @@ export function OrderItem({ item }: { item: OrderItem }) {
                 <span>
                     Qty: <span className="font-medium text-foreground">{info.quantity}</span>
                 </span>
-                <span>
-                    Prefered Delivery Date:{' '}
-                    <span className="font-medium text-foreground">{info.preferred_due_date}</span>
-                </span>
             </div>
-
-            {info.description && <p className="text-sm text-muted-foreground">{info.description}</p>}
 
             <Separator />
 
@@ -99,12 +95,16 @@ export function OrderItem({ item }: { item: OrderItem }) {
                         )}
                         {item.offer_due_date && (
                             <span>
-                                Offer due: <span className="font-medium text-foreground">{item.offer_due_date}</span>
+                                Due date: <span className="font-medium text-foreground">{item.offer_due_date}</span>
                             </span>
                         )}
                     </div>
                 </>
             )}
+
+            <Button>
+                <Link href={`/tailor/orders/${orderID}/item/${item.id}`}>View Details</Link>
+            </Button>
         </div>
     );
 }
