@@ -51,7 +51,9 @@ Route::prefix('tailor')->name('tailor.')
     ->group(function () {
 
         Route::get('/', fn () => Inertia::render('tailor/overview'))->name('overview');
-
+        Route::get('/orders/{id}', fn ($id) => Inertia::render('tailor/orders/folder', [
+            'id' => $id,
+        ]))->name('orders.folder');
     });
 
 /**
