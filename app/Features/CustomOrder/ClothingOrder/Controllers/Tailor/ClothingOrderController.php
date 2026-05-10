@@ -31,7 +31,10 @@ class ClothingOrderController extends Controller
     {
         $order = $this->showClothingOrderAction->execute($orderID, $request->user());
 
-        return ClothingOrderData::from($order)->include('items');
+        return response()->json([
+            'data' => ClothingOrderData::from($order)->include('items'),
+        ]);
+
     }
 
     public function showItem(Request $request, int $orderID, int $itemID)
@@ -39,7 +42,9 @@ class ClothingOrderController extends Controller
         $orderItem = $this->showClothingOrderItemAction
             ->execute($request->user(), $orderID, $itemID);
 
-        return ClothingOrderItemData::from($orderItem);
+        return response()->json([
+            'data' => ClothingOrderItemData::from($orderItem),
+        ]);
     }
 
     public function markItemDone(Request $request, int $orderID, int $itemID)
@@ -47,6 +52,8 @@ class ClothingOrderController extends Controller
         $orderItem = $this->markClothingOrderItemAsDoneAction
             ->execute($request->user(), $orderID, $itemID);
 
-        return ClothingOrderItemData::from($orderItem);
+        return response()->json([
+            'data' => ClothingOrderItemData::from($orderItem),
+        ]);
     }
 }
