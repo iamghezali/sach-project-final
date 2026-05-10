@@ -6,9 +6,9 @@ use RuntimeException;
 
 class CannotAssignTailorException extends RuntimeException
 {
-    public static function itemsNotInOrder(): self
+    public static function itemNotInOrder(): self
     {
-        return new self('One or more item IDs do not belong to the specified clothing order.');
+        return new self('The selected item does not belong to this order.');
     }
 
     public static function hasCancelledItems(): self

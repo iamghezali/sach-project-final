@@ -16,19 +16,28 @@ class AssignClothingOrderItemsAction
 {
     public function execute(AssignOrderItemsRequestData $data, int $orderID): void
     {
-        $tailor = User::role(Role::TAILOR)->find($data->tailor_id);
+        $clothingOrder = ClothingOrder::with('items')->findOrFail($orderID);
+
+        $targetItems = $data->item_id === null
+            ? $clothingOrder->items
+            : $this->resolveItem($clothingOrder, $data->item_id);
+
+        if ($data->tailor_email === null) {
+            $this->unassign($targetItems);
+        } else {
+            $this->assign($data, $targetItems);
+        }
+    }
+
+    private function assign(AssignOrderItemsRequestData $data, Collection $targetItems): void
+    {
+        $tailor = User::role(Role::TAILOR)->where('email', $data->tailor_email)->first();
 
         if (! $tailor) {
             throw ValidationException::withMessages([
-                'tailor_id' => 'The selected user is not a registered tailor.',
+                'tailor_email' => 'The selected user is not a registered tailor.',
             ]);
         }
-
-        $clothingOrder = ClothingOrder::with('items')->findOrFail($orderID);
-
-        $targetItems = $data->item_ids === null
-            ? $clothingOrder->items
-            : $this->resolveItems($clothingOrder, $data->item_ids);
 
         $hasCancelled = $targetItems->contains(
             fn (ClothingOrderItem $item) => $item->status === ClothingOrderItemStatus::Cancelled
@@ -40,20 +49,28 @@ class AssignClothingOrderItemsAction
 
         ClothingOrderItem::whereIn('id', $targetItems->pluck('id'))
             ->update([
-                'tailor_id' => $data->tailor_id,
+                'tailor_id' => $tailor->id,
                 'status' => ClothingOrderItemStatus::InProgress,
             ]);
     }
 
-    /** @param int[] $itemIds */
-    private function resolveItems(ClothingOrder $clothingOrder, array $itemIds): Collection
+    private function unassign(Collection $targetItems): void
     {
-        $items = $clothingOrder->items->whereIn('id', $itemIds);
+        ClothingOrderItem::whereIn('id', $targetItems->pluck('id'))
+            ->update([
+                'tailor_id' => null,
+                'status' => ClothingOrderItemStatus::Pending,
+            ]);
+    }
 
-        if ($items->count() !== \count(array_unique($itemIds))) {
-            throw CannotAssignTailorException::itemsNotInOrder();
+    private function resolveItem(ClothingOrder $clothingOrder, int $itemId): Collection
+    {
+        $item = $clothingOrder->items->firstWhere('id', $itemId);
+
+        if (! $item) {
+            throw CannotAssignTailorException::itemNotInOrder();
         }
 
-        return $items;
+        return collect([$item]);
     }
 }
