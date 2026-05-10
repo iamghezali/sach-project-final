@@ -69,3 +69,5 @@ export const OrderFolderResponseSchema = apiResponseSchema(OrderFolderSchema);
 
 export type OrderItem = z.infer<typeof OrderItemSchema>;
 export type Measurements = z.infer<typeof MeasurementsSchema>;
+
+export const OrderItemResponseSchema = apiResponseSchema(OrderItemSchema);

@@ -6,6 +6,7 @@ export const orderKeys = {
     lists: () => [...orderKeys.all(), 'list'] as const,
     orders: () => [...orderKeys.all(), 'order'] as const,
     order: (id: number) => [...orderKeys.orders(), id] as const,
+    orderItem: (orderID: number, orderItemID: number) => [...orderKeys.order(orderID), 'items', orderItemID] as const,
 };
 
 export function useListOrders() {
@@ -21,6 +22,15 @@ export function useOrderFolder(id: number) {
         queryKey: orderKeys.order(id),
         queryFn: () => ordersApi.getOrderFolder(id),
         enabled: !!id,
+        staleTime: 1000 * 60 * 5,
+    });
+}
+
+export function useGetOrderItem(orderID: number, orderItemID: number) {
+    return useQuery({
+        queryKey: orderKeys.orderItem(orderID, orderItemID),
+        queryFn: () => ordersApi.getOrderItem(orderID, orderItemID),
+        enabled: !!orderID && !!orderItemID,
         staleTime: 1000 * 60 * 5,
     });
 }

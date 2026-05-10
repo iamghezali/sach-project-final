@@ -1,5 +1,7 @@
 import { usePage } from '@inertiajs/react';
 import type { JSX } from 'react';
+import MarkOrderItemAsDone from '@/features/tailor/orders/components/mark-order-item-as-done';
+import OrderItem from '@/features/tailor/orders/components/order-item';
 import ShopLayout from '@/layouts/shop-layout';
 
 export default function Details(): JSX.Element {
@@ -7,8 +9,15 @@ export default function Details(): JSX.Element {
 
     return (
         <ShopLayout>
-            <div>ORDER ID {orderID}</div>
-            <div>ITEM ID {itemID}</div>
+            <OrderItem
+                orderID={orderID}
+                orderItemID={itemID}
+            />
+
+            <MarkOrderItemAsDone
+                orderID={orderID}
+                orderItemID={itemID}
+            />
         </ShopLayout>
     );
 }
