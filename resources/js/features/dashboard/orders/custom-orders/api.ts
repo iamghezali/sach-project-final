@@ -7,10 +7,11 @@ import {
 } from '@/features/dashboard/orders/custom-orders/schema';
 
 export const customOrdersApi = {
-    list: () =>
+    list: (page: number = 1) =>
         apiRequest(CustomOrderListResponseSchema, {
             url: '/custom-orders/',
             method: 'get',
+            params: { page },
         }),
 
     getCustomOrderFolder: (id: number) =>
