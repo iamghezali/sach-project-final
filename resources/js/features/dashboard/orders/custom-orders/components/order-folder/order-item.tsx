@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { AssignSingle } from '@/features/dashboard/orders/custom-orders/components/order-folder/assign-items';
+import AttachOfferToItem from '@/features/dashboard/orders/custom-orders/components/order-folder/attach-offer-to-item';
 import type { ClothingOrderItem, Measurements } from '@/features/dashboard/orders/custom-orders/schema';
 
 function MeasurementDetails({ measurements }: { measurements: Measurements }) {
@@ -56,11 +57,18 @@ export function OrderItem({ item, orderID }: { orderID: number; item: ClothingOr
                     </span>
                 </span>
 
-                <AssignSingle
-                    className="ml-auto"
-                    orderItemID={item.id}
-                    orderID={orderID}
-                />
+                <div className="ml-auto flex items-center gap-2">
+                    <AttachOfferToItem
+                        orderItemID={item.id}
+                        orderID={orderID}
+                        variant="secondary"
+                    />
+
+                    <AssignSingle
+                        orderItemID={item.id}
+                        orderID={orderID}
+                    />
+                </div>
             </div>
 
             <div className="flex items-start justify-between gap-2">

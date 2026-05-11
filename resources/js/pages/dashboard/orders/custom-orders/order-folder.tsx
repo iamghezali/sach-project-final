@@ -4,11 +4,12 @@ import OrderInformation from '@/features/dashboard/orders/custom-orders/componen
 import AppLayout from '@/layouts/app-layout';
 
 export default function OrderFolder(): JSX.Element {
-    const { id } = usePage<{ id: number }>().props;
+    const { id } = usePage<{ id: string }>().props;
+    const numericId = Number(id);
 
     return (
         <div>
-            <OrderInformation orderID={id} />
+            <OrderInformation orderID={numericId} />
         </div>
     );
 }
