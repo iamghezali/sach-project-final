@@ -14,6 +14,7 @@ use App\Features\CustomOrder\ClothingOrder\Data\Dashboard\Request\AttachOfferReq
 use App\Features\CustomOrder\ClothingOrder\Data\Dashboard\Request\ChangeClothingOrderItemStatusRequestData;
 use App\Features\CustomOrder\ClothingOrder\Data\Dashboard\Request\ChangeClothingOrderStatusRequestData;
 use App\Features\CustomOrder\ClothingOrder\Data\Dashboard\Response\ClothingOrderData;
+use App\Features\CustomOrder\ClothingOrder\Data\Dashboard\Response\ClothingOrderItemData;
 use App\Http\Controllers\Controller;
 
 class ClothingOrderController extends Controller
@@ -40,7 +41,7 @@ class ClothingOrderController extends Controller
         $order = $this->showClothingOrderAction->execute($orderID);
 
         return response()->json([
-            'data' => ClothingOrderData::from($order)->include('items'),
+            'data' => ClothingOrderData::from($order)->include('items', 'user'),
         ]);
     }
 
@@ -48,22 +49,36 @@ class ClothingOrderController extends Controller
     {
         $orderItem = $this->showClothingOrderItemAction->execute($orderID, $itemID);
 
-        return response()->json($orderItem);
+        return response()->json([
+            'data' => ClothingOrderItemData::from($orderItem),
+        ]);
     }
 
     public function attachOrderOffer(AttachOfferRequestData $data, int $orderID)
     {
-        return $this->attachClothingOrderOfferAction->execute($orderID, $data->items->toCollection());
+        $items = $this->attachClothingOrderOfferAction->execute($orderID, $data->items->toCollection());
+
+        return response()->json([
+            'data' => ClothingOrderItemData::collect($items),
+        ]);
     }
 
     public function updateOrderStatus(int $orderID, ChangeClothingOrderStatusRequestData $data)
     {
-        return $this->changeClothingOrderStatusAction->execute($orderID, $data);
+        $order = $this->changeClothingOrderStatusAction->execute($orderID, $data);
+
+        return response()->json([
+            'data' => ClothingOrderData::from($order),
+        ]);
     }
 
     public function updateOrderItemStatus(int $itemID, ChangeClothingOrderItemStatusRequestData $data)
     {
-        return $this->changeClothingOrderItemStatusAction->execute($itemID, $data);
+        $orderItem = $this->changeClothingOrderItemStatusAction->execute($itemID, $data);
+
+        return response()->json([
+            'data' => ClothingOrderItemData::from($orderItem),
+        ]);
     }
 
     public function assignOrderItems(AssignOrderItemsRequestData $data, int $orderID)

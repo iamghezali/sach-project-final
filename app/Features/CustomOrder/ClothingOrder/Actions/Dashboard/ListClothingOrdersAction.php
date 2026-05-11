@@ -18,6 +18,6 @@ class ListClothingOrdersAction
                 ->latest()
                 ->paginate(self::PER_PAGE),
             PaginatedDataCollection::class
-        );
+        )->include('user');
     }
 }
