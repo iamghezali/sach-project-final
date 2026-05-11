@@ -3,14 +3,14 @@ import { ordersApi } from '@/features/shop/orders/api';
 
 export const ordersKeys = {
     all: ['orders'] as const,
-    lists: () => [...ordersKeys.all, 'list'] as const,
+    lists: (page: number = 1) => [...ordersKeys.all, 'list', page] as const,
     order: (id: string) => [...ordersKeys.all, id] as const,
 };
 
-export function useListOrders() {
+export function useListOrders(page: number = 1) {
     return useQuery({
-        queryKey: ordersKeys.lists(),
-        queryFn: ordersApi.list,
+        queryKey: ordersKeys.lists(page),
+        queryFn: () => ordersApi.list(page),
         staleTime: 1000 * 60 * 5,
         retry: 1,
     });
