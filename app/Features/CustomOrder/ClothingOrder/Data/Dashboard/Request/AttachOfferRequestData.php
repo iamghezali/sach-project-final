@@ -3,19 +3,21 @@
 namespace App\Features\CustomOrder\ClothingOrder\Data\Dashboard\Request;
 
 use Spatie\LaravelData\Data;
-use Spatie\LaravelData\DataCollection;
 
 class AttachOfferRequestData extends Data
 {
     public function __construct(
-        /** @var DataCollection<OfferItemData> */
-        public DataCollection $items,
+        public int $item_id,
+        public string $offer_price,
+        public string $offer_due_date,
     ) {}
 
     public static function rules($ctx = null): array
     {
         return [
-            'items' => ['required', 'array', 'min:1'],
+            'item_id' => ['required', 'integer'],
+            'offer_price' => ['required', 'numeric'],
+            'offer_due_date' => ['required', 'date'],
         ];
     }
 }

@@ -56,10 +56,10 @@ class ClothingOrderController extends Controller
 
     public function attachOrderOffer(AttachOfferRequestData $data, int $orderID)
     {
-        $items = $this->attachClothingOrderOfferAction->execute($orderID, $data->items->toCollection());
+        $item = $this->attachClothingOrderOfferAction->execute($orderID, $data);
 
         return response()->json([
-            'data' => ClothingOrderItemData::collect($items),
+            'data' => ClothingOrderItemData::from($item),
         ]);
     }
 
