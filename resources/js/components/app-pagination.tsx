@@ -111,9 +111,14 @@ function usePagination({ key = 'page', scrollToTop = true }: PaginationOptions =
 interface UseAutoRedirectOutOfRangeOptions {
     meta?: { last_page: number } | null;
     currentPage: number;
+    key?: string;
 }
 
-export function useAutoRedirectOutOfRange({ meta, currentPage }: UseAutoRedirectOutOfRangeOptions): boolean {
+export function useAutoRedirectOutOfRange({
+    meta,
+    key = 'page',
+    currentPage,
+}: UseAutoRedirectOutOfRangeOptions): boolean {
     const hasSentRedirect = useRef(false);
     const isOutOfRange = !!(meta && currentPage > meta.last_page);
 
@@ -121,9 +126,15 @@ export function useAutoRedirectOutOfRange({ meta, currentPage }: UseAutoRedirect
         if (isOutOfRange && !hasSentRedirect.current) {
             hasSentRedirect.current = true;
 
+            const searchParams = new URLSearchParams(window.location.search);
+            const currentParams = Object.fromEntries(searchParams.entries());
+
             router.get(
                 window.location.pathname,
-                { page: 1 },
+                {
+                    ...currentParams,
+                    [key]: 1,
+                },
                 {
                     preserveState: true,
                     preserveScroll: true,
@@ -133,7 +144,7 @@ export function useAutoRedirectOutOfRange({ meta, currentPage }: UseAutoRedirect
                 },
             );
         }
-    }, [isOutOfRange, currentPage]); // Only run when the range status changes
+    }, [isOutOfRange, currentPage, key]);
 
     return isOutOfRange;
 }
