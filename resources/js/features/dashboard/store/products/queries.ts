@@ -3,15 +3,15 @@ import { productsApi } from '@/features/dashboard/store/products/api';
 
 export const productKeys = {
     all: () => ['products'] as const,
-    lists: () => [...productKeys.all(), 'list'] as const,
+    lists: (page: number = 1) => [...productKeys.all(), 'list', page] as const,
     products: () => [...productKeys.all(), 'product'] as const,
     product: (id: number) => [...productKeys.products(), id] as const,
 };
 
-export function useProductsList() {
+export function useProductsList(page: number = 1) {
     return useQuery({
-        queryKey: productKeys.lists(),
-        queryFn: productsApi.list,
+        queryKey: productKeys.lists(page),
+        queryFn: () => productsApi.list(page),
         staleTime: 1000 * 60 * 5,
     });
 }

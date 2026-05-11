@@ -16,10 +16,11 @@ import {
 } from '@/features/dashboard/store/products/schema';
 
 export const productsApi = {
-    list: () =>
+    list: (page: number = 1) =>
         apiRequest(ProductsListResponseSchema, {
             url: '/products',
             method: 'get',
+            params: { page },
         }),
 
     createProduct: (payload: CreateProductRequest) =>

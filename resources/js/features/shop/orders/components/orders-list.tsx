@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useListOrders } from '@/features/shop/orders/queries';
 
 export default function OrdersList(): JSX.Element {
-    const { page, setPage } = usePagination('/shop/orders/my');
+    const { page, setPage } = usePagination();
     const { data: response, isLoading } = useListOrders(page);
 
     if (isLoading) {

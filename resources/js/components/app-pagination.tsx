@@ -1,5 +1,5 @@
 import { router, usePage } from '@inertiajs/react';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import {
     Pagination,
@@ -91,28 +91,56 @@ export function AppPagination({ currentPage, lastPage, onPageChange }: AppPagina
     );
 }
 
-export function usePagination(basePath: string) {
+interface PaginationOptions {
+    key?: string;
+    scrollToTop?: boolean;
+}
+
+export function usePagination({ key = 'page', scrollToTop = true }: PaginationOptions = {}) {
     const { url } = usePage();
-    const searchParams = new URL(url, window.location.origin).searchParams;
-    const page = Number(searchParams.get('page') ?? 1);
+
+    const { pathname, searchParams } = useMemo(() => {
+        const parsed = new URL(url, window.location.origin);
+
+        return {
+            pathname: parsed.pathname,
+            searchParams: parsed.searchParams,
+        };
+    }, [url]);
+
+    const page = useMemo(() => {
+        const val = Number(searchParams.get(key));
+
+        return isNaN(val) || val < 1 ? 1 : val;
+    }, [searchParams, key]);
 
     useEffect(() => {
-        if (!searchParams.has('page')) {
-            router.get(basePath, { page: 1 }, { replace: true });
+        if (!searchParams.has(key)) {
+            const currentParams = Object.fromEntries(searchParams.entries());
+            router.get(pathname, { ...currentParams, [key]: 1 }, { preserveState: true, replace: true });
         }
-    }, [basePath, searchParams]);
+    }, [pathname, searchParams, key]);
 
-    function setPage(newPage: number) {
-        router.get(
-            basePath,
-            { page: newPage },
-            {
-                preserveState: true,
-                preserveScroll: true,
-                onSuccess: () => window.scrollTo({ top: 0, behavior: 'smooth' }),
-            },
-        );
-    }
+    const setPage = useCallback(
+        (newPage: number) => {
+            const currentParams = Object.fromEntries(searchParams.entries());
+
+            router.get(
+                pathname,
+                { ...currentParams, [key]: newPage },
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        if (scrollToTop) {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
+                    },
+                },
+            );
+        },
+        [pathname, searchParams, key, scrollToTop],
+    );
 
     return { page, setPage };
 }
