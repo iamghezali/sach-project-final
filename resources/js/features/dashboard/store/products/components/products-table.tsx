@@ -1,15 +1,19 @@
 import { router } from '@inertiajs/react';
 import type { JSX } from 'react';
-import { AppPagination, usePagination } from '@/components/app-pagination';
+import { AppPagination, useAutoRedirectOutOfRange, usePageParam } from '@/components/app-pagination';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useProductsList } from '@/features/dashboard/store/products/queries';
 
 export default function ProductsTable(): JSX.Element {
-    const { page, setPage } = usePagination();
+    const page = usePageParam();
     const { data: response, isLoading } = useProductsList(page);
+    const isOutOfRange = useAutoRedirectOutOfRange({
+        meta: !isLoading ? response?.meta : undefined,
+        currentPage: page,
+    });
 
-    if (isLoading) {
+    if (isLoading || isOutOfRange) {
         return <>Loading...</>;
     }
 
@@ -65,7 +69,7 @@ export default function ProductsTable(): JSX.Element {
                     ) : (
                         <TableRow>
                             <TableCell
-                                colSpan={4}
+                                colSpan={5}
                                 className="text-center text-muted-foreground"
                             >
                                 No Records are found.
@@ -75,11 +79,9 @@ export default function ProductsTable(): JSX.Element {
                 </TableBody>
             </Table>
 
-            <AppPagination
-                currentPage={response.meta.current_page}
-                lastPage={response.meta.last_page}
-                onPageChange={setPage}
-            />
+            <div className="mt-4">
+                <AppPagination meta={response.meta} />
+            </div>
         </>
     );
 }

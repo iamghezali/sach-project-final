@@ -1,6 +1,6 @@
 import { Link } from '@inertiajs/react';
 import type { JSX } from 'react';
-import { AppPagination, usePageParam } from '@/components/app-pagination';
+import { AppPagination, useAutoRedirectOutOfRange, usePageParam } from '@/components/app-pagination';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useListOrders } from '@/features/shop/orders/queries';
@@ -9,8 +9,13 @@ export default function OrdersList(): JSX.Element {
     const page = usePageParam();
     const { data: response, isLoading } = useListOrders(page);
 
-    if (isLoading) {
-        return <></>;
+    const isOutOfRange = useAutoRedirectOutOfRange({
+        meta: !isLoading ? response?.meta : undefined,
+        currentPage: page,
+    });
+
+    if (isLoading || isOutOfRange) {
+        return <>Loading...</>;
     }
 
     if (!response) {

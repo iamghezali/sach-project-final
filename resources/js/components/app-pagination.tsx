@@ -1,5 +1,5 @@
 import { router, usePage } from '@inertiajs/react';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import {
     Pagination,
@@ -106,6 +106,36 @@ function usePagination({ key = 'page', scrollToTop = true }: PaginationOptions =
     );
 
     return { page, setPage };
+}
+
+interface UseAutoRedirectOutOfRangeOptions {
+    meta?: { last_page: number } | null;
+    currentPage: number;
+}
+
+export function useAutoRedirectOutOfRange({ meta, currentPage }: UseAutoRedirectOutOfRangeOptions): boolean {
+    const hasSentRedirect = useRef(false);
+    const isOutOfRange = !!(meta && currentPage > meta.last_page);
+
+    useEffect(() => {
+        if (isOutOfRange && !hasSentRedirect.current) {
+            hasSentRedirect.current = true;
+
+            router.get(
+                window.location.pathname,
+                { page: 1 },
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    onFinish: () => {
+                        hasSentRedirect.current = false;
+                    },
+                },
+            );
+        }
+    }, [isOutOfRange, currentPage]); // Only run when the range status changes
+
+    return isOutOfRange;
 }
 
 export function AppPagination({ meta }: AppPaginationProps) {
