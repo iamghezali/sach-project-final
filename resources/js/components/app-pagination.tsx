@@ -11,10 +11,18 @@ import {
     PaginationPrevious,
 } from '@/components/ui/pagination';
 
+interface PaginationMeta {
+    current_page: number;
+    last_page: number;
+}
+
 interface AppPaginationProps {
-    currentPage: number;
-    lastPage: number;
-    onPageChange: (page: number) => void;
+    meta: PaginationMeta;
+}
+
+interface PaginationOptions {
+    key?: string;
+    scrollToTop?: boolean;
 }
 
 function generatePageRange(currentPage: number, lastPage: number): (number | 'ellipsis')[] {
@@ -44,68 +52,24 @@ function generatePageRange(currentPage: number, lastPage: number): (number | 'el
     return items;
 }
 
-export function AppPagination({ currentPage, lastPage, onPageChange }: AppPaginationProps) {
-    const isSinglePage = lastPage <= 1;
-    const pages = isSinglePage ? [1] : generatePageRange(currentPage, lastPage);
-    const isFirst = isSinglePage || currentPage === 1;
-    const isLast = isSinglePage || currentPage === lastPage;
+export function usePageParam(key = 'page'): number {
+    const { url } = usePage();
 
-    return (
-        <Pagination>
-            <PaginationContent>
-                <PaginationItem>
-                    <PaginationPrevious
-                        onClick={() => !isFirst && onPageChange(currentPage - 1)}
-                        aria-disabled={isFirst}
-                        className={isFirst ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-                    />
-                </PaginationItem>
+    return useMemo(() => {
+        const { searchParams } = new URL(url, window.location.origin);
+        const val = Number(searchParams.get(key));
 
-                {pages.map((page, i) =>
-                    page === 'ellipsis' ? (
-                        <PaginationItem key={`ellipsis-${i}`}>
-                            <PaginationEllipsis />
-                        </PaginationItem>
-                    ) : (
-                        <PaginationItem key={page}>
-                            <PaginationLink
-                                isActive={page === currentPage}
-                                onClick={() => !isSinglePage && onPageChange(page)}
-                                className={isSinglePage ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-                            >
-                                {page}
-                            </PaginationLink>
-                        </PaginationItem>
-                    ),
-                )}
-
-                <PaginationItem>
-                    <PaginationNext
-                        onClick={() => !isLast && onPageChange(currentPage + 1)}
-                        aria-disabled={isLast}
-                        className={isLast ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-                    />
-                </PaginationItem>
-            </PaginationContent>
-        </Pagination>
-    );
+        return isNaN(val) || val < 1 ? 1 : val;
+    }, [url, key]);
 }
 
-interface PaginationOptions {
-    key?: string;
-    scrollToTop?: boolean;
-}
-
-export function usePagination({ key = 'page', scrollToTop = true }: PaginationOptions = {}) {
+function usePagination({ key = 'page', scrollToTop = true }: PaginationOptions = {}) {
     const { url } = usePage();
 
     const { pathname, searchParams } = useMemo(() => {
         const parsed = new URL(url, window.location.origin);
 
-        return {
-            pathname: parsed.pathname,
-            searchParams: parsed.searchParams,
-        };
+        return { pathname: parsed.pathname, searchParams: parsed.searchParams };
     }, [url]);
 
     const page = useMemo(() => {
@@ -124,7 +88,6 @@ export function usePagination({ key = 'page', scrollToTop = true }: PaginationOp
     const setPage = useCallback(
         (newPage: number) => {
             const currentParams = Object.fromEntries(searchParams.entries());
-
             router.get(
                 pathname,
                 { ...currentParams, [key]: newPage },
@@ -143,4 +106,54 @@ export function usePagination({ key = 'page', scrollToTop = true }: PaginationOp
     );
 
     return { page, setPage };
+}
+
+export function AppPagination({ meta }: AppPaginationProps) {
+    const { page: currentPage, setPage } = usePagination();
+    const lastPage = meta.last_page;
+
+    const isSinglePage = lastPage <= 1;
+    const pages = isSinglePage ? [1] : generatePageRange(currentPage, lastPage);
+    const isFirst = isSinglePage || currentPage === 1;
+    const isLast = isSinglePage || currentPage === lastPage;
+
+    return (
+        <Pagination>
+            <PaginationContent>
+                <PaginationItem>
+                    <PaginationPrevious
+                        onClick={() => !isFirst && setPage(currentPage - 1)}
+                        aria-disabled={isFirst}
+                        className={isFirst ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                    />
+                </PaginationItem>
+
+                {pages.map((page, i) =>
+                    page === 'ellipsis' ? (
+                        <PaginationItem key={`ellipsis-${i}`}>
+                            <PaginationEllipsis />
+                        </PaginationItem>
+                    ) : (
+                        <PaginationItem key={page}>
+                            <PaginationLink
+                                isActive={page === currentPage}
+                                onClick={() => !isSinglePage && setPage(page)}
+                                className={isSinglePage ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                            >
+                                {page}
+                            </PaginationLink>
+                        </PaginationItem>
+                    ),
+                )}
+
+                <PaginationItem>
+                    <PaginationNext
+                        onClick={() => !isLast && setPage(currentPage + 1)}
+                        aria-disabled={isLast}
+                        className={isLast ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                    />
+                </PaginationItem>
+            </PaginationContent>
+        </Pagination>
+    );
 }
