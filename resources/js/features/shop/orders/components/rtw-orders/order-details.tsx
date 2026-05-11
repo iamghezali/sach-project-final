@@ -15,20 +15,20 @@ export default function OrderDetails(): JSX.Element {
         return <></>;
     }
 
-    const { data } = response;
+    const order = response.data;
 
     return (
         <div>
             <h1>Order Details</h1>
 
             <ul>
-                <li>Order ID: {data.id}</li>
-                <li>Create at: {data.createdAt}</li>
-                <li>Total: {data.total} DZD</li>
-                <li>Message: {data.notes}</li>
+                <li>Order ID: {order.id}</li>
+                <li>Create at: {order.createdAt}</li>
+                <li>Total: {order.total} DZD</li>
+                <li>Message: {order.notes}</li>
                 <li>
                     <div>
-                        {data.items.map((orderItem) => (
+                        {order.items.map((orderItem) => (
                             <div
                                 key={orderItem.id}
                                 className="border border-black p-4"
@@ -44,13 +44,13 @@ export default function OrderDetails(): JSX.Element {
 
                 <li>
                     <ul>
-                        <li>{data.shippingAddress.fullName}</li>
-                        <li>{data.shippingAddress.addressLine1}</li>
-                        {data.shippingAddress.addressLine2 && <li>{data.shippingAddress.addressLine2}</li>}
-                        <li>{data.shippingAddress.phone}</li>
-                        <li>{data.shippingAddress.willaya}</li>
-                        <li>{data.shippingAddress.postalCode}</li>
-                        <li>{data.shippingAddress.country}</li>
+                        <li>{order.shippingAddress.fullName}</li>
+                        <li>{order.shippingAddress.addressLine1}</li>
+                        {order.shippingAddress.addressLine2 && <li>{order.shippingAddress.addressLine2}</li>}
+                        <li>{order.shippingAddress.phone}</li>
+                        <li>{order.shippingAddress.willaya}</li>
+                        <li>{order.shippingAddress.postalCode}</li>
+                        <li>{order.shippingAddress.country}</li>
                     </ul>
                 </li>
             </ul>

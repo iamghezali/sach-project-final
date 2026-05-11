@@ -13,6 +13,7 @@ const ListOrderItemSchema = z.object({
 });
 
 export const OrdersListResponseSchema = apiPaginatedResponseSchema(ListOrderItemSchema);
+export type ListOrderItem = z.infer<typeof ListOrderItemSchema>;
 
 // --------------------------------------------------
 
