@@ -1,19 +1,11 @@
 import type { JSX } from 'react';
-import { AppPagination, useAutoRedirectOutOfRange, usePageParam } from '@/components/app-pagination';
 import CustomOrderListItem from '@/features/shop/orders/components/custom-orders/custom-order-list-item';
 import { useListCustomOrders } from '@/features/shop/orders/queries';
 
 export default function CustomOrdersList(): JSX.Element {
-    const page = usePageParam('co-page');
-    const { data: response, isLoading } = useListCustomOrders(page);
+    const { data: response, isLoading } = useListCustomOrders(1);
 
-    const isOutOfRange = useAutoRedirectOutOfRange({
-        meta: !isLoading ? response?.meta : undefined,
-        currentPage: page,
-        key: 'co-page',
-    });
-
-    if (isLoading || isOutOfRange) {
+    if (isLoading) {
         return <>Loading...</>;
     }
 
@@ -36,11 +28,6 @@ export default function CustomOrdersList(): JSX.Element {
                     <>No custom orders are found.</>
                 )}
             </ul>
-
-            <AppPagination
-                key="co-page"
-                meta={response.meta}
-            />
         </>
     );
 }
