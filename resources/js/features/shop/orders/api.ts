@@ -1,5 +1,9 @@
 import { apiRequest } from '@/api/client';
-import { OrderResponseSchema, OrdersListResponseSchema } from '@/features/shop/orders/schema';
+import {
+    CustomOrdersListResponseSchema,
+    OrderResponseSchema,
+    OrdersListResponseSchema,
+} from '@/features/shop/orders/schema';
 
 export const ordersApi = {
     list: (page: number = 1) =>
@@ -14,4 +18,17 @@ export const ordersApi = {
             url: `/shop/orders/${id}`,
             method: 'get',
         }),
+
+    listCustom: (page = 1) =>
+        apiRequest(CustomOrdersListResponseSchema, {
+            url: '/shop/custom-orders/',
+            method: 'get',
+            params: { page },
+        }),
+
+    // getCustomOrder: (id: string) =>
+    //     apiRequest(CustomOrderResponseSchema, {
+    //         url: `/shop/orders/custom/${id}`,
+    //         method: 'get',
+    //     }),
 };

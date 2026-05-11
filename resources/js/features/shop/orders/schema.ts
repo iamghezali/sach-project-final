@@ -1,8 +1,10 @@
 import z from 'zod';
 import { apiPaginatedResponseSchema, apiResponseSchema } from '@/api/schema';
 
+// ------------------- RTW
+
 /**
- * List Response
+ * List Order Response
  */
 const ListOrderItemSchema = z.object({
     id: z.number(),
@@ -59,3 +61,23 @@ export const OrderResponseSchema = apiResponseSchema(
         items: z.array(OrderItemResponseSchema),
     }),
 );
+
+// ------------------- CUSTOM
+
+/**
+ * List Custom Order Response
+ */
+
+const ListCustomOrderItemSchema = z.object({
+    id: z.number(),
+    title: z.string(),
+    status: z.string(),
+    status_label: z.string(),
+    offer_total: z.string(),
+    created_at: z.string(),
+});
+
+export const CustomOrdersListResponseSchema = apiPaginatedResponseSchema(ListCustomOrderItemSchema);
+export type ListCustomOrderItem = z.infer<typeof ListCustomOrderItemSchema>;
+
+// --------------------------------------------------
