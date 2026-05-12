@@ -15,7 +15,7 @@ export const useAssignToTailor = (orderID: number) => {
             customOrdersApi.assignToTailor(orderID, payload),
 
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: customOrderKeys.order(orderID) });
+            return queryClient.invalidateQueries({ queryKey: customOrderKeys.order(orderID) });
         },
     });
 };
@@ -28,7 +28,7 @@ export const useAttachOfferToItem = (orderID: number) => {
             customOrdersApi.attachOfferToItem(orderID, payload),
 
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: customOrderKeys.order(orderID) });
+            return queryClient.invalidateQueries({ queryKey: customOrderKeys.order(orderID) });
         },
     });
 };
@@ -41,7 +41,7 @@ export const useUpdateFolderStatus = (orderID: number) => {
             customOrdersApi.updateFolderStatus(orderID, payload),
 
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: customOrderKeys.order(orderID) });
+            return queryClient.invalidateQueries({ queryKey: customOrderKeys.order(orderID) });
         },
     });
 };
@@ -61,7 +61,7 @@ export const useUpdateItemStatus = (orderID: number) => {
         }) => customOrdersApi.updateItemStatus(orderID, itemID, payload),
 
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: customOrderKeys.order(orderID) });
+            return queryClient.invalidateQueries({ queryKey: customOrderKeys.order(orderID) });
         },
     });
 };

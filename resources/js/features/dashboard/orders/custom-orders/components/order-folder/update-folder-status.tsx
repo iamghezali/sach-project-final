@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from 'lucide-react';
+import { ChevronDownIcon, LoaderCircleIcon } from 'lucide-react';
 import { useState } from 'react';
 import type { JSX } from 'react';
 import { Button } from '@/components/ui/button';
@@ -30,14 +30,14 @@ interface UpdateFolderStatusProps {
 export default function UpdateFolderStatus({ orderID }: UpdateFolderStatusProps): JSX.Element {
     const [open, setOpen] = useState(false);
     const { data: response } = useCustomOrderFolder(orderID);
-    const { mutateAsync: updateFolderStatus } = useUpdateFolderStatus(orderID);
+    const { mutateAsync: updateFolderStatus, isPending } = useUpdateFolderStatus(orderID);
 
     const currentStatus = response?.data.status;
     const currentLabel = response?.data.status_label;
 
-    const handleCheckedChange = (value: FolderStatus, checked: boolean) => {
+    const handleCheckedChange = async (value: FolderStatus, checked: boolean) => {
         if (checked && value !== currentStatus) {
-            updateFolderStatus({
+            await updateFolderStatus({
                 orderID: orderID,
                 payload: {
                     status: value,
@@ -57,8 +57,10 @@ export default function UpdateFolderStatus({ orderID }: UpdateFolderStatusProps)
                 <Button
                     size="sm"
                     variant="outline"
+                    disabled={isPending}
                 >
-                    {currentLabel}
+                    {isPending && <LoaderCircleIcon className="animate-spin" />}
+                    {isPending ? 'Updating...' : currentLabel}
                     <ChevronDownIcon />
                 </Button>
             </DropdownMenuTrigger>

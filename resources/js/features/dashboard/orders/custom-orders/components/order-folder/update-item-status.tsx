@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from 'lucide-react';
+import { ChevronDownIcon, LoaderCircleIcon } from 'lucide-react';
 import { useState } from 'react';
 import type { JSX } from 'react';
 import { Button } from '@/components/ui/button';
@@ -31,14 +31,14 @@ interface UpdateItemStatusProps {
 export default function UpdateItemStatus({ orderID, orderItemID }: UpdateItemStatusProps): JSX.Element {
     const [open, setOpen] = useState(false);
     const { data: response } = useCustomOrderFolder(orderID);
-    const { mutateAsync: updateItemStatus } = useUpdateItemStatus(orderID);
+    const { mutateAsync: updateItemStatus, isPending } = useUpdateItemStatus(orderID);
 
     const currentStatus = response?.data.items.find((item) => item.id === orderItemID)?.status as ItemStatus;
     const currentLabel = response?.data.items.find((item) => item.id === orderItemID)?.status_label;
 
-    const handleCheckedChange = (value: ItemStatus, checked: boolean) => {
+    const handleCheckedChange = async (value: ItemStatus, checked: boolean) => {
         if (checked && value !== currentStatus) {
-            updateItemStatus({
+            await updateItemStatus({
                 orderID: orderID,
                 itemID: orderItemID,
                 payload: {
@@ -59,8 +59,10 @@ export default function UpdateItemStatus({ orderID, orderItemID }: UpdateItemSta
                 <Button
                     size="sm"
                     variant="outline"
+                    disabled={isPending}
                 >
-                    {currentLabel}
+                    {isPending && <LoaderCircleIcon className="animate-spin" />}
+                    {isPending ? 'Updating...' : currentLabel}
                     <ChevronDownIcon />
                 </Button>
             </DropdownMenuTrigger>
