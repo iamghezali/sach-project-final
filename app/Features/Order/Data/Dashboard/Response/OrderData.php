@@ -11,12 +11,12 @@ class OrderData extends Data
 {
     public function __construct(
         public int $id,
-        public int $customer_id,
         public string $total,
         public OrderStatus $status,
         public readonly string $status_label,
         public string $createdAt,
 
+        public Lazy|CustomerData $customer,
         public Lazy|AddressData $shippingAddress,
         public Lazy|AddressData $billingAddress,
 
@@ -29,7 +29,7 @@ class OrderData extends Data
     {
         return new self(
             id: $order->id,
-            customer_id: $order->user_id,
+            customer: Lazy::create(fn () => CustomerData::fromModel($order->user)),
             total: $order->total,
             notes: $order->notes,
             status: $order->status,

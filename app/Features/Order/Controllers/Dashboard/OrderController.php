@@ -34,7 +34,7 @@ class OrderController extends Controller
             $order = $this->showOrderAction->execute($orderID);
 
             return response()->json([
-                'data' => OrderData::from($order)->include('shippingAddress', 'billingAddress', 'items'),
+                'data' => OrderData::from($order)->include('shippingAddress', 'billingAddress', 'items', 'customer'),
             ]);
 
         } catch (ModelNotFoundException $e) {

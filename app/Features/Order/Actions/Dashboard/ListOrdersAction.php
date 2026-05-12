@@ -17,6 +17,6 @@ class ListOrdersAction
                 ->latest()
                 ->paginate(self::PER_PAGE),
             PaginatedDataCollection::class
-        );
+        )->include('customer');
     }
 }
