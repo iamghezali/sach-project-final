@@ -11,6 +11,7 @@ const ListOrderItemSchema = z.object({
     total: z.string(),
     notes: z.string().nullable().optional(),
     status: z.string(),
+    status_label: z.string(),
     createdAt: z.string(),
 });
 

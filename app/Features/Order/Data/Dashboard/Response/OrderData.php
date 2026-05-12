@@ -14,6 +14,7 @@ class OrderData extends Data
         public int $customer_id,
         public string $total,
         public OrderStatus $status,
+        public readonly string $status_label,
         public string $createdAt,
 
         public Lazy|AddressData $shippingAddress,
@@ -32,6 +33,7 @@ class OrderData extends Data
             total: $order->total,
             notes: $order->notes,
             status: $order->status,
+            status_label: $order->status->label(),
             createdAt: $order->created_at->format('Y-m-d'),
             shippingAddress: Lazy::create(fn () => AddressData::fromModel($order->shippingAddress)),
             billingAddress: Lazy::create(fn () => AddressData::fromModel($order->billingAddress)),

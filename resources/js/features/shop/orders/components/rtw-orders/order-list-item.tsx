@@ -14,7 +14,7 @@ export default function OrderListItem({ order }: OrderListItemProps): JSX.Elemen
             <div>
                 <div>Order Sach RTW</div>
                 <div>
-                    <Badge variant="secondary">{order.status}</Badge>
+                    <Badge variant="secondary">{order.status_label}</Badge>
                 </div>
             </div>
             <div>
