@@ -7,16 +7,14 @@ use App\Models\ClothingOrderItem;
 
 class ChangeClothingOrderItemStatusAction
 {
-    public function execute(int $itemID, ChangeClothingOrderItemStatusRequestData $data): ClothingOrderItem
+    public function execute(int $orderID, int $itemID, ChangeClothingOrderItemStatusRequestData $data): ClothingOrderItem
     {
-        $item = ClothingOrderItem::with('clothingOrder.items')
+        $item = ClothingOrderItem::where('clothing_order_id', $orderID)
             ->findOrFail($itemID);
 
         $item->update(['status' => $data->status]);
 
-        $clothingOrder = $item->clothingOrder;
-        $clothingOrder->items->find($item->id)->status = $data->status;
-
         return $item->fresh();
+
     }
 }

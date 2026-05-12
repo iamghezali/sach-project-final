@@ -72,9 +72,9 @@ class ClothingOrderController extends Controller
         ]);
     }
 
-    public function updateOrderItemStatus(int $itemID, ChangeClothingOrderItemStatusRequestData $data)
+    public function updateOrderItemStatus(int $orderID, int $itemID, ChangeClothingOrderItemStatusRequestData $data)
     {
-        $orderItem = $this->changeClothingOrderItemStatusAction->execute($itemID, $data);
+        $orderItem = $this->changeClothingOrderItemStatusAction->execute($orderID, $itemID, $data);
 
         return response()->json([
             'data' => ClothingOrderItemData::from($orderItem),
