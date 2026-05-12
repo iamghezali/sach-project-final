@@ -3,8 +3,9 @@ import type { JSX } from 'react';
 import { useGetOrder } from '@/features/shop/orders/queries';
 
 export default function OrderDetails(): JSX.Element {
-    const { props } = usePage<{ id: string }>();
-    const orderID = props.id;
+    const { id } = usePage<{ id: string }>().props;
+    const orderID = Number(id);
+
     const { data: response, isLoading } = useGetOrder(orderID);
 
     if (isLoading) {
