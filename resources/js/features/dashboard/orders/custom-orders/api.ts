@@ -1,10 +1,17 @@
 import { apiRequest } from '@/api/client';
-import type { AssignToTailorRequest, AttachOfferToItemRequest } from '@/features/dashboard/orders/custom-orders/schema';
+import type {
+    AssignToTailorRequest,
+    AttachOfferToItemRequest,
+    UpdateFolderStatusRequest,
+    UpdateItemStatusRequest,
+} from '@/features/dashboard/orders/custom-orders/schema';
 import {
     AssignToTailorResponseSchema,
     AttachOfferToItemResponseSchema,
     CustomOrderFolderResponseSchema,
     CustomOrderListResponseSchema,
+    UpdateFolderStatusResponseSchema,
+    UpdateItemStatusResponseSchema,
 } from '@/features/dashboard/orders/custom-orders/schema';
 
 export const customOrdersApi = {
@@ -32,6 +39,20 @@ export const customOrdersApi = {
         apiRequest(AttachOfferToItemResponseSchema, {
             url: `/custom-orders/${id}/offer`,
             method: 'put',
+            data: payload,
+        }),
+
+    updateFolderStatus: (orderID: number, payload: UpdateFolderStatusRequest) =>
+        apiRequest(UpdateFolderStatusResponseSchema, {
+            url: `/custom-orders/${orderID}/status`,
+            method: 'patch',
+            data: payload,
+        }),
+
+    updateItemStatus: (orderID: number, itemID: number, payload: UpdateItemStatusRequest) =>
+        apiRequest(UpdateItemStatusResponseSchema, {
+            url: `/custom-orders/${orderID}/items/${itemID}/status`,
+            method: 'patch',
             data: payload,
         }),
 };

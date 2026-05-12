@@ -1,7 +1,7 @@
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { AssignSingle } from '@/features/dashboard/orders/custom-orders/components/order-folder/assign-items';
 import AttachOfferToItem from '@/features/dashboard/orders/custom-orders/components/order-folder/attach-offer-to-item';
+import UpdateItemStatus from '@/features/dashboard/orders/custom-orders/components/order-folder/update-item-status';
 import type { ClothingOrderItem, Measurements } from '@/features/dashboard/orders/custom-orders/schema';
 
 function MeasurementDetails({ measurements }: { measurements: Measurements }) {
@@ -73,7 +73,11 @@ export function OrderItem({ item, orderID }: { orderID: number; item: ClothingOr
 
             <div className="flex items-start justify-between gap-2">
                 <p className="font-medium">{info.title}</p>
-                <Badge variant="outline">{item.status_label}</Badge>
+
+                <UpdateItemStatus
+                    orderID={orderID}
+                    orderItemID={item.id}
+                />
             </div>
 
             <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">

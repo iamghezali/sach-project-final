@@ -112,5 +112,46 @@ export const AttachOfferToItemRequestSchema = z.object({
 });
 
 export type AttachOfferToItemRequest = z.infer<typeof AttachOfferToItemRequestSchema>;
-
 export const AttachOfferToItemResponseSchema = apiResponseSchema(ClothingOrderItemSchema);
+
+// -------------- Update Folder Status
+
+export const FolderStatusSchema = z.enum([
+    'pending',
+    'offered',
+    'negotiating',
+    'accepted',
+    'in_progress',
+    'completed',
+    'cancelled',
+]);
+
+export type FolderStatus = z.infer<typeof FolderStatusSchema>;
+
+export const UpdateFolderStatusRequestSchema = z.object({
+    status: FolderStatusSchema,
+});
+
+export type UpdateFolderStatusRequest = z.infer<typeof UpdateFolderStatusRequestSchema>;
+export const UpdateFolderStatusResponseSchema = apiResponseSchema(CustomOrderSchema.omit({ user: true }));
+
+// -------------- Update Item Status
+
+export const ItemStatusSchema = z.enum([
+    'pending',
+    'offered',
+    'negotiating',
+    'accepted',
+    'in_progress',
+    'completed',
+    'cancelled',
+]);
+
+export type ItemStatus = z.infer<typeof ItemStatusSchema>;
+
+export const UpdateItemStatusRequestSchema = z.object({
+    status: ItemStatusSchema,
+});
+
+export type UpdateItemStatusRequest = z.infer<typeof UpdateItemStatusRequestSchema>;
+export const UpdateItemStatusResponseSchema = apiResponseSchema(ClothingOrderItemSchema);

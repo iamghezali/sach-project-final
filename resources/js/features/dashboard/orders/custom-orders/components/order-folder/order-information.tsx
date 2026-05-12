@@ -1,9 +1,9 @@
 import type { JSX } from 'react';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { AssignAll } from '@/features/dashboard/orders/custom-orders/components/order-folder/assign-items';
 import { OrderItem } from '@/features/dashboard/orders/custom-orders/components/order-folder/order-item';
+import UpdateFolderStatus from '@/features/dashboard/orders/custom-orders/components/order-folder/update-folder-status';
 import { useCustomOrderFolder } from '@/features/dashboard/orders/custom-orders/queries';
 
 type OrderInformationProps = {
@@ -32,8 +32,8 @@ export default function OrderInformation({ orderID }: OrderInformationProps): JS
                         {order.user.name} &middot; {order.user.email}
                     </p>
                 </div>
-                <Badge>{order.status_label}</Badge>
 
+                <UpdateFolderStatus orderID={orderID} />
                 <AssignAll orderID={orderID} />
             </div>
 
