@@ -16,7 +16,7 @@ export default function CustomOrderListItem({ order }: CustomOrderListItemProps)
                     className="text-xl font-bold hover:underline"
                     href={`/shop/orders/my/${order.id}/custom-order`}
                 >
-                    Order Sach Custom
+                    {order.title}
                 </Link>
 
                 <div>
