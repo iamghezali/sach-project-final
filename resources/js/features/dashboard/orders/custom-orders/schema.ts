@@ -102,3 +102,15 @@ export const AssignToTailorRequestSchema = z.object({
 export type AssignToTailorRequest = z.infer<typeof AssignToTailorRequestSchema>;
 
 export const AssignToTailorResponseSchema = apiNoContentSchema;
+
+// -------------- Attach Offer
+
+export const AttachOfferToItemRequestSchema = z.object({
+    item_id: z.number().int().positive(),
+    offer_price: z.number(),
+    offer_due_date: z.iso.date(),
+});
+
+export type AttachOfferToItemRequest = z.infer<typeof AttachOfferToItemRequestSchema>;
+
+export const AttachOfferToItemResponseSchema = apiResponseSchema(ClothingOrderItemSchema);

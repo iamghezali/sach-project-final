@@ -1,7 +1,8 @@
 import { apiRequest } from '@/api/client';
-import type { AssignToTailorRequest } from '@/features/dashboard/orders/custom-orders/schema';
+import type { AssignToTailorRequest, AttachOfferToItemRequest } from '@/features/dashboard/orders/custom-orders/schema';
 import {
     AssignToTailorResponseSchema,
+    AttachOfferToItemResponseSchema,
     CustomOrderFolderResponseSchema,
     CustomOrderListResponseSchema,
 } from '@/features/dashboard/orders/custom-orders/schema';
@@ -24,6 +25,13 @@ export const customOrdersApi = {
         apiRequest(AssignToTailorResponseSchema, {
             url: `/custom-orders/${id}/assign`,
             method: 'patch',
+            data: payload,
+        }),
+
+    attachOfferToItem: (id: number, payload: AttachOfferToItemRequest) =>
+        apiRequest(AttachOfferToItemResponseSchema, {
+            url: `/custom-orders/${id}/offer`,
+            method: 'put',
             data: payload,
         }),
 };

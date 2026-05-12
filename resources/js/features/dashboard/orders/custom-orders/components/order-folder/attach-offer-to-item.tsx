@@ -1,5 +1,7 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import type { JSX } from 'react';
+import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import Form from '@/components/form/form';
 import { FormButton } from '@/components/form/form-button';
@@ -15,12 +17,17 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { FieldError } from '@/components/ui/field';
+import { useAttachOfferToItem } from '@/features/dashboard/orders/custom-orders/mutations';
+import type { AttachOfferToItemRequest } from '@/features/dashboard/orders/custom-orders/schema';
+import { AttachOfferToItemRequestSchema } from '@/features/dashboard/orders/custom-orders/schema';
 import { cn } from '@/lib/utils';
 
 type AttachOfferToItemProps = {
     orderID: number;
     orderItemID: number;
 };
+
+const today = new Date().toISOString().split('T')[0];
 
 export default function AttachOfferToItem({
     className,
@@ -29,9 +36,34 @@ export default function AttachOfferToItem({
     ...props
 }: AttachOfferToItemProps & React.ComponentProps<typeof Button>): JSX.Element {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const form = useForm();
 
-    const onSubmit = () => {
+    const { mutateAsync: attachOffer } = useAttachOfferToItem(orderID);
+
+    const form = useForm<AttachOfferToItemRequest>({
+        defaultValues: {
+            item_id: orderItemID,
+            offer_price: 2000,
+            offer_due_date: today,
+        },
+        resolver: zodResolver(AttachOfferToItemRequestSchema),
+    });
+
+    const onSubmit: SubmitHandler<AttachOfferToItemRequest> = (values) => {
+        attachOffer(
+            {
+                orderID: orderID,
+                payload: values,
+            },
+            {
+                onError: (errors) => {
+                    form.setError('root', { message: errors.message });
+                },
+
+                onSuccess: () => {
+                    setIsOpen(false);
+                },
+            },
+        );
         console.log('attach offer to item', orderItemID, 'order', orderID);
     };
 
@@ -55,8 +87,8 @@ export default function AttachOfferToItem({
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Assign Item to tailor</DialogTitle>
-                    <DialogDescription className="sr-only">Assign this item to tailor</DialogDescription>
+                    <DialogTitle>Attach an Offer</DialogTitle>
+                    <DialogDescription className="sr-only">Attach an offer to item</DialogDescription>
                 </DialogHeader>
 
                 <Form
@@ -80,10 +112,10 @@ export default function AttachOfferToItem({
                         control={form.control}
                         name="offer_due_date"
                     >
-                        <FormField.Label>Price</FormField.Label>
+                        <FormField.Label>Date</FormField.Label>
                         <FormInput
                             type="date"
-                            min={new Date().toISOString().split('T')[0]}
+                            min={today}
                         />
                         <FormField.Error />
                     </FormField>
