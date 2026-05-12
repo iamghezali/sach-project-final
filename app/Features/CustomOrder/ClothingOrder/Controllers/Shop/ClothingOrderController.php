@@ -47,11 +47,13 @@ class ClothingOrderController extends Controller
         ]);
     }
 
-    public function cancelItem(int $orderID, int $itemID)
+    public function declineItem(int $orderID, int $itemID)
     {
         $order = $this->acceptClothingOrderOfferAction->execute($orderID, false, $itemID);
 
-        return response()->json(ClothingOrderData::fromModel($order));
+        return response()->json([
+            'data' => ClothingOrderData::fromModel($order)->include('items'),
+        ]);
     }
 
     public function resolveOrder(int $orderID, ResolveClothingOrderData $data)

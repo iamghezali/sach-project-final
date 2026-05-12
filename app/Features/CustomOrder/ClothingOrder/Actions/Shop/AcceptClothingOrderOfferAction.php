@@ -48,7 +48,7 @@ class AcceptClothingOrderOfferAction
 
     private function ensureOrderIsCancellable(ClothingOrder $order): void
     {
-        if (! in_array($order->status, [ClothingOrderStatus::Offered, ClothingOrderStatus::Negotiating], true)) {
+        if (! \in_array($order->status, [ClothingOrderStatus::Offered, ClothingOrderStatus::Negotiating], true)) {
             throw ValidationException::withMessages([
                 'accept' => 'The order can only be cancelled when it is offered or negotiating.',
             ]);
@@ -57,7 +57,7 @@ class AcceptClothingOrderOfferAction
 
     private function ensureOrderIsNegotiable(ClothingOrder $order): void
     {
-        if (! in_array($order->status, [ClothingOrderStatus::Offered, ClothingOrderStatus::Negotiating], true)) {
+        if (! \in_array($order->status, [ClothingOrderStatus::Offered, ClothingOrderStatus::Negotiating], true)) {
             throw ValidationException::withMessages([
                 'status' => 'Individual items can only be declined when the order is offered or negotiating.',
             ]);
