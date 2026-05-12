@@ -34,7 +34,7 @@ class ClothingOrderController extends Controller
 
         return response()->json([
             'message' => 'Custom Order Placed successfully',
-            'data' => ClothingOrderData::from($order),
+            'data' => ClothingOrderData::from($order)->include('items'),
         ], 201);
     }
 
@@ -43,7 +43,7 @@ class ClothingOrderController extends Controller
         $order = $this->showClothingOrderAction->execute($request->user(), $orderID);
 
         return response()->json([
-            'data' => ClothingOrderData::from($order),
+            'data' => ClothingOrderData::from($order)->include('items'),
         ]);
     }
 
@@ -58,6 +58,8 @@ class ClothingOrderController extends Controller
     {
         $order = $this->acceptClothingOrderOfferAction->execute($orderID, $data->accept);
 
-        return response()->json(ClothingOrderData::fromModel($order));
+        return response()->json([
+            'data' => ClothingOrderData::fromModel($order),
+        ]);
     }
 }

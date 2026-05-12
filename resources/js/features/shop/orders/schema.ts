@@ -81,3 +81,13 @@ export const CustomOrdersListResponseSchema = apiPaginatedResponseSchema(ListCus
 export type ListCustomOrderItem = z.infer<typeof ListCustomOrderItemSchema>;
 
 // --------------------------------------------------
+
+/**
+ * Resolve Custom Order
+ */
+export const ResolveCustomOrderOfferRequestSchema = z.object({
+    accept: z.boolean(),
+});
+
+export type ResolveCustomOrderOfferRequest = z.infer<typeof ResolveCustomOrderOfferRequestSchema>;
+export const ResolveCustomOrderOfferResponseSchema = apiResponseSchema(ListCustomOrderItemSchema);

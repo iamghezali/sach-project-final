@@ -6,6 +6,7 @@ use App\Features\CustomOrder\ClothingOrder\Enums\ClothingOrderStatus;
 use App\Models\ClothingOrder;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;
+use Spatie\LaravelData\Lazy;
 
 class ClothingOrderData extends Data
 {
@@ -17,8 +18,8 @@ class ClothingOrderData extends Data
         public readonly string $offer_total,
         public readonly string $created_at,
 
-        /** @var DataCollection<ClothingOrderItemData> */
-        public readonly DataCollection $items,
+        /** @var Lazy<DataCollection<ClothingOrderItemData>> */
+        public readonly Lazy|DataCollection $items,
     ) {}
 
     public static function fromModel(ClothingOrder $order): self
@@ -30,10 +31,10 @@ class ClothingOrderData extends Data
             status_label: $order->status->label(),
             offer_total: $order->offerTotal(),
             created_at: $order->created_at->format('Y-m-d'),
-            items: new DataCollection(
+            items: Lazy::create(fn () => new DataCollection(
                 ClothingOrderItemData::class,
                 $order->items->map(fn ($item) => ClothingOrderItemData::fromModel($item)),
-            ),
+            )),
         );
     }
 }

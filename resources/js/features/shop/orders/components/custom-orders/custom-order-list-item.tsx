@@ -20,7 +20,7 @@ export default function CustomOrderListItem({ order }: CustomOrderListItemProps)
                 </Link>
 
                 <div>
-                    <Badge variant="secondary">{order.status}</Badge>
+                    <Badge variant="secondary">{order.status_label}</Badge>
                 </div>
             </div>
             <div>
@@ -30,7 +30,7 @@ export default function CustomOrderListItem({ order }: CustomOrderListItemProps)
             <div>
                 <div>Created on: {order.created_at}</div>
 
-                {order.status === 'offered' && <CustomOrderInteractions />}
+                {order.status === 'offered' && <CustomOrderInteractions orderID={order.id} />}
             </div>
         </div>
     );

@@ -12,17 +12,65 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { FieldError } from '@/components/ui/field';
+import { useResolveCustomOrderOffer } from '@/features/shop/orders/mutations';
 
-export default function CustomOrderInteractions(): JSX.Element {
+type CustomOrderInteractionsProps = {
+    orderID: number;
+};
+
+export default function CustomOrderInteractions({ orderID }: CustomOrderInteractionsProps): JSX.Element {
     const [isOpen, setIsOpen] = useState(false);
+    const [error, setError] = useState<string>();
+    const { mutateAsync: resolveCustomOrderOffer, isPending } = useResolveCustomOrderOffer(orderID);
 
-    const HandleAccept = () => console.log('offer accepted');
-    const HandleDecline = () => console.log('offer declined');
+    const HandleAccept = async () =>
+        await resolveCustomOrderOffer(
+            {
+                orderID: orderID,
+                payload: {
+                    accept: true,
+                },
+            },
+            {
+                onError: (error) => {
+                    setError(error.message);
+                },
+            },
+        );
+
+    const HandleDecline = async () => {
+        await resolveCustomOrderOffer(
+            {
+                orderID: orderID,
+                payload: {
+                    accept: false,
+                },
+            },
+            {
+                onSuccess: () => setIsOpen(false),
+                onError: (error) => {
+                    setError(error.message);
+                },
+            },
+        );
+    };
 
     return (
         <div>
-            <Button onClick={() => setIsOpen(true)}>Decline</Button>
-            <Button onClick={HandleAccept}>Accept</Button>
+            <Button
+                onClick={() => setIsOpen(true)}
+                disabled={isPending}
+            >
+                Decline
+            </Button>
+
+            <Button
+                onClick={HandleAccept}
+                disabled={isPending}
+            >
+                Accept
+            </Button>
 
             <AlertDialog open={isOpen}>
                 <AlertDialogContent>
@@ -40,10 +88,13 @@ export default function CustomOrderInteractions(): JSX.Element {
                         <XIcon />
                     </AlertDialogCancel>
 
+                    {error && <FieldError>{error}</FieldError>}
+
                     <AlertDialogFooter className="border-0 bg-transparent">
                         <AlertDialogAction
                             className="w-full"
                             variant="destructive"
+                            disabled={isPending}
                             onClick={HandleDecline}
                         >
                             Decline & Cancel Order

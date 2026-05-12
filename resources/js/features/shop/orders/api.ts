@@ -1,8 +1,10 @@
 import { apiRequest } from '@/api/client';
+import type { ResolveCustomOrderOfferRequest } from '@/features/shop/orders/schema';
 import {
     CustomOrdersListResponseSchema,
     OrderResponseSchema,
     OrdersListResponseSchema,
+    ResolveCustomOrderOfferResponseSchema,
 } from '@/features/shop/orders/schema';
 
 export const ordersApi = {
@@ -13,7 +15,7 @@ export const ordersApi = {
             params: { page },
         }),
 
-    getOrder: (id: string) =>
+    getOrder: (id: number) =>
         apiRequest(OrderResponseSchema, {
             url: `/shop/orders/${id}`,
             method: 'get',
@@ -26,9 +28,10 @@ export const ordersApi = {
             params: { page },
         }),
 
-    // getCustomOrder: (id: string) =>
-    //     apiRequest(CustomOrderResponseSchema, {
-    //         url: `/shop/orders/custom/${id}`,
-    //         method: 'get',
-    //     }),
+    resolveCustomOrderOffer: (orderID: number, payload: ResolveCustomOrderOfferRequest) =>
+        apiRequest(ResolveCustomOrderOfferResponseSchema, {
+            url: `/shop/custom-orders/${orderID}/resolve`,
+            method: 'patch',
+            data: payload,
+        }),
 };
