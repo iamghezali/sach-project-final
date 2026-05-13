@@ -60,3 +60,16 @@ export const OrderDetailsSchema = OrderSchema.extend({
 });
 
 export const OrderDetailsResponseSchema = apiResponseSchema(OrderDetailsSchema);
+
+// -------------- Update Order Status
+
+export const OrderStatusSchema = z.enum(['pending', 'confirmed', 'on_shipping', 'shipped', 'cancelled']);
+
+export type OrderStatus = z.infer<typeof OrderStatusSchema>;
+
+export const UpdateFolderStatusRequestSchema = z.object({
+    status: OrderStatusSchema,
+});
+
+export type UpdateOrderStatusRequest = z.infer<typeof UpdateFolderStatusRequestSchema>;
+export const UpdateOrderStatusResponseSchema = apiResponseSchema(OrderSchema.omit({ customer: true }));

@@ -4,6 +4,7 @@ import { customOrderKeys } from '@/features/dashboard/orders/custom-orders/queri
 import type {
     AssignToTailorRequest,
     AttachOfferToItemRequest,
+    UpdateFolderStatusRequest,
     UpdateItemStatusRequest,
 } from '@/features/dashboard/orders/custom-orders/schema';
 
@@ -37,7 +38,7 @@ export const useUpdateFolderStatus = (orderID: number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: ({ orderID, payload }: { orderID: number; payload: UpdateItemStatusRequest }) =>
+        mutationFn: ({ orderID, payload }: { orderID: number; payload: UpdateFolderStatusRequest }) =>
             customOrdersApi.updateFolderStatus(orderID, payload),
 
         onSuccess: () => {

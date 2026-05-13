@@ -1,7 +1,7 @@
 import type { JSX } from 'react';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import UpdateOrderStatus from '@/features/dashboard/orders/ready-to-wear/components/update-order-status';
 import { useOrderDetails } from '@/features/dashboard/orders/ready-to-wear/queries';
 import type { Address } from '@/features/dashboard/orders/ready-to-wear/schema';
 import { formatPrice } from '@/lib/format-price';
@@ -22,7 +22,6 @@ export default function OrderInformation({ orderID }: OrderInformationProps): JS
     }
 
     const order = response.data;
-    console.log(order);
 
     return (
         <div className="space-y-6">
@@ -32,7 +31,7 @@ export default function OrderInformation({ orderID }: OrderInformationProps): JS
                     <h2 className="text-lg font-semibold">Order #{order.id}</h2>
                     <p className="text-sm text-muted-foreground">{order.createdAt}</p>
                 </div>
-                <Badge variant="outline">{order.status_label}</Badge>
+                <UpdateOrderStatus orderID={order.id} />
             </div>
 
             {/* Customer */}
