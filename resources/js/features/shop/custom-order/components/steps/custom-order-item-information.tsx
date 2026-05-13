@@ -1,6 +1,18 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeftIcon, ArrowRightIcon, BuildingIcon, ShirtIcon, SofaIcon, UserIcon, UsersIcon } from 'lucide-react';
+import {
+    ArrowLeftIcon,
+    ArrowRightIcon,
+    BuildingIcon,
+    ImageIcon,
+    ShirtIcon,
+    SofaIcon,
+    UserIcon,
+    UsersIcon,
+    XIcon,
+} from 'lucide-react';
+import { useState } from 'react';
 import type { JSX } from 'react';
+import { useDropzone } from 'react-dropzone';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import Form from '@/components/form/form';
@@ -11,14 +23,34 @@ import { FormSelect } from '@/components/form/form-select';
 import { FormTextarea } from '@/components/form/form-textarea';
 import { FormToggleGroup } from '@/components/form/form-toggle-group';
 import { Button } from '@/components/ui/button';
-import { FieldDescription, FieldGroup, FieldSet } from '@/components/ui/field';
+import { FieldDescription, FieldError, FieldGroup, FieldSet } from '@/components/ui/field';
 import { Separator } from '@/components/ui/separator';
 import { useCustomOrder } from '@/features/shop/custom-order/providers/custom-order-provider';
 import type { CreateOrderItemInformation } from '@/features/shop/custom-order/schema';
-import { CreateOrderItemInformationSchema, minimumDueDateString } from '@/features/shop/custom-order/schema';
+import {
+    CreateOrderItemInformationSchema,
+    CustomOrderItemSchema,
+    minimumDueDateString,
+} from '@/features/shop/custom-order/schema';
 
 export default function CustomOrderItemInformation(): JSX.Element {
-    const { setStep, orderItem, setOrderItemInformation, isEditing } = useCustomOrder();
+    const [imagesDirty, setImagesDirty] = useState(false);
+
+    const { setStep, orderItem, setOrderItemInformation, appendOrderItemImages, removeOrderItemImage, isEditing } =
+        useCustomOrder();
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        accept: { 'image/*': [] },
+        onDrop: (acceptedFiles) => {
+            appendOrderItemImages(acceptedFiles);
+            setImagesDirty(true);
+        },
+    });
+
+    const handleRemoveImage = (index: number) => {
+        removeOrderItemImage(index);
+        setImagesDirty(true);
+    };
 
     const form = useForm<CreateOrderItemInformation>({
         defaultValues: orderItem.information,
@@ -26,10 +58,17 @@ export default function CustomOrderItemInformation(): JSX.Element {
     });
 
     const {
-        formState: { isDirty },
+        formState: { isDirty, isSubmitted },
     } = form;
 
+    const imageValidation = CustomOrderItemSchema.shape.images.safeParse(orderItem.images);
+    const imageError = isSubmitted && !imageValidation.success ? imageValidation.error.format()._errors[0] : null;
+
     const onSubmit: SubmitHandler<CreateOrderItemInformation> = (values) => {
+        if (!imageValidation.success) {
+            return;
+        }
+
         setOrderItemInformation(values);
 
         if (isEditing) {
@@ -195,6 +234,53 @@ export default function CustomOrderItemInformation(): JSX.Element {
                             )}
                         </FormField>
 
+                        <div className="flex flex-col gap-4">
+                            <div
+                                {...getRootProps()}
+                                className={`flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed p-10 transition-colors ${
+                                    isDragActive
+                                        ? 'bg-brand-primary-50 border-brand-primary-300'
+                                        : imageError
+                                          ? 'border-destructive bg-destructive/5'
+                                          : 'border-brand-neutral-400 hover:border-brand-primary-200'
+                                }`}
+                            >
+                                <input {...getInputProps()} />
+                                <ImageIcon className="mb-2 size-10 text-brand-neutral-600" />
+                                <p className="text-center text-sm text-brand-neutral-600">
+                                    {isDragActive
+                                        ? 'Drop the images here...'
+                                        : 'Drag & drop images here, or click to select'}
+                                </p>
+                            </div>
+
+                            {imageError && <FieldError>{imageError}</FieldError>}
+
+                            {orderItem.images.length > 0 && (
+                                <div className="mt-2 grid grid-cols-4 gap-4">
+                                    {orderItem.images.map((file, index) => (
+                                        <div
+                                            key={index}
+                                            className="group relative aspect-square overflow-hidden rounded-lg border"
+                                        >
+                                            <img
+                                                src={URL.createObjectURL(file)}
+                                                alt={`preview-${index}`}
+                                                className="size-full object-cover"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => handleRemoveImage(index)}
+                                                className="absolute top-1 right-1 rounded-full bg-destructive p-1 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                                            >
+                                                <XIcon className="size-3" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
                         <FormField
                             control={form.control}
                             name="provide_fabric"
@@ -286,7 +372,7 @@ export default function CustomOrderItemInformation(): JSX.Element {
 
                             <FormButton
                                 control={form.control}
-                                disabled={isEditing && !isDirty}
+                                disabled={!!imageError || (isEditing && !isDirty && !imagesDirty)}
                                 variant="brand-primary"
                                 size="brand-md"
                             >

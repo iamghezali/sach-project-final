@@ -90,6 +90,9 @@ export type CreateOrderItemMeasurements = z.infer<typeof CreateOrderItemMeasurem
 export const CustomOrderItemSchema = z.object({
     information: CreateOrderItemInformationSchema,
     measurements: CreateOrderItemMeasurementsSchema,
+    images: z.array(z.instanceof(File)).min(1, {
+        message: 'Please upload at least one reference image for this item.',
+    }),
 });
 
 export type CustomOrderItem = z.infer<typeof CustomOrderItemSchema>;

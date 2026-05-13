@@ -12,6 +12,8 @@ type CustomOrderContextType = {
     orderItem: CustomOrderItem;
     setOrderItemInformation: (information: CustomOrderItem['information']) => void;
     setOrderItemMeasurements: (measurements: CustomOrderItem['measurements']) => void;
+    appendOrderItemImages: (files: File[]) => void;
+    removeOrderItemImage: (index: number) => void;
 
     customOrder: CustomOrder;
     saveOrderTitle: (title: string) => void;
@@ -55,6 +57,7 @@ const ORDER_ITEM_DEFAULTS: CustomOrderItem = {
         size: 'xs',
         fitting_preference: '',
     },
+    images: [],
 };
 
 const CUSTOM_ORDER_DEFAULTS: CustomOrder = {
@@ -123,6 +126,20 @@ export const CustomOrderProvider = ({ children }: CustomOrderProviderProps) => {
         }));
     };
 
+    const appendOrderItemImages = (files: File[]) => {
+        setOrderItem((prev) => ({
+            ...prev,
+            images: [...prev.images, ...files],
+        }));
+    };
+
+    const removeOrderItemImage = (index: number) => {
+        setOrderItem((prev) => ({
+            ...prev,
+            images: prev.images.filter((_, i) => i !== index),
+        }));
+    };
+
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [step]);
@@ -136,6 +153,8 @@ export const CustomOrderProvider = ({ children }: CustomOrderProviderProps) => {
                 orderItem,
                 setOrderItemInformation,
                 setOrderItemMeasurements,
+                appendOrderItemImages,
+                removeOrderItemImage,
                 editOrderItem,
                 isEditing,
 
