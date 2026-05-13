@@ -1,5 +1,5 @@
 import { apiRequest } from '@/api/client';
-import { OrdersListResponseSchema } from '@/features/dashboard/orders/ready-to-wear/schema';
+import { OrderDetailsResponseSchema, OrdersListResponseSchema } from '@/features/dashboard/orders/ready-to-wear/schema';
 
 export const ordersApi = {
     list: (page: number = 1) =>
@@ -7,5 +7,11 @@ export const ordersApi = {
             url: '/orders/',
             method: 'get',
             params: { page },
+        }),
+
+    getOrderDetails: (orderID: number) =>
+        apiRequest(OrderDetailsResponseSchema, {
+            url: `/orders/${orderID}`,
+            method: 'get',
         }),
 };

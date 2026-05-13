@@ -15,3 +15,12 @@ export function useListOrders(page: number = 1) {
         staleTime: 1000 * 60 * 5,
     });
 }
+
+export function useOrderDetails(orderID: number) {
+    return useQuery({
+        queryKey: orderKeys.order(orderID),
+        queryFn: () => ordersApi.getOrderDetails(orderID),
+        enabled: !!orderID,
+        staleTime: 1000 * 60 * 5,
+    });
+}
