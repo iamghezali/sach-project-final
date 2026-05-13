@@ -15,6 +15,7 @@ class ListClothingOrdersAction
         return
         ClothingOrderData::collect(
             ClothingOrder::query()
+                ->with('user')
                 ->latest()
                 ->paginate(self::PER_PAGE),
             PaginatedDataCollection::class
