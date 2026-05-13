@@ -11,6 +11,8 @@ use App\Features\CustomOrder\ClothingOrder\Enums\Size;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 #[Fillable([
     'clothing_order_id',
@@ -35,8 +37,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'offer_price',
     'offer_due_date',
 ])]
-class ClothingOrderItem extends Model
+class ClothingOrderItem extends Model implements HasMedia
 {
+    use InteractsWithMedia;
+
     protected function casts(): array
     {
         return [
@@ -65,5 +69,11 @@ class ClothingOrderItem extends Model
     public function tailor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'tailor_id');
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('images')
+            ->useDisk('media');
     }
 }

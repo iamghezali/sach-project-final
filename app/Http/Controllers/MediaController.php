@@ -13,11 +13,11 @@ class MediaController extends Controller
     {
         try {
             /** @var Media $media */
-            $media = Media::where('uuid', $uuid)
-                ->with('model.product')
-                ->firstOrFail();
+            $media = Media::where('uuid', $uuid)->firstOrFail();
 
-            $this->authorize('viewMedia', $media->model);
+            $owner = $media->model;
+
+            $this->authorize('viewMedia', $owner);
 
             return response()->file($media->getPath());
 

@@ -10,7 +10,7 @@ class ShowClothingOrderAction
     public function execute(User $user, int $orderId): ClothingOrder
     {
         return ClothingOrder::query()
-            ->where('user_id', $user->id)
+            ->where('user_id', $user->id, 'media')
             ->with(['items'])
             ->findOrFail($orderId);
     }

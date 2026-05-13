@@ -25,16 +25,22 @@ class CreateClothingOrderAction
                 ->toCollection()
                 ->each(fn (ClothingOrderItemData $item) => $this->createItem($order, $item));
 
-            return $order->load('items');
+            return $order->load('items', 'items.media');
         });
     }
 
     private function createItem(ClothingOrder $order, ClothingOrderItemData $data): ClothingOrderItem
     {
-        return ClothingOrderItem::create([
+        $item = ClothingOrderItem::create([
             'clothing_order_id' => $order->id,
             ...$data->information->toArray(),
             ...$data->measurements->toArray(),
         ]);
+
+        foreach ($data->images as $image) {
+            $item->addMedia($image)->toMediaCollection('images');
+        }
+
+        return $item;
     }
 }
