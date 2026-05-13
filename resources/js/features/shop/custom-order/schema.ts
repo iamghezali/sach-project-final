@@ -3,7 +3,7 @@ import { apiResponseSchema } from '@/api/schema';
 
 const minimumDueDate = (): Date => {
     const date = new Date();
-    date.setHours(0, 0, 0, 0); // Reset time to the start of the day
+    date.setHours(0, 0, 0, 0);
     date.setDate(date.getDate() + 5);
 
     return date;
@@ -12,7 +12,7 @@ const minimumDueDate = (): Date => {
 export const minimumDueDateString = (): string => {
     const date = minimumDueDate();
 
-    const offset = date.getTimezoneOffset(); //  Use local date parts to avoid the ISO "day-behind"
+    const offset = date.getTimezoneOffset();
     const localDate = new Date(date.getTime() - offset * 60 * 1000);
 
     return localDate.toISOString().split('T')[0];
@@ -55,9 +55,8 @@ export const CreateOrderItemInformationSchema = z.object({
 export type CreateOrderItemInformation = z.infer<typeof CreateOrderItemInformationSchema>;
 
 /**
- * Custom Order Item Measurments
+ * Custom Order Item Measurements
  */
-
 const BaseMeasurementsSchema = z.object({
     fitting_preference: z.string().nullable(),
 });
@@ -69,7 +68,6 @@ const StandardSizeSchema = BaseMeasurementsSchema.extend({
 
 const CustomSizeSchema = BaseMeasurementsSchema.extend({
     measurement_type: z.literal('custom'),
-
     height: z.number().min(1, { error: 'Minimum value 1' }),
     waist: z.number().min(1, { error: 'Minimum value 1' }),
     chest: z.number().min(1, { error: 'Minimum value 1' }),
@@ -84,9 +82,8 @@ export const CreateOrderItemMeasurementsSchema = z.discriminatedUnion('measureme
 export type CreateOrderItemMeasurements = z.infer<typeof CreateOrderItemMeasurementsSchema>;
 
 /**
- * Custom Clothing Order
+ * Custom Clothing Order (request)
  */
-
 export const CustomOrderItemSchema = z.object({
     information: CreateOrderItemInformationSchema,
     measurements: CreateOrderItemMeasurementsSchema,
@@ -135,4 +132,33 @@ export type MeasurementsForm = z.infer<typeof MeasurementsFormSchema>;
 /**
  * Custom Order Response
  */
-export const CustomOrderResponseSchema = apiResponseSchema(CustomOrderSchema);
+const CustomOrderImageResponseSchema = z.object({
+    uuid: z.string(),
+    url: z.string(),
+    order: z.number(),
+});
+
+const CustomOrderItemResponseSchema = z.object({
+    id: z.number(),
+    status: z.string(),
+    status_label: z.string(),
+    information: CreateOrderItemInformationSchema,
+    measurements: CreateOrderItemMeasurementsSchema,
+    images: z.array(CustomOrderImageResponseSchema),
+    offer_price: z.string().nullable(),
+    offer_due_date: z.string().nullable(),
+});
+
+export const PlaceCustomOrderResponseSchema = apiResponseSchema(
+    z.object({
+        id: z.number(),
+        title: z.string(),
+        status: z.string(),
+        status_label: z.string(),
+        offer_total: z.string(),
+        created_at: z.string(),
+        items: z.array(CustomOrderItemResponseSchema),
+    }),
+);
+
+export type PlaceCustomOrderResponse = z.infer<typeof PlaceCustomOrderResponseSchema>;
