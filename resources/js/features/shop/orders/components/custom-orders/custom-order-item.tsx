@@ -1,10 +1,9 @@
-// resources/js/features/shop/orders/components/custom-orders/custom-order-item.tsx
-
 import type { JSX } from 'react';
 import Image from '@/components/image';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { useGetCustomOrderItem } from '@/features/shop/orders/queries';
+import { useSignedMedia } from '@/hooks/use-signed-media';
 
 type CustomOrderItemProps = {
     orderID: number;
@@ -13,6 +12,7 @@ type CustomOrderItemProps = {
 
 export default function CustomOrderItem({ orderID, orderItemID }: CustomOrderItemProps): JSX.Element {
     const { data: response, isLoading } = useGetCustomOrderItem(orderID, orderItemID);
+    const { openMedia, loadingUUID } = useSignedMedia();
 
     if (isLoading) {
         return <>Loading...</>;
@@ -55,17 +55,19 @@ export default function CustomOrderItem({ orderID, orderItemID }: CustomOrderIte
                                     key={image.uuid}
                                     className="group relative aspect-square w-24 overflow-hidden rounded-md border bg-muted sm:w-32"
                                 >
-                                    <a
-                                        href={image.url}
-                                        target="_blank"
-                                        rel="noreferrer"
+                                    <button
+                                        key={image.uuid}
+                                        type="button"
+                                        disabled={loadingUUID === image.uuid}
+                                        onClick={() => openMedia(image.uuid)}
+                                        className="group relative aspect-square w-24 overflow-hidden rounded-md border bg-muted transition-all hover:ring-2 hover:ring-primary sm:w-32"
                                     >
                                         <Image
                                             src={image.url}
                                             alt={info.title}
                                             className="h-full w-full object-cover"
                                         />
-                                    </a>
+                                    </button>
                                 </div>
                             ))}
                         </div>

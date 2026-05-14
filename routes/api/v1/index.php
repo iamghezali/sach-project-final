@@ -39,3 +39,6 @@ Route::prefix('tailor')->name('tailor.')
     });
 
 Route::get('/media/{uuid}', [MediaController::class, 'show'])->name('media.show');
+Route::post('/media/{uuid}/signed-url', [MediaController::class, 'signedUrl'])
+    ->middleware('auth:sanctum')
+    ->name('media.signed-url');
