@@ -32,7 +32,7 @@ const toggleVariants = cva(
                 ],
 
                 'brand-colors-filter': [
-                    'rounded-lg bg-transparent ring-3 ring-transparent hover:bg-transparent hover:ring-brand-neutral-300/30',
+                    'overflow-hidden rounded-lg bg-transparent ring-3 ring-transparent hover:bg-transparent hover:ring-brand-neutral-300/30',
                     'data-[state=on]:bg-transparent data-[state=on]:ring-brand-neutral-1000',
                 ],
             },
@@ -45,6 +45,8 @@ const toggleVariants = cva(
                 'brand-co-size-item': 'h-12 text-sm font-medium',
 
                 'brand-co-measurment-type': "h-48 w-78 [&_svg:not([class*='size-'])]:size-20",
+
+                'brand-colors-filter': ['h-auto w-auto p-px'],
             },
         },
         defaultVariants: {

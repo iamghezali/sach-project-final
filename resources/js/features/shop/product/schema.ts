@@ -14,9 +14,12 @@ export const AttributeSchema = z.object({
 });
 
 export const ImageSchema = z.object({
+    uuid: z.string(),
     url: z.string(),
-    order: z.int(),
+    order: z.number(),
+    attribute_value_ids: z.array(z.number()),
 });
+export type Image = z.infer<typeof ImageSchema>;
 
 export const ProductVariantSchema = z.object({
     id: z.number(),
@@ -26,7 +29,6 @@ export const ProductVariantSchema = z.object({
     is_default: z.boolean(),
     is_in_stock: z.boolean(),
     attribute_value_ids: z.array(z.number()),
-    images: z.array(ImageSchema),
 });
 
 export const ProductSchema = z.object({
@@ -36,8 +38,10 @@ export const ProductSchema = z.object({
     description: z.string().nullable(),
     is_available: z.boolean(),
     starting_from: z.string().nullable(),
+    thumbnail: z.string().nullable(),
     attributes: z.array(AttributeSchema),
     variants: z.array(ProductVariantSchema),
+    images: z.array(ImageSchema),
 });
 
 export const ProductResponseSchema = apiResponseSchema(ProductSchema);
