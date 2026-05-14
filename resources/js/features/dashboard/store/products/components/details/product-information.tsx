@@ -76,7 +76,7 @@ export default function ProductInformation({ productID }: ProductInformationProp
 
     return (
         <div className="mt-10">
-            <ChangeProductStatus productID={product.id} />
+            <ChangeProductStatus productID={productID} />
 
             <Form
                 form={form}
@@ -149,17 +149,15 @@ export default function ProductInformation({ productID }: ProductInformationProp
 
             <Separator className="my-8" />
 
-            <ProductImagesUpload productId={product.id} />
-
             <div className="mt-12 space-y-8">
                 <section>
                     <h3 className="mb-4 text-lg font-medium">Product Gallery</h3>
-                    <ProductImageGallery productId={product.id} />
+                    <ProductImageGallery productId={productID} />
                 </section>
 
                 <section>
                     <h3 className="mb-4 text-lg font-medium">Add New Media</h3>
-                    <ProductImagesUpload productId={product.id} />
+                    <ProductImagesUpload productId={productID} />
                 </section>
             </div>
 
