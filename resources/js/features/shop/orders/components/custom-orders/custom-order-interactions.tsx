@@ -1,4 +1,4 @@
-import { XIcon } from 'lucide-react';
+import { LoaderCircleIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 import type { JSX } from 'react';
 import {
@@ -57,7 +57,7 @@ export default function CustomOrderInteractions({ orderID }: CustomOrderInteract
     };
 
     return (
-        <div>
+        <div className="flex items-center">
             <Button
                 onClick={() => setIsOpen(true)}
                 disabled={isPending}
@@ -69,6 +69,7 @@ export default function CustomOrderInteractions({ orderID }: CustomOrderInteract
                 onClick={HandleAccept}
                 disabled={isPending}
             >
+                {isPending && <LoaderCircleIcon className="animate-spin" />}
                 Accept
             </Button>
 
@@ -97,6 +98,7 @@ export default function CustomOrderInteractions({ orderID }: CustomOrderInteract
                             disabled={isPending}
                             onClick={HandleDecline}
                         >
+                            {isPending && <LoaderCircleIcon className="animate-spin" />}
                             Decline & Cancel Order
                         </AlertDialogAction>
                     </AlertDialogFooter>
