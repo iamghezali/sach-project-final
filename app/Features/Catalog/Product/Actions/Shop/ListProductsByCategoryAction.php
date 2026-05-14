@@ -3,11 +3,11 @@
 namespace App\Features\Catalog\Product\Actions\Shop;
 
 use App\Models\Category;
-use Spatie\LaravelData\DataCollection;
+use Illuminate\Database\Eloquent\Collection;
 
 class ListProductsByCategoryAction
 {
-    public function execute(string $categorySlug, int $limit = 8): DataCollection
+    public function execute(string $categorySlug, int $limit = 8): Collection
     {
         $category = Category::where('slug', $categorySlug)->firstOrFail();
 

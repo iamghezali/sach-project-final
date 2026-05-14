@@ -9,6 +9,7 @@ use App\Features\Catalog\Product\Data\Shop\Request\ListProductsRequestData;
 use App\Features\Catalog\Product\Data\Shop\Response\ProductData;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Spatie\LaravelData\DataCollection;
 
 class ProductController extends Controller
@@ -45,10 +46,17 @@ class ProductController extends Controller
         }
     }
 
-    public function listByCatergoy(string $categorySlug)
+    public function listByCategory(Request $request, string $categorySlug)
     {
+        // 1. Validate the limit input
+        $validated = $request->validate([
+            'limit' => 'sometimes|integer|min:1|max:32',
+        ]);
+
+        $limit = $validated['limit'] ?? 8;
+
         try {
-            $products = $this->listProductsByCategoryAction->execute($categorySlug);
+            $products = $this->listProductsByCategoryAction->execute($categorySlug, (int) $limit);
 
             return response()->json([
                 'data' => ProductData::collect($products, DataCollection::class),

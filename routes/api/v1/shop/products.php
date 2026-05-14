@@ -9,6 +9,6 @@ Route::prefix('products')
 
         Route::get('/', [ProductController::class, 'index'])->name('index');
         Route::get('/{slug}', [ProductController::class, 'show'])->name('show');
-        Route::get('/category/{categorySlug}', [ProductController::class, 'listByCatergoy'])->name('category');
+        Route::get('/category/{categorySlug}', [ProductController::class, 'listByCategory'])->name('category');
 
     });
