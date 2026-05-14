@@ -1,4 +1,5 @@
 import type { JSX } from 'react';
+import Image from '@/components/image';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { useGetOrderItem } from '@/features/tailor/orders/queries';
@@ -41,6 +42,39 @@ export default function OrderItem({ orderID, orderItemID }: OrderItemProps): JSX
             <Separator />
 
             <p className="text-sm text-muted-foreground">{info.description}</p>
+
+            <Separator />
+
+            {orderItem.images.length > 0 && (
+                <>
+                    <div className="space-y-3">
+                        <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                            Reference Images
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                            {orderItem.images.map((image) => (
+                                <div
+                                    key={image.uuid}
+                                    className="group relative aspect-square w-24 overflow-hidden rounded-md border bg-muted sm:w-32"
+                                >
+                                    <a
+                                        href={image.url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        <Image
+                                            src={image.url}
+                                            alt={`${info.title} - reference`}
+                                            className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                                        />
+                                    </a>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <Separator />
+                </>
+            )}
 
             <Separator />
 

@@ -1,6 +1,12 @@
 import z from 'zod';
 import { apiPaginatedResponseSchema, apiResponseSchema } from '@/api/schema';
 
+const OrderItemMediaSchema = z.object({
+    uuid: z.string(),
+    url: z.string(),
+    order: z.number(),
+});
+
 // -------------- Listing
 
 export const OrderSchema = z.object({
@@ -56,6 +62,7 @@ const OrderItemSchema = z.object({
     status_label: z.string(),
     information: ItemInformationSchema,
     measurements: MeasurementsSchema,
+    images: z.array(OrderItemMediaSchema),
     updated_at: z.string(),
     offer_price: z.string().nullable(),
     offer_due_date: z.string().nullable(),
