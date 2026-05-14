@@ -56,7 +56,7 @@ class ProductController extends Controller
             $product = $this->showProductAction->execute($productID);
 
             return response()->json([
-                'data' => ProductData::fromModel($product)->include('variants', 'attributes', 'active_attributes'),
+                'data' => ProductData::fromModel($product)->include('variants', 'attributes', 'active_attributes', 'images'),
             ]);
 
         } catch (ModelNotFoundException $e) {

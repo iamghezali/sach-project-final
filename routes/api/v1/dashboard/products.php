@@ -1,8 +1,8 @@
 <?php
 
 use App\Features\Catalog\Product\Controllers\Dashboard\ProductController;
+use App\Features\Catalog\Product\Controllers\Dashboard\ProductImageController;
 use App\Features\Catalog\Product\Controllers\Dashboard\ProductVariantController;
-use App\Features\Catalog\Product\Controllers\Dashboard\ProductVariantImageController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('products')
@@ -36,9 +36,16 @@ Route::prefix('products')
                 Route::patch('/{variantID}/status', [ProductVariantController::class, 'changeStatus'])->name('status');
                 Route::patch('/{variantID}/default', [ProductVariantController::class, 'default'])->name('default');
 
-                Route::post('/{variantID}/images', [ProductVariantImageController::class, 'store'])->name('images.store');
-                Route::delete('/{variantID}/images/{mediaUUID}', [ProductVariantImageController::class, 'destroy'])->name('images.destroy');
-                Route::patch('/{variantID}/images/reorder', [ProductVariantImageController::class, 'reorder'])->name('images.reorder');
+            });
+
+        Route::prefix('/{productID}/images')
+            ->name('images.')
+            ->group(function () {
+
+                Route::post('/', [ProductImageController::class, 'store'])->name('store');
+                Route::delete('/{mediaUUID}', [ProductImageController::class, 'destroy'])->name('destroy');
+                Route::patch('/{mediaUUID}', [ProductImageController::class, 'update'])->name('update');
+                Route::patch('/reorder', [ProductImageController::class, 'reorder'])->name('reorder');
 
             });
 

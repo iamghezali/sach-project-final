@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 #[Fillable([
     'name',
@@ -16,9 +18,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
     'description',
     'status',
 ])]
-class Product extends Model
+class Product extends Model implements HasMedia
 {
-    use SoftDeletes;
+    use InteractsWithMedia, SoftDeletes;
 
     protected function casts(): array
     {
@@ -71,14 +73,14 @@ class Product extends Model
 
     public function getThumbnailAttribute(): ?string
     {
-        $defaultVariant = $this->variants->firstWhere('is_default', true);
-
-        if (! $defaultVariant) {
-            return null;
-        }
-
-        $media = $defaultVariant->getMedia('images')->first();
+        $media = $this->getMedia('images')->first();
 
         return $media ? route('media.show', $media->uuid) : null;
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('images')
+            ->useDisk('media');
     }
 }
