@@ -20,7 +20,7 @@ class ListProductsAction
     {
         return ProductData::collect(
             Product::query()
-                ->with(['variants'])
+                ->with(['variants', 'categories'])
                 ->withMin('variants', 'price')
                 ->tap(fn (Builder $q) => $this->applyFilters($q, $filters))
                 ->tap(fn (Builder $q) => $this->applySorting($q, $filters->sort))

@@ -83,4 +83,9 @@ class Product extends Model implements HasMedia
         $this->addMediaCollection('images')
             ->useDisk('media');
     }
+
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class);
+    }
 }

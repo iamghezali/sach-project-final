@@ -12,7 +12,7 @@ class ShowProductAction
             ->where('slug', $slug)
             ->firstOrFail();
 
-        $product->load(['activeVariants.attributeValues.attribute', 'media']);
+        $product->load(['activeVariants.attributeValues.attribute', 'media', 'categories']);
 
         return $product;
     }

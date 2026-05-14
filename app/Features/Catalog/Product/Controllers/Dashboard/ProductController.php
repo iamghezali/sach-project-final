@@ -3,6 +3,7 @@
 namespace App\Features\Catalog\Product\Controllers\Dashboard;
 
 use App\Features\Catalog\Product\Actions\Dashboard\AssignProductAttributeAction;
+use App\Features\Catalog\Product\Actions\Dashboard\AssignProductCategoriesAction;
 use App\Features\Catalog\Product\Actions\Dashboard\ChangeProductStatusAction;
 use App\Features\Catalog\Product\Actions\Dashboard\CreateProductAction;
 use App\Features\Catalog\Product\Actions\Dashboard\ListProductsAction;
@@ -10,6 +11,7 @@ use App\Features\Catalog\Product\Actions\Dashboard\RemoveProductAction;
 use App\Features\Catalog\Product\Actions\Dashboard\ShowProductAction;
 use App\Features\Catalog\Product\Actions\Dashboard\UpdateProductAction;
 use App\Features\Catalog\Product\Data\Dashboard\Request\AssignProductAttributeRequestData;
+use App\Features\Catalog\Product\Data\Dashboard\Request\AssignProductCategoryRequestData;
 use App\Features\Catalog\Product\Data\Dashboard\Request\ChangeProductStatusRequestData;
 use App\Features\Catalog\Product\Data\Dashboard\Request\ListProductsRequestData;
 use App\Features\Catalog\Product\Data\Dashboard\Request\StoreProductRequestData;
@@ -29,6 +31,7 @@ class ProductController extends Controller
         private readonly RemoveProductAction $removeProductAction,
         private readonly AssignProductAttributeAction $assignProductAttributeAction,
         private readonly ChangeProductStatusAction $changeProductStatusAction,
+        private readonly AssignProductCategoriesAction $assignProductCategoriesAction,
     ) {}
 
     public function index(ListProductsRequestData $filters)
@@ -143,6 +146,20 @@ class ProductController extends Controller
                 'message' => "Product ID {$productID} not found.",
             ], 404);
 
+        }
+    }
+
+    public function assignCategories(AssignProductCategoryRequestData $data, string $productId)
+    {
+        try {
+            $this->assignProductCategoriesAction->execute($data, $productId);
+
+            return response()->noContent();
+
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'message' => "Product ID {$productId} not found.",
+            ], 404);
         }
     }
 }

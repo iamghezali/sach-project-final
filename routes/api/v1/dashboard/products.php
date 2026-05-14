@@ -19,6 +19,7 @@ Route::prefix('products')
         Route::delete('/{productID}', [ProductController::class, 'destroy'])->name('destroy');
 
         Route::put('/{productID}/attributes', [ProductController::class, 'assignAttribute'])->name('attributes');
+        Route::put('/{productID}/categories', [ProductController::class, 'assignCategories'])->name('categories');
         Route::patch('/{productID}/status', [ProductController::class, 'changeStatus'])->name('status');
 
         /**

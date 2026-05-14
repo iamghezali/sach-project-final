@@ -12,6 +12,7 @@ Route::middleware([])
         require __DIR__.'/dashboard/users.php';
         require __DIR__.'/dashboard/attributes.php';
         require __DIR__.'/dashboard/products.php';
+        require __DIR__.'/dashboard/categories.php';
         require __DIR__.'/dashboard/orders.php';
         require __DIR__.'/dashboard/custom-orders.php';
 

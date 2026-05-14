@@ -2,6 +2,7 @@
 
 namespace App\Features\Catalog\Product\Data\Shop\Response;
 
+use App\Features\Catalog\Category\Data\Dashboard\Response\CategoryData;
 use App\Models\Product;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;
@@ -26,6 +27,9 @@ class ProductData extends Data
 
         /** @var Lazy|DataCollection<int, ProductMediaData> */
         public readonly Lazy|DataCollection $images,
+
+        /** @var DataCollection<int, CategoryData> */
+        public readonly DataCollection $categories,
     ) {}
 
     public static function fromModel(Product $product): self
@@ -54,6 +58,7 @@ class ProductData extends Data
                         ->all()
                 )
             ),
+            categories: CategoryData::collect($product->categories, DataCollection::class),
         );
     }
 

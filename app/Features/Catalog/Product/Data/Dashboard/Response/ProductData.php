@@ -2,6 +2,7 @@
 
 namespace App\Features\Catalog\Product\Data\Dashboard\Response;
 
+use App\Features\Catalog\Category\Data\Dashboard\Response\CategoryData;
 use App\Models\Product;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;
@@ -19,6 +20,8 @@ class ProductData extends Data
         public readonly bool $is_available,
         public readonly ?string $starting_from,
         public readonly ?string $thumbnail,
+        /** @var DataCollection<int, CategoryData> */
+        public readonly DataCollection $categories,
 
         /** @var Lazy|DataCollection<int, ProductAttributeData> */
         public readonly Lazy|DataCollection $attributes,
@@ -45,6 +48,8 @@ class ProductData extends Data
             is_available: $product->isAvailable(),
             starting_from: $product->activeVariants->min('price') ?? '0.00',
             thumbnail: $product->thumbnail,
+            categories: CategoryData::collect($product->categories, DataCollection::class),
+
             attributes: Lazy::create(fn () => self::deriveAssignedAttributes($product)),
             active_attributes: Lazy::create(fn () => self::deriveAttributes($product)),
             variants: Lazy::create(

@@ -9,7 +9,7 @@ class ShowProductAction
     public function execute(string $productID)
     {
         $product = Product::findOrFail($productID);
-        $product->load(['variants.attributeValues.attribute']);
+        $product->load(['variants.attributeValues.attribute', 'categories']);
 
         return $product;
     }
