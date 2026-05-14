@@ -37,6 +37,15 @@ Route::prefix('shop')->name('shop.')
                 'id' => $id,
             ]))->name('orders.my.order');
 
+            Route::get('/orders/my/{id}/custom-order', fn ($id) => Inertia::render('shop/orders/custom-order-folder', [
+                'id' => $id,
+            ]))->name('orders.my.custom-order');
+
+            Route::get('/orders/my/{orderID}/custom-order/item/{itemID}', fn ($orderID, $itemID) => Inertia::render('shop/orders/custom-order-details', [
+                'orderID' => $orderID,
+                'itemID' => $itemID,
+            ]))->name('orders.my.custom-order.item');
+
             Route::get('/custom-order', fn () => Inertia::render('shop/custom-order'))->name('custom-order');
 
         });

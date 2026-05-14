@@ -37,3 +37,21 @@ export function useListCustomOrders(page: number = 1) {
         retry: 1,
     });
 }
+
+export function useGetCustomOrderFolder(id: number) {
+    return useQuery({
+        queryKey: ordersKeys.customOrder(id),
+        queryFn: () => ordersApi.getCustomOrderFolder(id),
+        enabled: !!id,
+        staleTime: 1000 * 60 * 5,
+    });
+}
+
+export function useGetCustomOrderItem(orderID: number, itemID: number) {
+    return useQuery({
+        queryKey: [...ordersKeys.customOrder(orderID), 'items', itemID],
+        queryFn: () => ordersApi.getCustomOrderItem(orderID, itemID),
+        enabled: !!orderID && !!itemID,
+        staleTime: 1000 * 60 * 5,
+    });
+}

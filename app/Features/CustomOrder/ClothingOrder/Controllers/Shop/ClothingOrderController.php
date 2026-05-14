@@ -6,9 +6,11 @@ use App\Features\CustomOrder\ClothingOrder\Actions\Shop\AcceptClothingOrderOffer
 use App\Features\CustomOrder\ClothingOrder\Actions\Shop\CreateClothingOrderAction;
 use App\Features\CustomOrder\ClothingOrder\Actions\Shop\ListClothingOrdersAction;
 use App\Features\CustomOrder\ClothingOrder\Actions\Shop\ShowClothingOrderAction;
+use App\Features\CustomOrder\ClothingOrder\Actions\Shop\ShowClothingOrderItemAction;
 use App\Features\CustomOrder\ClothingOrder\Data\Shop\Request\ClothingOrderRequestData;
 use App\Features\CustomOrder\ClothingOrder\Data\Shop\Request\ResolveClothingOrderData;
 use App\Features\CustomOrder\ClothingOrder\Data\Shop\Response\ClothingOrderData;
+use App\Features\CustomOrder\ClothingOrder\Data\Shop\Response\ClothingOrderItemData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -19,6 +21,7 @@ class ClothingOrderController extends Controller
         private readonly ShowClothingOrderAction $showClothingOrderAction,
         private readonly ListClothingOrdersAction $listClothingOrdersAction,
         private readonly AcceptClothingOrderOfferAction $acceptClothingOrderOfferAction,
+        private readonly ShowClothingOrderItemAction $showClothingOrderItemAction,
     ) {}
 
     public function index(Request $request)
@@ -62,6 +65,15 @@ class ClothingOrderController extends Controller
 
         return response()->json([
             'data' => ClothingOrderData::fromModel($order),
+        ]);
+    }
+
+    public function showItem(int $orderID, int $itemID, Request $request)
+    {
+        $item = $this->showClothingOrderItemAction->execute($request->user(), $orderID, $itemID);
+
+        return response()->json([
+            'data' => ClothingOrderItemData::from($item),
         ]);
     }
 }

@@ -34,7 +34,7 @@ class ClothingOrderItemData extends Data
                 ->toArray(),
 
             offer_price: $item->offer_price,
-            offer_due_date: $item->offer_due_date,
+            offer_due_date: $item->offer_due_date?->format('Y-m-d'),
         );
     }
 }

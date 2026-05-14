@@ -22,7 +22,7 @@ Route::prefix('custom-orders')
             ->name('items.')
             ->group(function () {
 
-                Route::get('/{itemID}', fn () => 'show')->name('show');
+                Route::get('/{itemID}', [ClothingOrderController::class, 'showItem'])->name('show');
                 Route::patch('/{itemID}/decline', [ClothingOrderController::class, 'declineItem'])->name('cancel');
 
             });
