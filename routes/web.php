@@ -95,6 +95,7 @@ Route::prefix('dashboard')->name('dashboard.')
         ]))->name('store.products.details');
 
         Route::get('/store/attributes', fn () => Inertia::render('dashboard/store/attributes/listing'))->name('store.attributes');
+        Route::get('/store/categories', fn () => Inertia::render('dashboard/store/categories/listing'))->name('store.categories');
 
         /**
          * Orders

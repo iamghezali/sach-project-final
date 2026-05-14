@@ -64,6 +64,10 @@ const menuData = {
                     title: 'Attributes',
                     url: '/dashboard/store/attributes',
                 },
+                {
+                    title: 'Categories',
+                    url: '/dashboard/store/categories',
+                },
             ],
         },
     ],
