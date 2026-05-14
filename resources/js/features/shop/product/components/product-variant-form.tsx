@@ -33,6 +33,8 @@ export function ProductVariantForm({
             form={form}
             onSubmit={onSubmit}
         >
+            <pre>{JSON.stringify(selectedVariant, null, 2)}</pre>
+
             <FieldSet>
                 <FieldGroup>
                     {colorAttribute && (
@@ -153,13 +155,12 @@ export function ProductVariantForm({
                         <FormInput
                             type="number"
                             min={1}
+                            variant="brand-primary"
                         />
                         <FormField.Error />
                     </FormField>
                 </FieldGroup>
             </FieldSet>
-
-            <pre>{JSON.stringify(selectedVariant, null, 2)}</pre>
 
             <button type="submit">Add to cart</button>
         </Form>

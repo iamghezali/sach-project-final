@@ -5,9 +5,11 @@ import ShopLayout from '@/layouts/shop-layout';
 export default function Product(): JSX.Element {
     return (
         <ShopLayout>
-            <h1 className="text-4xl">Product Details</h1>
-
-            <ProductDetails />
+            <section>
+                <div className="mt-7">
+                    <ProductDetails />
+                </div>
+            </section>
         </ShopLayout>
     );
 }

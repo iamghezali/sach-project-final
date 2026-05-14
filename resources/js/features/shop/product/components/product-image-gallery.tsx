@@ -20,9 +20,9 @@ export function ProductImageGallery({ images, lightbox }: ProductImageGalleryPro
 
     return (
         <>
-            <div className="flex gap-8">
+            <div className="flex items-start gap-8">
                 {thumbnails.length > 0 && (
-                    <div className="flex shrink-0 basis-[21%] flex-col gap-3">
+                    <div className="flex max-h-150 shrink-0 basis-[21%] flex-col gap-3 overflow-hidden">
                         {thumbnails.map((image, i) => (
                             <div
                                 key={image.uuid}
@@ -40,7 +40,7 @@ export function ProductImageGallery({ images, lightbox }: ProductImageGalleryPro
 
                 {mainImage && (
                     <div
-                        className="relative min-w-0 grow cursor-pointer overflow-hidden rounded-[1.75rem]"
+                        className="relative min-w-0 grow cursor-pointer overflow-hidden rounded-[1.75rem] border-4 border-black"
                         onClick={() => lightbox.openAt(0)}
                     >
                         <div className="relative pt-[120%]">
