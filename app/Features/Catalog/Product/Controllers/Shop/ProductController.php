@@ -48,7 +48,6 @@ class ProductController extends Controller
 
     public function listByCategory(Request $request, string $categorySlug)
     {
-        // 1. Validate the limit input
         $validated = $request->validate([
             'limit' => 'sometimes|integer|min:1|max:32',
         ]);
