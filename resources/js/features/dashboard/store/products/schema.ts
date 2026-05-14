@@ -2,6 +2,18 @@ import z from 'zod';
 import { apiNoContentSchema, apiPaginatedResponseSchema, apiResponseSchema } from '@/api/schema';
 
 /**
+ * Product Media Schema
+ */
+export const ProductMediaSchema = z.object({
+    uuid: z.string(),
+    url: z.string(),
+    order: z.number(),
+    attribute_value_ids: z.array(z.number()),
+});
+
+export type ProductMedia = z.infer<typeof ProductMediaSchema>;
+
+/**
  * Product Status Schema
  */
 export const ProductStatusSchema = z.enum(['published', 'draft', 'archived']);
@@ -75,6 +87,7 @@ export const ProductDetailsResponseSchema = apiResponseSchema(
         attributes: z.array(AttributeSchema),
         active_attributes: z.array(AttributeSchema),
         variants: z.array(ProductVariantSchema),
+        images: z.array(ProductMediaSchema),
     }),
 );
 
@@ -143,3 +156,34 @@ export type AssignAttributesRequest = z.infer<typeof AssignAttributesRequestSche
  * Assign Attributes Response
  */
 export const AssignAttributesResponseSchema = apiNoContentSchema;
+
+/**
+ * Image Upload/Update Requests
+ */
+export const UploadProductImagesRequestSchema = z.object({
+    images: z.array(z.instanceof(File)).min(1),
+    attribute_value_ids: z.array(z.number()).optional(),
+});
+
+export type UploadProductImagesRequest = z.infer<typeof UploadProductImagesRequestSchema>;
+export const UploadProductImagesResponseSchema = apiResponseSchema(z.array(ProductMediaSchema));
+
+export const UpdateProductImageRequestSchema = z.object({
+    attribute_value_ids: z.array(z.number()),
+});
+
+export type UpdateProductImageRequest = z.infer<typeof UpdateProductImageRequestSchema>;
+export const UpdateProductImageResponseSchema = apiResponseSchema(ProductMediaSchema);
+
+/**
+ * Reorder Image Request/Response
+ */
+export const ReorderProductImagesRequestSchema = z.object({
+    uuids: z.array(z.string()),
+});
+export const ReorderProductImagesResponseSchema = apiNoContentSchema;
+
+/**
+ * Delete Image Response
+ */
+export const DeleteImageResponseSchema = apiNoContentSchema;

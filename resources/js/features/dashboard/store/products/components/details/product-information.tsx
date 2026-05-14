@@ -11,6 +11,8 @@ import { FormTextarea } from '@/components/form/form-textarea';
 import { Badge } from '@/components/ui/badge';
 import { FieldError } from '@/components/ui/field';
 import ChangeProductStatus from '@/features/dashboard/store/products/components/details/change-product-status';
+import ProductImageGallery from '@/features/dashboard/store/products/components/details/product-image-gallery';
+import ProductImagesUpload from '@/features/dashboard/store/products/components/details/product-images-upload';
 import { useUpdateProduct } from '@/features/dashboard/store/products/mutations';
 import { useProductDetails } from '@/features/dashboard/store/products/queries';
 import { UpdateProductRequestSchema } from '@/features/dashboard/store/products/schema';
@@ -114,6 +116,19 @@ export default function ProductInformation({ productID }: ProductInformationProp
                     Save
                 </FormButton>
             </Form>
+            <ProductImagesUpload productId={product.id} />
+
+            <div className="mt-12 space-y-8">
+                <section>
+                    <h3 className="mb-4 text-lg font-medium">Product Gallery</h3>
+                    <ProductImageGallery productId={product.id} />
+                </section>
+
+                <section>
+                    <h3 className="mb-4 text-lg font-medium">Add New Media</h3>
+                    <ProductImagesUpload productId={product.id} />
+                </section>
+            </div>
 
             <ul className="mt-4">
                 <li>

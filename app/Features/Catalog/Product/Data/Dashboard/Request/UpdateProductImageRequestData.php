@@ -16,7 +16,7 @@ class UpdateProductImageRequestData extends Data
     public static function rules($ctx = null): array
     {
         return [
-            'attribute_value_ids' => ['required', 'array'],
+            'attribute_value_ids' => ['present', 'array'],
             'attribute_value_ids.*' => ['integer', 'exists:attribute_values,id'],
         ];
     }

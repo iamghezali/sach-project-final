@@ -1,18 +1,24 @@
-import { apiRequest } from '@/api/client';
+import { apiFormDataRequest, apiRequest } from '@/api/client';
 import type {
     AssignAttributesRequest,
     ChangeProductStatusRequest,
     CreateProductRequest,
     CreateProductVariantRequest,
+    UpdateProductImageRequest,
     UpdateProductRequest,
+    UploadProductImagesRequest,
 } from '@/features/dashboard/store/products/schema';
 import {
     AssignAttributesResponseSchema,
     CreateProductResponseSchema,
     CreateProductVariantResponseSchema,
+    DeleteImageResponseSchema,
     ProductDetailsResponseSchema,
     ProductsListResponseSchema,
+    ReorderProductImagesResponseSchema,
+    UpdateProductImageResponseSchema,
     UpdateProductRequestSchema,
+    UploadProductImagesResponseSchema,
 } from '@/features/dashboard/store/products/schema';
 
 export const productsApi = {
@@ -62,5 +68,32 @@ export const productsApi = {
             url: `/products/${productId}/variants`,
             method: 'post',
             data: payload,
+        }),
+
+    uploadImages: (productId: number, payload: UploadProductImagesRequest) =>
+        apiFormDataRequest(UploadProductImagesResponseSchema, {
+            url: `/products/${productId}/images`,
+            method: 'post',
+            data: payload,
+        }),
+
+    deleteImage: (productId: number, mediaUuid: string) =>
+        apiRequest(DeleteImageResponseSchema, {
+            url: `/products/${productId}/images/${mediaUuid}`,
+            method: 'delete',
+        }),
+
+    updateImage: (productId: number, mediaUuid: string, payload: UpdateProductImageRequest) =>
+        apiRequest(UpdateProductImageResponseSchema, {
+            url: `/products/${productId}/images/${mediaUuid}`,
+            method: 'patch',
+            data: payload,
+        }),
+
+    reorderImages: (productId: number, uuids: string[]) =>
+        apiRequest(ReorderProductImagesResponseSchema, {
+            url: `/products/${productId}/images/reorder`,
+            method: 'patch',
+            data: { uuids },
         }),
 };
