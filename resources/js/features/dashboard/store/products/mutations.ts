@@ -4,6 +4,7 @@ import { productsApi } from '@/features/dashboard/store/products/api';
 import { productKeys } from '@/features/dashboard/store/products/queries';
 import type {
     AssignAttributesRequest,
+    AssignCategoriesRequest,
     ChangeProductStatusRequest,
     CreateProductVariantRequest,
     UpdateProductImageRequest,
@@ -120,3 +121,16 @@ export function useRemoveProductImage(productId: number) {
         },
     });
 }
+
+export const useAssignCategories = (productId: number) => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: ({ productId, payload }: { productId: number; payload: AssignCategoriesRequest }) =>
+            productsApi.assignCategories(productId, payload),
+
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: productKeys.product(productId) });
+        },
+    });
+};

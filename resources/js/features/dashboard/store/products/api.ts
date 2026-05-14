@@ -1,6 +1,7 @@
 import { apiFormDataRequest, apiRequest } from '@/api/client';
 import type {
     AssignAttributesRequest,
+    AssignCategoriesRequest,
     ChangeProductStatusRequest,
     CreateProductRequest,
     CreateProductVariantRequest,
@@ -10,6 +11,7 @@ import type {
 } from '@/features/dashboard/store/products/schema';
 import {
     AssignAttributesResponseSchema,
+    AssignCategoriesResponseSchema,
     CreateProductResponseSchema,
     CreateProductVariantResponseSchema,
     DeleteImageResponseSchema,
@@ -95,5 +97,12 @@ export const productsApi = {
             url: `/products/${productId}/images/reorder`,
             method: 'patch',
             data: { uuids },
+        }),
+
+    assignCategories: (id: number, payload: AssignCategoriesRequest) =>
+        apiRequest(AssignCategoriesResponseSchema, {
+            url: `/products/${id}/categories`,
+            method: 'put',
+            data: payload,
         }),
 };

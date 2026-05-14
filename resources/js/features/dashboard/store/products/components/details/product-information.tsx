@@ -10,6 +10,8 @@ import { FormInput } from '@/components/form/form-input';
 import { FormTextarea } from '@/components/form/form-textarea';
 import { Badge } from '@/components/ui/badge';
 import { FieldError } from '@/components/ui/field';
+import { Separator } from '@/components/ui/separator';
+import AssignCategories from '@/features/dashboard/store/products/components/details/assign-categories';
 import ChangeProductStatus from '@/features/dashboard/store/products/components/details/change-product-status';
 import ProductImageGallery from '@/features/dashboard/store/products/components/details/product-image-gallery';
 import ProductImagesUpload from '@/features/dashboard/store/products/components/details/product-images-upload';
@@ -116,6 +118,37 @@ export default function ProductInformation({ productID }: ProductInformationProp
                     Save
                 </FormButton>
             </Form>
+
+            <div className="mt-8 rounded-lg border bg-muted/20 p-4">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="space-y-1">
+                        <h4 className="text-sm font-medium">Product Categories</h4>
+                        <div className="flex flex-wrap gap-1.5">
+                            {product.categories.length > 0 ? (
+                                product.categories.map((category) => (
+                                    <Badge
+                                        key={category.id}
+                                        variant="secondary"
+                                        className="rounded-md px-2 py-0.5 text-xs font-normal"
+                                    >
+                                        {category.name}
+                                    </Badge>
+                                ))
+                            ) : (
+                                <span className="text-xs text-muted-foreground italic">
+                                    No categories assigned to this product.
+                                </span>
+                            )}
+                        </div>
+                    </div>
+                    <div className="shrink-0">
+                        <AssignCategories productID={productID} />
+                    </div>
+                </div>
+            </div>
+
+            <Separator className="my-8" />
+
             <ProductImagesUpload productId={product.id} />
 
             <div className="mt-12 space-y-8">

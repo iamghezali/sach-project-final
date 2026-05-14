@@ -1,6 +1,12 @@
 import z from 'zod';
 import { apiNoContentSchema, apiPaginatedResponseSchema, apiResponseSchema } from '@/api/schema';
 
+export const CategorySchema = z.object({
+    id: z.int(),
+    name: z.string(),
+    slug: z.string(),
+});
+
 /**
  * Product Media Schema
  */
@@ -33,6 +39,7 @@ export const ProductSchema = z.object({
     status_label: ProductStatusLabelSchema,
     is_available: z.boolean(),
     starting_from: z.string(),
+    categories: z.array(CategorySchema),
 });
 
 export const ProductsListResponseSchema = apiPaginatedResponseSchema(ProductSchema);
@@ -187,3 +194,17 @@ export const ReorderProductImagesResponseSchema = apiNoContentSchema;
  * Delete Image Response
  */
 export const DeleteImageResponseSchema = apiNoContentSchema;
+
+/**
+ * Assign Categories Request
+ */
+export const AssignCategoriesRequestSchema = z.object({
+    category_ids: z.array(z.int()),
+});
+
+export type AssignCategoriesRequest = z.infer<typeof AssignCategoriesRequestSchema>;
+
+/**
+ * Assign Categories Response
+ */
+export const AssignCategoriesResponseSchema = apiNoContentSchema;
