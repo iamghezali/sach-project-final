@@ -1,3 +1,4 @@
+import Image from '@/components/image';
 import { Separator } from '@/components/ui/separator';
 import { AssignSingle } from '@/features/dashboard/orders/custom-orders/components/order-folder/assign-items';
 import AttachOfferToItem from '@/features/dashboard/orders/custom-orders/components/order-folder/attach-offer-to-item';
@@ -79,6 +80,25 @@ export function OrderItem({ item, orderID }: { orderID: number; item: ClothingOr
                     orderItemID={item.id}
                 />
             </div>
+
+            {item.images.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                    {item.images.map((image, i) => (
+                        <div
+                            key={image.uuid}
+                            className="basis-24"
+                        >
+                            <div className="relative overflow-hidden rounded-md border bg-muted pt-[125%]">
+                                <Image
+                                    src={image.url}
+                                    alt={`${info.title} - reference - ${i}`}
+                                    className="absolute inset-0 size-full object-cover"
+                                />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
 
             <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
                 <span>

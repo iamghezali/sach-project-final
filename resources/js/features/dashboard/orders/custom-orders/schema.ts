@@ -13,6 +13,12 @@ const TailorSchema = z.object({
     email: z.string(),
 });
 
+const CustomOrderItemMediaSchema = z.object({
+    uuid: z.string(),
+    url: z.string(),
+    order: z.number(),
+});
+
 // -------------- Listing
 
 export const CustomOrderSchema = z.object({
@@ -70,6 +76,7 @@ const ClothingOrderItemSchema = z.object({
     status_label: z.string(),
     information: ItemInformationSchema,
     measurements: MeasurementsSchema,
+    images: z.array(CustomOrderItemMediaSchema),
     created_at: z.string(),
     updated_at: z.string(),
     offer_price: z.string().nullable(),
@@ -91,6 +98,7 @@ export type ItemInformation = z.infer<typeof ItemInformationSchema>;
 export type Measurements = z.infer<typeof MeasurementsSchema>;
 export type StandardMeasurements = z.infer<typeof StandardMeasurementsSchema>;
 export type CustomMeasurements = z.infer<typeof CustomMeasurementsSchema>;
+export type CustomOrderItemMedia = z.infer<typeof CustomOrderItemMediaSchema>;
 
 // -------------- Assign
 
