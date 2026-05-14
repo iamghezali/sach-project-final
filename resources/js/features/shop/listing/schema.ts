@@ -11,5 +11,9 @@ export const ProductSchema = z.object({
     thumbnail: z.string().nullable(),
 });
 
-export const ProductListResponseSchema = apiPaginatedResponseSchema(ProductSchema);
 export type Product = z.infer<typeof ProductSchema>;
+export const ProductListResponseSchema = apiPaginatedResponseSchema(ProductSchema);
+
+export const ProductCategoryResponseSchema = z.object({
+    data: z.array(ProductSchema),
+});

@@ -2,6 +2,7 @@ import { Link } from '@inertiajs/react';
 import type { JSX } from 'react';
 import TextReveal from '@/components/text-reveal';
 import { Button } from '@/components/ui/button';
+import ProductCarousel from '@/features/shop/listing/components/product-carousel';
 import ShopLayout from '@/layouts/shop-layout';
 
 export default function Welcome(): JSX.Element {
@@ -54,6 +55,8 @@ export default function Welcome(): JSX.Element {
                     </TextReveal>
                 </div>
             </section>
+
+            <ProductCarousel categorySlug="hidjab-collection" />
         </ShopLayout>
     );
 }
