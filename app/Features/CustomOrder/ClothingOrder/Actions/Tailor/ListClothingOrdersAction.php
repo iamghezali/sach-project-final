@@ -17,9 +17,6 @@ class ListClothingOrdersAction
         ClothingOrderData::collect(
             ClothingOrder::query()
                 ->whereHas('items', fn ($query) => $query->where('tailor_id', $tailor->id))
-                ->with([
-                    'items' => fn ($query) => $query->where('tailor_id', $tailor->id),
-                ])
                 ->latest()
                 ->paginate(self::PER_PAGE),
             PaginatedDataCollection::class

@@ -12,7 +12,9 @@ class ShowClothingOrderAction
         return ClothingOrder::query()
             ->whereHas('items', fn ($query) => $query->where('tailor_id', $tailor->id))
             ->with([
-                'items' => fn ($query) => $query->where('tailor_id', $tailor->id),
+                'items' => fn ($query) => $query->where('tailor_id', $tailor->id)
+                    ->with('media'),
+
             ])
             ->findOrFail($orderID);
     }

@@ -13,6 +13,7 @@ class MarkClothingOrderItemAsDoneAction
         $orderItem = ClothingOrderItem::query()
             ->where('tailor_id', $tailor->id)
             ->where('clothing_order_id', $orderID)
+            ->with('media')
             ->findOrFail($itemID);
 
         $orderItem->update(['status' => ClothingOrderItemStatus::Completed]);

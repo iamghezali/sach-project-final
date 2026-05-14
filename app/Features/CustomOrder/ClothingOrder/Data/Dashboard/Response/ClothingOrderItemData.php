@@ -16,6 +16,7 @@ class ClothingOrderItemData extends Data
         public readonly string $status_label,
         public readonly ClothingOrderItemInformationData $information,
         public readonly array $measurements,
+        public readonly array $images,
         public readonly string $created_at,
         public readonly string $updated_at,
 
@@ -35,6 +36,11 @@ class ClothingOrderItemData extends Data
             status_label: $item->status->label(),
             information: ClothingOrderItemInformationData::fromModel($item),
             measurements: ClothingOrderItemMeasurementsData::fromModel($item)->toArray(),
+            images: $item->getMedia('images')
+                ->map(fn ($media) => ClothingOrderItemMediaData::fromModel($media))
+                ->values()
+                ->toArray(),
+
             created_at: $item->created_at->format('Y-m-d'),
             updated_at: $item->updated_at->format('Y-m-d'),
             offer_price: $item->offer_price,
