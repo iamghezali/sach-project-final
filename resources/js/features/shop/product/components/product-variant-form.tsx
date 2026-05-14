@@ -1,13 +1,18 @@
+import { router } from '@inertiajs/react';
 import type { JSX } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import Form from '@/components/form/form';
+import { FormButton } from '@/components/form/form-button';
 import { FormField } from '@/components/form/form-field';
 import { FormInput } from '@/components/form/form-input';
 import { FormToggleGroup } from '@/components/form/form-toggle-group';
 import { default as ImageComponent } from '@/components/image';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { FieldGroup, FieldSet } from '@/components/ui/field';
 import type { Product, ProductVariant, VariantSelection } from '@/features/shop/product/schema';
 import { getFirstImageForValue } from '@/features/shop/product/utils';
+import { formatPrice } from '@/lib/format-price';
 
 interface ProductVariantFormProps {
     product: Product;
@@ -33,7 +38,27 @@ export function ProductVariantForm({
             form={form}
             onSubmit={onSubmit}
         >
-            <pre>{JSON.stringify(selectedVariant, null, 2)}</pre>
+            <div>
+                <div>
+                    <span className="inline-flex h-9.5 items-center rounded-xl bg-brand-secondary-300 px-4 text-xs font-medium text-white">
+                        New Release
+                    </span>
+
+                    <h1 className="mt-4 text-[2rem]/tight font-semibold">{product.name}</h1>
+                    <span className="mt-4 block text-2xl/tight leading-6 font-semibold text-brand-secondary-300">
+                        {formatPrice(selectedVariant?.price ?? '0')} DZD
+                    </span>
+                    <span className="mt-2 block text-xs leading-4.5">Shipping calculated at checkout.</span>
+                </div>
+
+                <p>SKU: {selectedVariant?.sku}</p>
+
+                <p>
+                    <Badge variant={selectedVariant?.is_in_stock ? 'secondary' : 'destructive'}>
+                        {selectedVariant?.is_in_stock ? 'In Stock' : 'Out of Stock'}
+                    </Badge>
+                </p>
+            </div>
 
             <FieldSet>
                 <FieldGroup>
@@ -162,7 +187,29 @@ export function ProductVariantForm({
                 </FieldGroup>
             </FieldSet>
 
-            <button type="submit">Add to cart</button>
+            <div className="mt-2 flex flex-col gap-1">
+                <FormButton
+                    control={form.control}
+                    disabled={!selectedVariant?.is_in_stock}
+                    variant="brand-neutral"
+                    size="brand-lg"
+                >
+                    Add to cart
+                </FormButton>
+
+                <Button
+                    type="button"
+                    disabled={!selectedVariant?.is_in_stock}
+                    onClick={form.handleSubmit((values) => {
+                        onSubmit(values);
+                        router.visit('/shop/checkout/');
+                    })}
+                    variant="brand-secondary"
+                    size="brand-lg"
+                >
+                    Buy it Now
+                </Button>
+            </div>
         </Form>
     );
 }
