@@ -30,7 +30,7 @@ class ProductController extends Controller
             $product = $this->showProductAction->execute($slug);
 
             return response()->json([
-                'data' => ProductData::fromModel($product)->include('variants', 'attributes'),
+                'data' => ProductData::fromModel($product)->include('variants', 'attributes', 'images'),
             ]);
 
         } catch (ModelNotFoundException $e) {

@@ -23,6 +23,9 @@ class ProductData extends Data
 
         /** @var DataCollection<int, ProductVariantData> */
         public readonly Lazy|DataCollection $variants,
+
+        /** @var Lazy|DataCollection<int, ProductMediaData> */
+        public readonly Lazy|DataCollection $images,
     ) {}
 
     public static function fromModel(Product $product): self
@@ -39,7 +42,15 @@ class ProductData extends Data
             variants: Lazy::create(
                 fn () => ProductVariantData::collect(
                     $product->activeVariants
-                        ->map(fn ($v) => ProductVariantData::fromModel($v)->include('images'))
+                        ->map(fn ($v) => ProductVariantData::fromModel($v))
+                        ->all()
+                )
+            ),
+            images: Lazy::create(
+                fn () => new DataCollection(
+                    ProductMediaData::class,
+                    $product->getMedia('images')
+                        ->map(fn ($m) => ProductMediaData::fromModel($m))
                         ->all()
                 )
             ),
