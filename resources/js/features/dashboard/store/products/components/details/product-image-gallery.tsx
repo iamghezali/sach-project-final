@@ -1,5 +1,5 @@
-import { useProductDetails } from '@/features/dashboard/store/products/queries';
 import ProductImageCard from '@/features/dashboard/store/products/components/details/product-image-card';
+import { useProductDetails } from '@/features/dashboard/store/products/queries';
 
 interface ProductImageGalleryProps {
     productId: number;
