@@ -82,7 +82,7 @@ export default function NewAttributeValue({ attributeID }: NewAttributeValueProp
                         control={form.control}
                         name="value"
                     >
-                        <FormField.Label>Slug</FormField.Label>
+                        <FormField.Label>Value</FormField.Label>
                         <FormInput />
                         <FormField.Error />
                     </FormField>

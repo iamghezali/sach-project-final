@@ -23,7 +23,7 @@ const toggleVariants = cva(
                 ],
 
                 'brand-co-sizes': [
-                    'flex-1 rounded-lg bg-brand-shade-white text-brand-neutral-1000 hover:bg-brand-neutral-1000/90 hover:text-white disabled:bg-brand-neutral-200 disabled:text-brand-neutral-500',
+                    'max-w-30 flex-1 rounded-lg bg-brand-shade-white text-brand-neutral-1000 hover:bg-brand-neutral-1000/90 hover:text-white disabled:bg-brand-neutral-200 disabled:text-brand-neutral-500',
                     'data-[state=on]:bg-brand-neutral-1000 data-[state=on]:text-white',
                 ],
                 'brand-co-measurment-type': [
