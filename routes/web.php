@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', fn () => Inertia::render('welcome'))->name('welcome');
+Route::get('/about', fn () => Inertia::render('about'))->name('about');
+Route::get('/contact', fn () => Inertia::render('contact'))->name('contact');
 
 Route::middleware('guest')->group(function () {
 
@@ -20,6 +22,7 @@ Route::prefix('shop')->name('shop.')
     ->group(function () {
 
         Route::get('/', fn () => Inertia::render('shop/listing'))->name('listing');
+
         Route::get('/product/{slug}', fn ($slug) => Inertia::render('shop/product', [
             'slug' => $slug,
         ]))->name('product.details');

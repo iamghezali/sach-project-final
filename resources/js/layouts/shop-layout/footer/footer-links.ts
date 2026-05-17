@@ -29,11 +29,11 @@ export const categoriesLinks: FooterLinks[] = [
 export const companyLinks: FooterLinks[] = [
     {
         label: 'About',
-        url: '#',
+        url: '/about',
     },
     {
         label: 'Contact',
-        url: '#',
+        url: '/contact',
     },
     {
         label: 'Privacy Policy',
