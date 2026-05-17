@@ -6,10 +6,19 @@ interface DataGuardProps<T> {
     isError?: boolean;
     skeleton: ReactNode;
     errorFallback?: ReactNode;
+    emptyFallback?: ReactNode;
     children: (data: NonNullable<T>) => ReactNode;
 }
 
-export function DataGuard<T>({ data, isLoading, isError, skeleton, errorFallback, children }: DataGuardProps<T>) {
+export function DataGuard<T>({
+    data,
+    isLoading,
+    isError,
+    skeleton,
+    errorFallback,
+    emptyFallback,
+    children,
+}: DataGuardProps<T>) {
     if (data == null) {
         if (isError) {
             return errorFallback ?? skeleton;
@@ -20,6 +29,10 @@ export function DataGuard<T>({ data, isLoading, isError, skeleton, errorFallback
         }
 
         return null;
+    }
+
+    if (Array.isArray(data) && data.length === 0) {
+        return emptyFallback ?? null;
     }
 
     return children(data);

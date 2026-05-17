@@ -43,6 +43,7 @@ export default function ProductCategory({
                 isError={isError}
                 skeleton={<ProductCategorySkeleton />}
                 errorFallback={<ProductCategorySkeleton />}
+                emptyFallback={<ProductCategorySkeleton />}
             >
                 {(products) => (
                     <>
