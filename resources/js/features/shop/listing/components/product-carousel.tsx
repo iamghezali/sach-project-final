@@ -1,44 +1,81 @@
-// resources/js/features/shop/listing/components/category-products.tsx
-
 import type { JSX } from 'react';
-import { DataGuard } from '@/components/data-guard';
+import {
+    Carousel,
+    CarouselContent,
+    CarouselDots,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+    CarouselViewport,
+} from '@/components/ui/carousel';
 import ProductCard from '@/features/shop/listing/components/product-card';
 import { useProductsByCategory } from '@/features/shop/listing/queries';
 
-interface Props {
+type ProductCarouselProps = {
     categorySlug: string;
     title?: string;
     limit?: number;
-}
+};
 
-export default function ProductCarousel({ categorySlug, title, limit }: Props): JSX.Element {
+export default function ProductCarousel({
+    title = 'You may also like',
+    categorySlug,
+    limit = 8,
+}: ProductCarouselProps): JSX.Element {
     const { data: response, isLoading } = useProductsByCategory(categorySlug, limit);
-    const products = response?.data;
+
+    if (isLoading) {
+        return <>Loading..</>;
+    }
+
+    if (!response) {
+        return <></>;
+    }
+
+    const products = response.data;
 
     return (
         <div className="py-8">
-            {title && <h2 className="mb-6 text-3xl font-bold text-brand-neutral-1000">{title}</h2>}
+            <Carousel opts={{ align: 'start' }}>
+                <div className="flex items-center justify-between">
+                    <h2 className="text-5xl font-semibold text-brand-neutral-1000">{title}</h2>
 
-            <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                <DataGuard
-                    data={products}
-                    isLoading={isLoading}
-                    skeleton={<div className="h-100 animate-pulse rounded-4xl bg-neutral-200" />}
-                >
-                    {(products) =>
-                        products.map((product) => (
-                            <li key={product.id}>
+                    <div className="flex gap-4">
+                        <CarouselPrevious
+                            className="size-10"
+                            variant="brand-neutral"
+                            size="icon"
+                        />
+                        <CarouselNext
+                            className="size-10"
+                            variant="brand-neutral"
+                            size="icon"
+                        />
+                    </div>
+                </div>
+
+                <CarouselViewport className="mt-8">
+                    <CarouselContent>
+                        {products.map((product, i) => (
+                            <CarouselItem
+                                key={i}
+                                className="basis-1/4"
+                            >
                                 <ProductCard
                                     name={product.name}
-                                    thumbnail={product.thumbnail}
                                     price={product.starting_from}
+                                    thumbnail={product.thumbnail}
                                     slug={product.slug}
                                 />
-                            </li>
-                        ))
-                    }
-                </DataGuard>
-            </ul>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                </CarouselViewport>
+
+                <div className="mt-8 flex items-center justify-center gap-2">
+                    <CarouselDots />
+                </div>
+            </Carousel>
         </div>
     );
 }

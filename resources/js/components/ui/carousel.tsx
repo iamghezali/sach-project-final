@@ -24,6 +24,10 @@ type CarouselContextProps = {
     scrollNext: () => void;
     canScrollPrev: boolean;
     canScrollNext: boolean;
+
+    goTo: (index: number) => void;
+    scrollSnaps: number[];
+    selectedSnap: number;
 } & CarouselProps;
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null);
@@ -57,6 +61,9 @@ function Carousel({
     const [canScrollPrev, setCanScrollPrev] = React.useState(false);
     const [canScrollNext, setCanScrollNext] = React.useState(false);
 
+    const [scrollSnaps, setScrollSnaps] = React.useState<number[]>([]);
+    const [selectedSnap, setSelectedSnap] = React.useState(0);
+
     const onSelect = React.useCallback((api: CarouselApi) => {
         if (!api) return;
         setCanScrollPrev(api.canScrollPrev());
@@ -70,6 +77,21 @@ function Carousel({
     const scrollNext = React.useCallback(() => {
         api?.scrollNext();
     }, [api]);
+
+    const goTo = React.useCallback(
+        (index: number) => {
+            api?.scrollTo(index);
+        },
+        [api],
+    );
+
+    const setupSnaps = React.useCallback((api: CarouselApi) => {
+        setScrollSnaps(api?.scrollSnapList() ?? []);
+    }, []);
+
+    const setActiveSnap = React.useCallback((api: CarouselApi) => {
+        setSelectedSnap(api?.selectedScrollSnap() ?? 0);
+    }, []);
 
     const handleKeyDown = React.useCallback(
         (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -92,13 +114,23 @@ function Carousel({
     React.useEffect(() => {
         if (!api) return;
         onSelect(api);
+        setupSnaps(api);
+        setActiveSnap(api);
+
         api.on('reInit', onSelect);
         api.on('select', onSelect);
+        api.on('reInit', setupSnaps);
+        api.on('reInit', setActiveSnap);
+        api.on('select', setActiveSnap);
 
         return () => {
-            api?.off('select', onSelect);
+            api.off('reInit', onSelect);
+            api.off('select', onSelect);
+            api.off('reInit', setupSnaps);
+            api.off('reInit', setActiveSnap);
+            api.off('select', setActiveSnap);
         };
-    }, [api, onSelect]);
+    }, [api, onSelect, setupSnaps, setActiveSnap]);
 
     return (
         <CarouselContext.Provider
@@ -111,6 +143,10 @@ function Carousel({
                 scrollNext,
                 canScrollPrev,
                 canScrollNext,
+
+                goTo,
+                scrollSnaps,
+                selectedSnap,
             }}
         >
             <div
@@ -127,20 +163,28 @@ function Carousel({
     );
 }
 
-function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
-    const { carouselRef, orientation } = useCarousel();
+function CarouselViewport({ className, ...props }: React.ComponentProps<'div'>) {
+    const { carouselRef } = useCarousel();
 
     return (
         <div
             ref={carouselRef}
-            className="overflow-hidden"
+            className={cn('overflow-hidden', className)}
+            data-slot="carousel-viewport"
+            {...props}
+        />
+    );
+}
+
+function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
+    const { orientation } = useCarousel();
+
+    return (
+        <div
+            className={cn('flex', orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col', className)}
             data-slot="carousel-content"
-        >
-            <div
-                className={cn('flex', orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col', className)}
-                {...props}
-            />
-        </div>
+            {...props}
+        />
     );
 }
 
@@ -175,13 +219,7 @@ function CarouselPrevious({
             data-slot="carousel-previous"
             variant={variant}
             size={size}
-            className={cn(
-                'absolute touch-manipulation rounded-full',
-                orientation === 'horizontal'
-                    ? 'top-1/2 -left-12 -translate-y-1/2'
-                    : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
-                className,
-            )}
+            className={cn('touch-manipulation', orientation === 'horizontal' ? '' : 'rotate-90', className)}
             disabled={!canScrollPrev}
             onClick={scrollPrev}
             {...props}
@@ -205,13 +243,7 @@ function CarouselNext({
             data-slot="carousel-next"
             variant={variant}
             size={size}
-            className={cn(
-                'absolute touch-manipulation rounded-full',
-                orientation === 'horizontal'
-                    ? 'top-1/2 -right-12 -translate-y-1/2'
-                    : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
-                className,
-            )}
+            className={cn('touch-manipulation', orientation === 'horizontal' ? '' : '', className)}
             disabled={!canScrollNext}
             onClick={scrollNext}
             {...props}
@@ -222,4 +254,38 @@ function CarouselNext({
     );
 }
 
-export { type CarouselApi, Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, useCarousel };
+function CarouselDots({ className, ...props }: React.ComponentProps<'div'>) {
+    const { scrollSnaps, selectedSnap, goTo } = useCarousel();
+
+    return (
+        <div
+            className={cn('flex justify-center gap-1', className)}
+            data-slot="carousel-dots"
+            {...props}
+        >
+            {scrollSnaps.map((_, index) => (
+                <button
+                    key={index}
+                    onClick={() => goTo(index)}
+                    className={cn(
+                        'h-1.5 w-10 cursor-pointer rounded-md transition-colors',
+                        selectedSnap === index ? 'bg-brand-secondary-300' : 'bg-brand-neutral-400',
+                    )}
+                    aria-label={`Go to slide ${index + 1}`}
+                />
+            ))}
+        </div>
+    );
+}
+
+export {
+    type CarouselApi,
+    useCarousel,
+    Carousel,
+    CarouselViewport,
+    CarouselContent,
+    CarouselItem,
+    CarouselDots,
+    CarouselPrevious,
+    CarouselNext,
+};
