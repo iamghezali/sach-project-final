@@ -1,4 +1,5 @@
 import type { JSX } from 'react';
+import { DataGuard } from '@/components/data-guard';
 import {
     Carousel,
     CarouselContent,
@@ -8,7 +9,8 @@ import {
     CarouselPrevious,
     CarouselViewport,
 } from '@/components/ui/carousel';
-import ProductCard from '@/features/shop/listing/components/product-card';
+import { Skeleton } from '@/components/ui/skeleton';
+import ProductCard, { ProductCardSkeleton } from '@/features/shop/listing/components/product-card';
 import { useProductsByCategory } from '@/features/shop/listing/queries';
 
 type ProductCarouselProps = {
@@ -22,17 +24,9 @@ export default function ProductCarousel({
     categorySlug,
     limit = 8,
 }: ProductCarouselProps): JSX.Element {
-    const { data: response, isLoading } = useProductsByCategory(categorySlug, limit);
+    const { data: response, isLoading, isError } = useProductsByCategory(categorySlug, limit);
 
-    if (isLoading) {
-        return <>Loading..</>;
-    }
-
-    if (!response) {
-        return <></>;
-    }
-
-    const products = response.data;
+    const products = response?.data;
 
     return (
         <div className="py-8">
@@ -54,28 +48,59 @@ export default function ProductCarousel({
                     </div>
                 </div>
 
-                <CarouselViewport className="mt-8">
-                    <CarouselContent>
-                        {products.map((product, i) => (
-                            <CarouselItem
-                                key={i}
-                                className="basis-1/4"
-                            >
-                                <ProductCard
-                                    name={product.name}
-                                    price={product.starting_from}
-                                    thumbnail={product.thumbnail}
-                                    slug={product.slug}
-                                />
-                            </CarouselItem>
-                        ))}
-                    </CarouselContent>
-                </CarouselViewport>
+                <DataGuard
+                    data={products}
+                    isLoading={isLoading}
+                    isError={isError}
+                    skeleton={<ProductCarouselSkeleton />}
+                    errorFallback={<ProductCarouselSkeleton />}
+                    emptyFallback={<ProductCarouselSkeleton />}
+                >
+                    {(products) => (
+                        <>
+                            <CarouselViewport className="mt-8">
+                                <CarouselContent>
+                                    {products.map((product, i) => (
+                                        <CarouselItem
+                                            key={i}
+                                            className="basis-1/4"
+                                        >
+                                            <ProductCard
+                                                name={product.name}
+                                                price={product.starting_from}
+                                                thumbnail={product.thumbnail}
+                                                slug={product.slug}
+                                            />
+                                        </CarouselItem>
+                                    ))}
+                                </CarouselContent>
+                            </CarouselViewport>
+                        </>
+                    )}
+                </DataGuard>
 
                 <div className="mt-8 flex items-center justify-center gap-2">
                     <CarouselDots />
                 </div>
             </Carousel>
         </div>
+    );
+}
+
+export function ProductCarouselSkeleton(): JSX.Element {
+    return (
+        <>
+            <div className="mt-8 grid grid-cols-4 gap-4">
+                {Array.from({ length: 4 }).map((_, i) => (
+                    <ProductCardSkeleton key={i} />
+                ))}
+            </div>
+
+            <div className="mt-8 flex items-center justify-center gap-2">
+                <Skeleton className="h-1.5 w-10 rounded-full bg-brand-neutral-200" />
+                <Skeleton className="h-1.5 w-10 rounded-full bg-brand-neutral-200" />
+                <Skeleton className="h-1.5 w-10 rounded-full bg-brand-neutral-200" />
+            </div>
+        </>
     );
 }
