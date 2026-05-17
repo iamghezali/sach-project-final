@@ -23,46 +23,44 @@ export default function ProductCategory({
     const products = response?.data;
 
     return (
-        <section>
-            <div className="mt-20">
-                <div className="flex items-end justify-between">
-                    <h2 className="text-7xl font-semibold text-brand-neutral-1000 uppercase">{title}</h2>
+        <div>
+            <div className="flex items-end justify-between">
+                <h2 className="text-7xl font-semibold text-brand-neutral-1000 uppercase">{title}</h2>
 
-                    <Button
-                        className="uppercase"
-                        variant="brand-secondary"
-                        size="brand-lg"
-                        asChild
-                    >
-                        <Link href={`/shop?category=${categorySlug}`}>{label}</Link>
-                    </Button>
-                </div>
-
-                <DataGuard
-                    data={products}
-                    isLoading={isLoading}
-                    isError={isError}
-                    skeleton={<ProductCategorySkeleton />}
-                    errorFallback={<ProductCategorySkeleton />}
+                <Button
+                    className="uppercase"
+                    variant="brand-secondary"
+                    size="brand-lg"
+                    asChild
                 >
-                    {(products) => (
-                        <>
-                            <div className="mt-8 grid grid-cols-4 gap-4">
-                                {products.map((product) => (
-                                    <ProductCard
-                                        key={product.id}
-                                        name={product.name}
-                                        price={product.starting_from}
-                                        thumbnail={product.thumbnail}
-                                        slug={product.slug}
-                                    />
-                                ))}
-                            </div>
-                        </>
-                    )}
-                </DataGuard>
+                    <Link href={`/shop?category=${categorySlug}`}>{label}</Link>
+                </Button>
             </div>
-        </section>
+
+            <DataGuard
+                data={products}
+                isLoading={isLoading}
+                isError={isError}
+                skeleton={<ProductCategorySkeleton />}
+                errorFallback={<ProductCategorySkeleton />}
+            >
+                {(products) => (
+                    <>
+                        <div className="mt-8 grid grid-cols-4 gap-4">
+                            {products.map((product) => (
+                                <ProductCard
+                                    key={product.id}
+                                    name={product.name}
+                                    price={product.starting_from}
+                                    thumbnail={product.thumbnail}
+                                    slug={product.slug}
+                                />
+                            ))}
+                        </div>
+                    </>
+                )}
+            </DataGuard>
+        </div>
     );
 }
 

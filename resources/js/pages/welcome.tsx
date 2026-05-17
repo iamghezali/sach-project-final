@@ -2,6 +2,13 @@ import { Link } from '@inertiajs/react';
 import type { JSX } from 'react';
 import TextReveal from '@/components/text-reveal';
 import { Button } from '@/components/ui/button';
+import {
+    CategoriesTabs,
+    CategoriesTabsContent,
+    CategoriesTabsList,
+    CategoriesTabsTrigger,
+} from '@/features/shop/welcome/components/categories-tabs';
+import CategoryCard from '@/features/shop/welcome/components/category-card';
 import ProductCategory from '@/features/shop/welcome/components/product-category';
 import ShopLayout from '@/layouts/shop-layout';
 
@@ -61,8 +68,55 @@ export default function Welcome(): JSX.Element {
                     <ProductCategory
                         title="New Drops"
                         label="Shop New Drops"
-                        categorySlug="new"
+                        categorySlug="new-drops"
                     />
+                </div>
+            </section>
+
+            <section>
+                <div
+                    className="mt-20"
+                    id=""
+                >
+                    <h2 className="text-7xl font-semibold text-brand-neutral-1000 uppercase">Categories</h2>
+
+                    <div className="mt-8">
+                        <CategoriesTabs defaultValue="clothes">
+                            <CategoriesTabsList>
+                                <CategoriesTabsTrigger value="clothes">Clothes</CategoriesTabsTrigger>
+                                <CategoriesTabsTrigger value="living-rooms">Living Rooms</CategoriesTabsTrigger>
+                            </CategoriesTabsList>
+
+                            <CategoriesTabsContent value="clothes">
+                                <div className="grid grid-cols-2 gap-8">
+                                    <CategoryCard
+                                        title="Soiree Collection"
+                                        categorySlug="soiree-collection"
+                                        url=""
+                                    />
+                                    <CategoryCard
+                                        title="Vest Collection"
+                                        categorySlug="vest-collection"
+                                        url=""
+                                    />
+                                    <CategoryCard
+                                        title="New Arrivals"
+                                        categorySlug="new-arrivals"
+                                        url=""
+                                    />
+                                    <CategoryCard
+                                        title="Hajj & Umrah Collection"
+                                        categorySlug="hajj-and-umrah"
+                                        url=""
+                                    />
+                                </div>
+                            </CategoriesTabsContent>
+
+                            <CategoriesTabsContent value="living-rooms">
+                                <div className="grid grid-cols-2 gap-8"></div>
+                            </CategoriesTabsContent>
+                        </CategoriesTabs>
+                    </div>
                 </div>
             </section>
 
@@ -71,7 +125,7 @@ export default function Welcome(): JSX.Element {
                     <ProductCategory
                         title="Best Sellers"
                         label="Shop Best Selers"
-                        categorySlug="best-seller"
+                        categorySlug="best-sellers"
                     />
                 </div>
             </section>
