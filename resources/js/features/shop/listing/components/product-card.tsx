@@ -47,3 +47,20 @@ export default function ProductCard({ badge, name, thumbnail, price, slug }: Pro
         </div>
     );
 }
+
+export function ProductCardSkeleton(): JSX.Element {
+    return (
+        <div className="basis-full animate-pulse">
+            <div className="rounded-4xl bg-brand-shade-white p-2">
+                <div className="relative overflow-hidden rounded-3xl bg-brand-neutral-200 pt-[127.15%]"></div>
+            </div>
+
+            <div className="mt-4 flex min-h-14 flex-col justify-start">
+                <div className="h-6 w-3/4 rounded bg-brand-neutral-200" />
+                <div className="mt-2 h-6 w-1/2 rounded bg-brand-neutral-200" />
+            </div>
+
+            <div className="mt-4 h-12 w-full rounded-xl bg-brand-neutral-200" />
+        </div>
+    );
+}

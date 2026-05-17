@@ -2,6 +2,7 @@ import { Link } from '@inertiajs/react';
 import type { JSX } from 'react';
 import TextReveal from '@/components/text-reveal';
 import { Button } from '@/components/ui/button';
+import ProductCategory from '@/features/shop/welcome/components/product-category';
 import ShopLayout from '@/layouts/shop-layout';
 
 export default function Welcome(): JSX.Element {
@@ -52,6 +53,26 @@ export default function Welcome(): JSX.Element {
                         pricing and production to quality checks and delivery. Designed for individuals, families, and
                         institutions, SASH combines craftsmanship with convenience to deliver results you can trust.
                     </TextReveal>
+                </div>
+            </section>
+
+            <section>
+                <div className="mt-20">
+                    <ProductCategory
+                        title="New Drops"
+                        label="Shop New Drops"
+                        categorySlug="new"
+                    />
+                </div>
+            </section>
+
+            <section>
+                <div className="mt-20">
+                    <ProductCategory
+                        title="Best Sellers"
+                        label="Shop Best Selers"
+                        categorySlug="best-seller"
+                    />
                 </div>
             </section>
         </ShopLayout>
