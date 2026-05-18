@@ -1,93 +1,76 @@
 import { Link } from '@inertiajs/react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import type { CustomOrderItem, CustomMeasurements } from '@/features/shop/orders/schema';
-
-function MeasurementDetails({ measurements }: { measurements: CustomMeasurements }) {
-    if (measurements.measurement_type === 'standard') {
-        return (
-            <div className="flex flex-wrap gap-4 text-sm">
-                <span className="text-muted-foreground">
-                    Size: <span className="font-medium text-foreground uppercase">{measurements.size}</span>
-                </span>
-            </div>
-        );
-    }
-
-    return (
-        <div className="grid grid-cols-2 gap-x-6 gap-y-1 text-sm sm:grid-cols-4">
-            {(
-                [
-                    ['Shoulder', measurements.shoulder],
-                    ['Height', measurements.height],
-                    ['Waist', measurements.waist],
-                    ['Chest', measurements.chest],
-                ] as const
-            ).map(([label, value]) => (
-                <span
-                    key={label}
-                    className="text-muted-foreground"
-                >
-                    {label}: <span className="font-medium text-foreground">{value} cm</span>
-                </span>
-            ))}
-        </div>
-    );
-}
+import Image from '@/components/image';
+import type { CustomOrderItem } from '@/features/shop/orders/schema';
 
 export default function FolderOrderItem({ orderID, item }: { orderID: number; item: CustomOrderItem }) {
     const { information: info, measurements } = item;
 
     return (
-        <div className="space-y-4 rounded-lg border border-black p-4">
-            <div className="flex items-start justify-between gap-2">
-                <p className="font-medium">{info.title}</p>
-                <Badge variant="secondary">{item.status_label}</Badge>
+        <div className="flex items-center gap-6 rounded-2xl border border-brand-neutral-alt-500 p-4">
+            <div className="shrink-0 basis-48">
+                <div className="relative overflow-hidden rounded-3xl bg-brand-neutral-200 pt-[120%]">
+                    <Image
+                        src={item.images[0].url}
+                        className="absolute inset-0 size-full object-cover"
+                    />
+                </div>
             </div>
 
-            <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
-                <span>
-                    Type: <span className="font-medium text-foreground">{info.item_type}</span>
-                </span>
-                <span>
-                    Qty: <span className="font-medium text-foreground">{info.quantity}</span>
-                </span>
-            </div>
+            <div className="flex grow flex-col gap-5 leading-none">
+                <div>
+                    <Link
+                        className="text-2xl font-bold hover:underline"
+                        href={`/shop/orders/my/${orderID}/custom-order/item/${item.id}`}
+                    >
+                        {info.title}
+                    </Link>
+                </div>
 
-            <Separator />
+                <div className="flex items-center gap-10">
+                    <div>
+                        <span className="text-brand-neutral-alt-700">Type: </span>
+                        <span className="capitalize">{info.item_is_for}</span>
+                    </div>
 
-            <div className="space-y-2">
-                <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                    Measurements ({measurements.measurement_type})
-                </p>
-                <MeasurementDetails measurements={measurements} />
-            </div>
+                    <div>
+                        <span className="text-brand-neutral-alt-700">Category: </span>
+                        <span className="capitalize">{info.item_type}</span>
+                    </div>
+                </div>
 
-            {(item.offer_price || item.offer_due_date) && (
-                <>
-                    <Separator />
-                    <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                        {item.offer_price && (
-                            <span>
-                                Price: <span className="font-medium text-foreground">{item.offer_price} DZD</span>
-                            </span>
+                <div>
+                    <span className="text-brand-neutral-alt-700">Measurements: </span>
+                    <span className="capitalize">
+                        {measurements.measurement_type}{' '}
+                        {measurements.measurement_type === 'standard' && (
+                            <span className="uppercase">({measurements.size})</span>
                         )}
+                    </span>
+                </div>
+
+                <div>
+                    <span className="text-brand-neutral-alt-700">Quantity: </span>
+                    <span className="capitalize">{info.quantity}</span>
+                </div>
+
+                {(item.offer_price || item.offer_due_date) && (
+                    <div className="flex justify-between">
+                        {item.offer_price && (
+                            <div>
+                                <span className="text-brand-neutral-alt-700">Unit Price: </span>
+                                <span className="capitalize">{item.offer_price} DZD</span>
+                            </div>
+                        )}
+
                         {item.offer_due_date && (
-                            <span>
-                                Due date: <span className="font-medium text-foreground">{item.offer_due_date}</span>
-                            </span>
+                            <div>
+                                <span className="text-brand-neutral-alt-700">Estimated Delivery Date: </span>
+                                <span className="capitalize">{item.offer_due_date}</span>
+                            </div>
                         )}
                     </div>
-                </>
-            )}
-
-            <Button
-                variant="outline"
-                asChild
-            >
-                <Link href={`/shop/orders/my/${orderID}/custom-order/item/${item.id}`}>View Details</Link>
-            </Button>
+                )}
+            </div>
         </div>
     );
 }

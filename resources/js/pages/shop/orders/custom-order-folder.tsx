@@ -9,7 +9,11 @@ export default function CustomOrderFolder(): JSX.Element {
 
     return (
         <ShopLayout>
-            <FolderItems orderID={orderID} />
+            <section>
+                <div className="mt-6">
+                    <FolderItems orderID={orderID} />
+                </div>
+            </section>
         </ShopLayout>
     );
 }
