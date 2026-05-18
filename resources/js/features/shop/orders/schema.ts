@@ -12,7 +12,8 @@ const ListOrderItemSchema = z.object({
     notes: z.string().nullable().optional(),
     status: z.string(),
     status_label: z.string(),
-    createdAt: z.string(),
+    created_at: z.string(),
+    updated_at: z.string(),
 });
 
 export const OrdersListResponseSchema = apiPaginatedResponseSchema(ListOrderItemSchema);
@@ -56,7 +57,8 @@ export const OrderResponseSchema = apiResponseSchema(
         id: z.number(),
         total: z.string(),
         notes: z.string().nullable(),
-        createdAt: z.string(),
+        created_at: z.string(),
+        updated_at: z.string(),
         shippingAddress: AddressResponseSchema,
         billingAddress: AddressResponseSchema,
         items: z.array(OrderItemResponseSchema),
