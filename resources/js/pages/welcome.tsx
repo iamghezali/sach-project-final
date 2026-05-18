@@ -2,6 +2,7 @@ import { Link } from '@inertiajs/react';
 import type { JSX } from 'react';
 import TextReveal from '@/components/text-reveal';
 import { Button } from '@/components/ui/button';
+import Banners from '@/features/shop/welcome/components/banners';
 import {
     CategoriesTabs,
     CategoriesTabsContent,
@@ -74,10 +75,13 @@ export default function Welcome(): JSX.Element {
             </section>
 
             <section>
-                <div
-                    className="mt-20"
-                    id=""
-                >
+                <div className="mt-20">
+                    <Banners />
+                </div>
+            </section>
+
+            <section>
+                <div className="mt-20">
                     <h2 className="text-7xl font-semibold text-brand-neutral-1000 uppercase">Categories</h2>
 
                     <div className="mt-8">
