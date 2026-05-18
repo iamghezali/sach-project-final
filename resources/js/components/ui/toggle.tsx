@@ -35,6 +35,18 @@ const toggleVariants = cva(
                     'overflow-hidden rounded-lg bg-transparent ring-3 ring-transparent hover:bg-transparent hover:ring-brand-neutral-300/30',
                     'data-[state=on]:bg-transparent data-[state=on]:ring-brand-neutral-1000',
                 ],
+
+                'categories-filter': [
+                    'rounded-xl bg-brand-neutral-alt-500 px-4 py-3 text-xs font-medium text-white hover:bg-brand-neutral-1000/90 hover:text-white disabled:opacity-50',
+                    'data-[state=on]:bg-brand-neutral-1000',
+                ],
+
+                'sizes-filter': [
+                    'size-12 rounded-lg bg-brand-shade-white text-sm font-medium text-brand-neutral-1000 hover:bg-brand-neutral-1000/90 hover:text-white disabled:bg-brand-neutral-200 disabled:text-brand-neutral-500',
+                    'data-[state=on]:bg-brand-neutral-1000 data-[state=on]:text-white',
+                ],
+
+                'colors-filter': ['rounded-lg ring-3 ring-transparent', 'data-[state=on]:ring-brand-neutral-1000'],
             },
             size: {
                 default: 'h-8 min-w-8 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2',
@@ -47,6 +59,8 @@ const toggleVariants = cva(
                 'brand-co-measurment-type': "h-48 w-78 [&_svg:not([class*='size-'])]:size-20",
 
                 'brand-colors-filter': ['h-auto w-auto p-px'],
+
+                filter: '',
             },
         },
         defaultVariants: {

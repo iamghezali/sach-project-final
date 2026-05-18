@@ -11,6 +11,7 @@ const trackVariants = cva(
             variant: {
                 default: 'bg-muted',
                 'brand-primary': 'bg-brand-primary-300/20',
+                'brand-neutral': 'bg-brand-neutral-1000',
             },
         },
         defaultVariants: {
@@ -24,6 +25,7 @@ const rangeVariants = cva('absolute select-none data-horizontal:h-full data-vert
         variant: {
             default: 'bg-primary',
             'brand-primary': 'bg-brand-primary-300',
+            'brand-neutral': 'bg-brand-secondary-300',
         },
     },
     defaultVariants: {
@@ -38,6 +40,7 @@ const thumbVariants = cva(
             variant: {
                 default: 'size-3 bg-white',
                 'brand-primary': 'size-4 bg-white',
+                'brand-neutral': 'size-4 border-brand-secondary-300 bg-brand-secondary-300 ring-brand-secondary-300/50',
             },
         },
         defaultVariants: {
