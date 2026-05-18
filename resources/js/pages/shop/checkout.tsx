@@ -20,14 +20,14 @@ export default function Checkout(): JSX.Element | null {
 
     return (
         <ShopLayout>
-            <div className="flex gap-5">
-                <div className="flex-1">
-                    <CheckoutStages />
-                </div>
-                <div className="basis-sm">
+            <section>
+                <div className="mt-7 flex items-start gap-25">
+                    <div className="flex-1">
+                        <CheckoutStages />
+                    </div>
                     <CheckoutSummary />
                 </div>
-            </div>
+            </section>
         </ShopLayout>
     );
 }
