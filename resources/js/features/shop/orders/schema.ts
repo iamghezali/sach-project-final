@@ -78,6 +78,7 @@ const ListCustomOrderItemSchema = z.object({
     status_label: z.string(),
     offer_total: z.string(),
     created_at: z.string(),
+    updated_at: z.string(),
 });
 
 export const CustomOrdersListResponseSchema = apiPaginatedResponseSchema(ListCustomOrderItemSchema);

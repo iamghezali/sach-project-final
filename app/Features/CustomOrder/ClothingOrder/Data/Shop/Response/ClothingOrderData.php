@@ -17,6 +17,7 @@ class ClothingOrderData extends Data
         public readonly string $status_label,
         public readonly string $offer_total,
         public readonly string $created_at,
+        public readonly string $updated_at,
 
         /** @var Lazy<DataCollection<ClothingOrderItemData>> */
         public readonly Lazy|DataCollection $items,
@@ -31,6 +32,7 @@ class ClothingOrderData extends Data
             status_label: $order->status->label(),
             offer_total: $order->offerTotal(),
             created_at: $order->created_at->format('Y-m-d'),
+            updated_at: $order->updated_at->format('Y-m-d'),
             items: Lazy::create(fn () => new DataCollection(
                 ClothingOrderItemData::class,
                 $order->items->map(fn ($item) => ClothingOrderItemData::fromModel($item)),

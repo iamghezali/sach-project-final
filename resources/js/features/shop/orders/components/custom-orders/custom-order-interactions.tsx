@@ -1,4 +1,4 @@
-import { LoaderCircleIcon, XIcon } from 'lucide-react';
+import { CheckIcon, CircleOffIcon, LoaderCircleIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 import type { JSX } from 'react';
 import {
@@ -57,20 +57,24 @@ export default function CustomOrderInteractions({ orderID }: CustomOrderInteract
     };
 
     return (
-        <div className="flex items-center">
+        <div className="flex items-center gap-3">
             <Button
+                className="min-w-60 bg-[#F63647] font-normal text-black hover:bg-[#F63647]/80"
+                size="brand-md"
                 onClick={() => setIsOpen(true)}
                 disabled={isPending}
             >
-                Decline
+                Decline & Cancel Order <CircleOffIcon />
             </Button>
 
             <Button
+                className="min-w-60 bg-success-200 font-normal text-black hover:bg-success-200/80"
+                size="brand-md"
                 onClick={HandleAccept}
                 disabled={isPending}
             >
                 {isPending && <LoaderCircleIcon className="animate-spin" />}
-                Accept
+                Accept <CheckIcon />
             </Button>
 
             <AlertDialog open={isOpen}>

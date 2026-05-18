@@ -5,15 +5,14 @@
  *  @returns A formatted string (e.g., "1,234.50")
  */
 export function formatPrice(value: number | string): string {
-    // Convert string to number if necessary
-    const numericValue = typeof value === 'string' ? parseFloat(value) : value;
+    const sanitized = typeof value === 'string' ? value.replace(/,/g, '') : value;
+    const numericValue = typeof sanitized === 'string' ? parseFloat(sanitized) : sanitized;
 
-    if (isNaN(numericValue)) {
+    if (isNaN(numericValue) || !isFinite(numericValue)) {
         return '0.00';
     }
 
     const [integer, decimal] = numericValue.toFixed(2).split('.');
-
     const formattedInteger = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
     return `${formattedInteger}.${decimal}`;
