@@ -6,15 +6,21 @@ import ShopLayout from '@/layouts/shop-layout';
 export default function Cart(): JSX.Element {
     return (
         <ShopLayout>
-            <div className="flex gap-5">
-                <div className="flex-1">
-                    <CartGrid />
-                </div>
+            <section>
+                <div className="mt-7">
+                    <div>
+                        <h1 className="text-[2rem]/tight font-semibold text-brand-neutral-1000">Cart</h1>
+                    </div>
 
-                <div className="basis-sm">
-                    <CartSummary />
+                    <div className="mt-8 flex items-start gap-24">
+                        <div className="flex-1">
+                            <CartGrid />
+                        </div>
+
+                        <CartSummary />
+                    </div>
                 </div>
-            </div>
+            </section>
         </ShopLayout>
     );
 }

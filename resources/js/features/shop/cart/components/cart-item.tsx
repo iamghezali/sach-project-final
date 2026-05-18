@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 import { ArchiveXIcon } from 'lucide-react';
 import type { JSX } from 'react';
+import Image from '@/components/image';
 import { Button } from '@/components/ui/button';
 import { getAttributeValue } from '@/features/shop/cart/hooks/use-cart';
 import type { CartItem } from '@/features/shop/cart/hooks/use-cart';
@@ -15,11 +16,21 @@ export default function CartItem({
 }): JSX.Element {
     const attributes = item.product.attributes;
 
+    const variantImage =
+        item.product.images.find((img) =>
+            img.attribute_value_ids.some((id) => item.variant?.attribute_value_ids.includes(id)),
+        ) ?? item.product.images[0];
+
     return (
         <div>
             <div className="flex gap-6">
                 <div className="shrink-0 basis-39">
-                    <div className="relative overflow-hidden rounded-3xl bg-neutral-300 pt-[120%]"></div>
+                    <div className="relative overflow-hidden rounded-3xl border bg-neutral-300 pt-[120%]">
+                        <Image
+                            src={variantImage.url}
+                            className="absolute inset-0 size-full object-cover"
+                        />
+                    </div>
                 </div>
 
                 <div className="min-w-0 grow">

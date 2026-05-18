@@ -1,24 +1,24 @@
 import { Link } from '@inertiajs/react';
-import { ArrowRightIcon } from 'lucide-react';
+import { ArrowRight, ShoppingCart } from 'lucide-react';
 import type { JSX } from 'react';
 import { Button } from '@/components/ui/button';
 
-export default function CartEmpty(): JSX.Element {
+export default function EmptyCart(): JSX.Element {
     return (
-        <div>
-            <div>Your cart is Empty</div>
-            <div className="mt-2">
-                <Button
-                    asChild
-                    variant="brand-primary"
-                    size="brand-md"
-                >
-                    <Link href="/shop">
-                        Go to shop
-                        <ArrowRightIcon strokeWidth={3} />
-                    </Link>
-                </Button>
-            </div>
+        <div className="flex min-h-[75vh] flex-col items-center justify-center">
+            <ShoppingCart className="size-12 text-brand-neutral-alt-700" />
+            <span className="mt-6 text-2xl font-medium text-brand-neutral-alt-700">Your Cart is empty!</span>
+            <Button
+                className="mt-8 w-74"
+                variant="brand-primary"
+                size="brand-md"
+                asChild
+            >
+                <Link href="/shop/">
+                    Start Shopping
+                    <ArrowRight strokeWidth={3} />
+                </Link>
+            </Button>
         </div>
     );
 }
