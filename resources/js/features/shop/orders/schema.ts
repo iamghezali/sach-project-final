@@ -57,6 +57,8 @@ export const OrderResponseSchema = apiResponseSchema(
         id: z.number(),
         total: z.string(),
         notes: z.string().nullable(),
+        status: z.string(),
+        status_label: z.string(),
         created_at: z.string(),
         updated_at: z.string(),
         shippingAddress: AddressResponseSchema,
