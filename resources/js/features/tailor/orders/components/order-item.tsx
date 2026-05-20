@@ -1,6 +1,7 @@
 import type { JSX } from 'react';
 import Image from '@/components/image';
 import { useGetOrderItem } from '@/features/tailor/orders/queries';
+import { useSignedMedia } from '@/hooks/use-signed-media';
 
 type OrderItemProps = {
     orderID: number;
@@ -8,6 +9,7 @@ type OrderItemProps = {
 };
 export default function OrderItem({ orderID, orderItemID }: OrderItemProps): JSX.Element {
     const { data: response, isLoading } = useGetOrderItem(orderID, orderItemID);
+    const { openMedia, loadingUUID } = useSignedMedia();
 
     if (isLoading) {
         return <>Loading...</>;
@@ -154,18 +156,18 @@ export default function OrderItem({ orderID, orderItemID }: OrderItemProps): JSX
                                     className="relative overflow-hidden rounded-2xl pt-[150%]"
                                     key={image.uuid}
                                 >
-                                    <a
-                                        href={image.url}
-                                        target="_blank"
-                                        rel="noreferrer"
+                                    <button
+                                        type="button"
+                                        disabled={loadingUUID === image.uuid}
+                                        onClick={() => openMedia(image.uuid)}
                                         className="absolute inset-0 size-full"
                                     >
                                         <Image
                                             src={image.url}
                                             alt={`${information.title} - reference`}
-                                            className="absolute h-full w-full object-cover transition-transform group-hover:scale-105"
+                                            className="absolute inset-0 size-full object-cover transition-transform group-hover:scale-105"
                                         />
-                                    </a>
+                                    </button>
                                 </div>
                             ))}
                         </div>
