@@ -9,15 +9,19 @@ export default function Details(): JSX.Element {
 
     return (
         <ShopLayout>
-            <OrderItem
-                orderID={orderID}
-                orderItemID={itemID}
-            />
+            <section>
+                <div className="mt-8 flex flex-col gap-6">
+                    <OrderItem
+                        orderID={orderID}
+                        orderItemID={itemID}
+                    />
 
-            <MarkOrderItemAsDone
-                orderID={orderID}
-                orderItemID={itemID}
-            />
+                    <MarkOrderItemAsDone
+                        orderID={orderID}
+                        orderItemID={itemID}
+                    />
+                </div>
+            </section>
         </ShopLayout>
     );
 }
