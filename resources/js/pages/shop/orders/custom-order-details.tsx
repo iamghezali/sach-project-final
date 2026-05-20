@@ -8,10 +8,14 @@ export default function CustomOrderDetails(): JSX.Element {
 
     return (
         <ShopLayout>
-            <CustomOrderItem
-                orderID={Number(orderID)}
-                orderItemID={Number(itemID)}
-            />
+            <section>
+                <div className="mt-8">
+                    <CustomOrderItem
+                        orderID={Number(orderID)}
+                        orderItemID={Number(itemID)}
+                    />
+                </div>
+            </section>
         </ShopLayout>
     );
 }

@@ -1,7 +1,10 @@
+import { Link } from '@inertiajs/react';
+import { ArrowLeftIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import Image from '@/components/image';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
+// import { Badge } from '@/components/ui/badge';
+// import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
 import { useGetCustomOrderItem } from '@/features/shop/orders/queries';
 import { useSignedMedia } from '@/hooks/use-signed-media';
 
@@ -22,90 +25,171 @@ export default function CustomOrderItem({ orderID, orderItemID }: CustomOrderIte
         return <>Loading Error</>;
     }
 
-    const item = response.data;
-    const { information: info } = item;
+    const orderItem = response.data;
+    const { id, information, measurements, offer_due_date } = orderItem;
 
     return (
-        <div className="space-y-5 py-6">
-            <div className="flex items-start justify-between">
-                <div>
-                    <p className="mb-1 text-xs text-muted-foreground">
-                        Order #sach-{orderID} · Item #{item.id}
-                    </p>
-                    <h2 className="text-lg font-medium">{info.title}</h2>
+        <div>
+            <div className="flex flex-col gap-8">
+                <div className="flex items-center justify-between">
+                    <div className="mr-auto flex items-center gap-2">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            asChild
+                        >
+                            <Link href={`/shop/orders/my/${orderID}/custom-order`}>
+                                <ArrowLeftIcon />
+                            </Link>
+                        </Button>
+                        <div>
+                            <span className="text-brand-neutral-alt-700">Order ID: </span>
+                            <span>#SASH-{id}</span>
+                        </div>
+                    </div>
+
+                    <div className="shrink-0">
+                        <span className="text-brand-neutral-alt-700">Estimated Delivery Date: </span>
+                        <span>{offer_due_date}</span>
+                    </div>
+
+                    <div className="ml-auto">
+                        <span className="text-brand-neutral-alt-700">Type: </span>
+                        <span className="capitalize">{information.item_type}</span>
+                    </div>
                 </div>
-                <Badge variant="outline">{item.status_label}</Badge>
+
+                <h1 className="text-[2rem] leading-12 font-bold">Order details</h1>
             </div>
 
-            <Separator />
+            <div className="mt-5.5 flex flex-col gap-8">
+                <div className="flex flex-col gap-7 text-xl">
+                    <h2 className="text-2xl font-medium">Order Type</h2>
 
-            <p className="text-sm text-muted-foreground">{info.description}</p>
+                    <div className="flex flex-col gap-4">
+                        <div>
+                            <span className="text-brand-neutral-alt-600">This order is for </span>
+                            <span className="inline-block font-medium first-letter:uppercase">
+                                {information.item_is_for}
+                            </span>
+                        </div>
 
-            <Separator />
+                        <div>
+                            <span className="text-brand-neutral-alt-600">Gender </span>
+                            <span className="inline-block font-medium first-letter:uppercase">
+                                {information.item_for_gender}
+                            </span>
+                        </div>
+                    </div>
+                </div>
 
-            {item.images.length > 0 && (
-                <>
-                    <div className="space-y-3">
-                        <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                            Reference Images
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                            {item.images.map((image) => (
+                <div className="flex flex-col gap-7 text-xl">
+                    <h2 className="text-2xl font-medium">Order Details</h2>
+
+                    <div className="flex flex-col gap-4">
+                        <div>
+                            <span className="text-brand-neutral-alt-600">Order title </span>
+                            <span className="inline-block font-medium first-letter:uppercase">{information.title}</span>
+                        </div>
+
+                        <div>
+                            <span className="text-brand-neutral-alt-600">What are you looking for?: </span>
+                            <span className="inline-block font-medium first-letter:uppercase">
+                                {information.looking_for}
+                            </span>
+                        </div>
+
+                        <div>
+                            <span className="text-brand-neutral-alt-600">Short Description </span>
+                            <span className="inline-block font-medium first-letter:uppercase">
+                                {information.description}
+                            </span>
+                        </div>
+
+                        <div>
+                            <span className="text-brand-neutral-alt-600">Quantity: </span>
+                            <span className="inline-block font-medium first-letter:uppercase">
+                                {information.quantity}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="flex flex-col gap-7 text-xl">
+                    <h2 className="text-2xl font-medium">Measurements</h2>
+
+                    <div className="flex flex-col gap-4">
+                        <div>
+                            <span className="text-brand-neutral-alt-600">Measurements Provided </span>
+                            <span className="inline-block font-medium first-letter:uppercase">
+                                {measurements.measurement_type}
+                            </span>
+                        </div>
+
+                        {measurements.measurement_type === 'standard' && (
+                            <div>
+                                <span className="text-brand-neutral-alt-600">Size: </span>
+                                <span className="inline-block font-medium uppercase">{measurements.size}</span>
+                            </div>
+                        )}
+
+                        {measurements.measurement_type === 'custom' && (
+                            <div className="flex justify-between">
+                                <div className="flex flex-1 flex-col gap-6">
+                                    <div>
+                                        <span className="text-brand-neutral-alt-600">Height: </span>
+                                        <span className="inline-block font-medium">{measurements.height}cm</span>
+                                    </div>
+
+                                    <div>
+                                        <span className="text-brand-neutral-alt-600">Shoulder: </span>
+                                        <span className="inline-block font-medium">{measurements.shoulder}cm</span>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-1 flex-col gap-6">
+                                    <div>
+                                        <span className="text-brand-neutral-alt-600">Chest: </span>
+                                        <span className="inline-block font-medium">{measurements.chest}cm</span>
+                                    </div>
+
+                                    <div>
+                                        <span className="text-brand-neutral-alt-600">Waist: </span>
+                                        <span className="inline-block font-medium">{measurements.waist}cm</span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {orderItem.images.length > 0 && (
+                    <div>
+                        <h3 className="text-[1.375rem]/tight font-medium">Order Images</h3>
+
+                        <div className="mt-8 grid grid-cols-4 gap-x-9 gap-y-3">
+                            {orderItem.images.map((image) => (
                                 <div
                                     key={image.uuid}
-                                    className="group relative aspect-square w-24 overflow-hidden rounded-md border bg-muted sm:w-32"
+                                    className="relative overflow-hidden rounded-2xl pt-[150%]"
                                 >
                                     <button
-                                        key={image.uuid}
                                         type="button"
                                         disabled={loadingUUID === image.uuid}
                                         onClick={() => openMedia(image.uuid)}
-                                        className="group relative aspect-square w-24 overflow-hidden rounded-md border bg-muted transition-all hover:ring-2 hover:ring-primary sm:w-32"
+                                        className="absolute inset-0 size-full"
                                     >
                                         <Image
                                             src={image.url}
-                                            alt={info.title}
-                                            className="h-full w-full object-cover"
+                                            alt={`${information.title} - reference`}
+                                            className="absolute inset-0 size-full object-cover transition-transform group-hover:scale-105"
                                         />
                                     </button>
                                 </div>
                             ))}
                         </div>
                     </div>
-                    <Separator />
-                </>
-            )}
-
-            <div className="space-y-3">
-                <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">Item information</p>
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                    <div className="rounded-md bg-muted p-3">
-                        <p className="mb-1 text-xs text-muted-foreground">Type</p>
-                        <Badge variant="secondary">{info.item_type}</Badge>
-                    </div>
-                    <div className="rounded-md bg-muted p-3">
-                        <p className="mb-1 text-xs text-muted-foreground">Quantity</p>
-                        <p className="text-sm font-medium">{info.quantity}</p>
-                    </div>
-                </div>
-            </div>
-
-            <Separator />
-
-            <div className="space-y-3">
-                <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">Offer Details</p>
-                <div className="grid grid-cols-2 gap-3">
-                    <div className="rounded-md bg-muted p-3">
-                        <p className="mb-1 text-xs text-muted-foreground">Price</p>
-                        <p className="text-xl font-medium">
-                            {item.offer_price ? `${item.offer_price} DZD` : 'Pending'}
-                        </p>
-                    </div>
-                    <div className="rounded-md bg-muted p-3">
-                        <p className="mb-1 text-xs text-muted-foreground">Due Date</p>
-                        <p className="text-sm font-medium">{item.offer_due_date ?? 'Pending'}</p>
-                    </div>
-                </div>
+                )}
             </div>
         </div>
     );
