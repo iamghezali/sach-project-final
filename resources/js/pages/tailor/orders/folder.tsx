@@ -8,7 +8,11 @@ export default function Folder(): JSX.Element {
 
     return (
         <TailorLayout>
-            <FolderItems orderID={id} />
+            <section>
+                <div className="mt-8">
+                    <FolderItems orderID={id} />
+                </div>
+            </section>
         </TailorLayout>
     );
 }

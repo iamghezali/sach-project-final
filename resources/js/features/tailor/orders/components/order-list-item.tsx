@@ -1,110 +1,79 @@
 import { Link } from '@inertiajs/react';
+import Image from '@/components/image';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import type { Measurements, OrderItem } from '@/features/tailor/orders/schema';
-
-function MeasurementDetails({ measurements }: { measurements: Measurements }) {
-    if (measurements.measurement_type === 'standard') {
-        return (
-            <div className="flex flex-wrap gap-4 text-sm">
-                <span className="text-muted-foreground">
-                    Size: <span className="font-medium text-foreground uppercase">{measurements.size}</span>
-                </span>
-                {measurements.fitting_preference && (
-                    <span className="text-muted-foreground">
-                        Fit: <span className="font-medium text-foreground">{measurements.fitting_preference}</span>
-                    </span>
-                )}
-            </div>
-        );
-    }
-
-    return (
-        <div className="grid grid-cols-2 gap-x-6 gap-y-1 text-sm sm:grid-cols-4">
-            {(
-                [
-                    ['Shoulder', measurements.shoulder],
-                    ['Height', measurements.height],
-                    ['Waist', measurements.waist],
-                    ['Chest', measurements.chest],
-                ] as const
-            ).map(([label, value]) => (
-                <span
-                    key={label}
-                    className="text-muted-foreground"
-                >
-                    {label}: <span className="font-medium text-foreground">{value} cm</span>
-                </span>
-            ))}
-        </div>
-    );
-}
+import type { OrderItem } from '@/features/tailor/orders/schema';
 
 export function OrderListItem({ orderID, item }: { orderID: number; item: OrderItem }) {
     const { information: info, measurements } = item;
 
     return (
-        <div className="space-y-4 rounded-lg border border-black p-4">
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-1 text-sm text-muted-foreground">
-                <span>
-                    ID: <span className="font-medium text-foreground">{item.id}</span>
-                </span>
+        <div className="flex items-center gap-6 rounded-2xl border border-brand-neutral-alt-500 p-4">
+            <div className="shrink-0 basis-48">
+                <div className="relative overflow-hidden rounded-3xl bg-brand-neutral-200 pt-[120%]">
+                    <Image
+                        src={item.images[0].url}
+                        className="absolute inset-0 size-full object-cover"
+                    />
+                </div>
             </div>
 
-            <div className="flex items-start justify-between gap-2">
-                <p className="font-medium">{info.title}</p>
-                <Badge variant="secondary">{item.status_label}</Badge>
-            </div>
+            <div className="flex grow flex-col gap-5 leading-none">
+                <div className="flex items-center justify-between gap-3">
+                    <Link
+                        className="text-2xl font-bold hover:underline"
+                        href={`/tailor/orders/${orderID}/item/${item.id}`}
+                    >
+                        {info.title}
+                    </Link>
 
-            <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
-                <span>
-                    Type: <span className="font-medium text-foreground">{info.item_type}</span>
-                </span>
-                <span>
-                    For: <span className="font-medium text-foreground capitalize">{info.item_is_for}</span>
-                </span>
-                <span>
-                    Gender: <span className="font-medium text-foreground capitalize">{info.item_for_gender}</span>
-                </span>
-                <span>
-                    Looking for: <span className="font-medium text-foreground">{info.looking_for}</span>
-                </span>
-                <span>
-                    Qty: <span className="font-medium text-foreground">{info.quantity}</span>
-                </span>
-            </div>
+                    <Badge>{item.status_label}</Badge>
+                </div>
 
-            <Separator />
+                <div className="flex items-center gap-10">
+                    <div>
+                        <span className="text-brand-neutral-alt-700">Type: </span>
+                        <span className="capitalize">{info.item_is_for}</span>
+                    </div>
 
-            <div className="space-y-2">
-                <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                    Measurements ({measurements.measurement_type})
-                </p>
-                <MeasurementDetails measurements={measurements} />
-            </div>
+                    <div>
+                        <span className="text-brand-neutral-alt-700">Category: </span>
+                        <span className="capitalize">{info.item_type}</span>
+                    </div>
+                </div>
 
-            {(item.offer_price || item.offer_due_date) && (
-                <>
-                    <Separator />
-                    <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                        {item.offer_price && (
-                            <span>
-                                Offer price: <span className="font-medium text-foreground">{item.offer_price}</span>
-                            </span>
+                <div>
+                    <span className="text-brand-neutral-alt-700">Measurements: </span>
+                    <span className="capitalize">
+                        {measurements.measurement_type}{' '}
+                        {measurements.measurement_type === 'standard' && (
+                            <span className="uppercase">({measurements.size})</span>
                         )}
+                    </span>
+                </div>
+
+                <div>
+                    <span className="text-brand-neutral-alt-700">Quantity: </span>
+                    <span className="capitalize">{info.quantity}</span>
+                </div>
+
+                {(item.offer_price || item.offer_due_date) && (
+                    <div className="flex justify-between">
+                        {item.offer_price && (
+                            <div>
+                                <span className="text-brand-neutral-alt-700">Unit Price: </span>
+                                <span className="capitalize">{item.offer_price} DZD</span>
+                            </div>
+                        )}
+
                         {item.offer_due_date && (
-                            <span>
-                                Due date: <span className="font-medium text-foreground">{item.offer_due_date}</span>
-                            </span>
+                            <div>
+                                <span className="text-brand-neutral-alt-700">Estimated Delivery Date: </span>
+                                <span className="capitalize">{item.offer_due_date}</span>
+                            </div>
                         )}
                     </div>
-                </>
-            )}
-
-            <Button>
-                <Link href={`/tailor/orders/${orderID}/item/${item.id}`}>View Details</Link>
-            </Button>
+                )}
+            </div>
         </div>
     );
 }
