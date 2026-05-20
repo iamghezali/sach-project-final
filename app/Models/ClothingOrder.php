@@ -45,12 +45,10 @@ class ClothingOrder extends Model
     }
 
     /** @see ClothingOrder::$items - must be eager-loaded with 'items' */
-    public function offerTotal(): string
+    public function offerTotal(): float
     {
-        $total = $this->items
+        return (float) $this->items
             ->reject(fn (ClothingOrderItem $item) => $item->status === ClothingOrderItemStatus::Cancelled)
             ->sum(fn (ClothingOrderItem $item) => $item->offer_price * $item->quantity);
-
-        return number_format($total, 2);
     }
 }
