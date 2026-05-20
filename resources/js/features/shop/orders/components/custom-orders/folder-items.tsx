@@ -88,7 +88,7 @@ export default function FolderItems({ orderID }: FolderItemsProps): JSX.Element 
                 <div>
                     <span className="text-brand-neutral-alt-600">Total Amount: </span>
                     <span className="inline-block min-w-40 font-medium">
-                        {formatPrice(parseFloat(order.offer_total).toFixed() + 800)} DZD
+                        {formatPrice(parseFloat(order.offer_total) + 800)} DZD
                     </span>
                 </div>
             </div>
