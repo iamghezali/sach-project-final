@@ -39,19 +39,19 @@ export function useShopFilters() {
 
             const serialized: Record<string, string> = {};
 
-            if (partial.search !== undefined) {
+            if ('search' in partial) {
                 serialized.search = partial.search ?? '';
             }
 
-            if (partial.color !== undefined) {
+            if ('color' in partial) {
                 serialized.color = partial.color?.join(',') ?? '';
             }
 
-            if (partial.size !== undefined) {
+            if ('size' in partial) {
                 serialized.size = partial.size?.join(',') ?? '';
             }
 
-            if (partial.category !== undefined) {
+            if ('category' in partial) {
                 serialized.category = partial.category?.join(',') ?? '';
             }
 
