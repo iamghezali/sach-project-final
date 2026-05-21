@@ -3,11 +3,14 @@ import { AppPagination, useAutoRedirectOutOfRange, usePageParam } from '@/compon
 import { DataGuard } from '@/components/data-guard';
 import EmptyList from '@/features/shop/listing/components/empty-list';
 import ProductCard, { ProductCardSkeleton } from '@/features/shop/listing/components/product-card';
+import { useShopFilters } from '@/features/shop/listing/hooks/use-shop-filters';
 import { useListProducts } from '@/features/shop/listing/queries';
 
 export default function ProductsGrid(): JSX.Element {
     const page = usePageParam();
-    const { data: response, isLoading, isPlaceholderData } = useListProducts(page);
+    const { filters } = useShopFilters();
+
+    const { data: response, isLoading, isPlaceholderData } = useListProducts(page, filters);
 
     const products = response?.data;
     const meta = response?.meta;

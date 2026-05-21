@@ -1,16 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
+import type { ShopFilters } from '@/features/shop/listing/api';
 import { shopApi } from '@/features/shop/listing/api';
 
 export const shopKeys = {
     all: ['products'] as const,
-    lists: (page: number = 1) => [...shopKeys.all, 'list', page] as const,
+    lists: (page: number = 1, filters: ShopFilters = {}) => [...shopKeys.all, 'list', page, filters] as const,
     byCategory: (slug: string) => [...shopKeys.all, 'category', slug] as const,
 };
 
-export function useListProducts(page: number = 1) {
+export function useListProducts(page: number = 1, filters: ShopFilters = {}) {
     return useQuery({
-        queryKey: shopKeys.lists(page),
-        queryFn: () => shopApi.list(page),
+        queryKey: shopKeys.lists(page, filters),
+        queryFn: () => shopApi.list(page, filters),
         staleTime: 1000 * 60 * 5,
     });
 }
