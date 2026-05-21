@@ -8,7 +8,6 @@ use Spatie\LaravelData\Data;
 
 class ListProductsRequestData extends Data
 {
-    // ListProductsData
     public function __construct(
         #[Max(100)]
         public readonly ?string $search,
@@ -16,6 +15,8 @@ class ListProductsRequestData extends Data
         public readonly ?string $color,
 
         public readonly ?string $size,
+
+        public readonly ?string $category,
 
         #[In(['newest', 'price_asc', 'price_desc'])]
         public readonly string $sort = 'newest',

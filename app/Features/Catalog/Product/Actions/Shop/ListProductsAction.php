@@ -50,6 +50,13 @@ class ListProductsAction
             })
 
             ->when(
+                $filters->category,
+                fn (Builder $q, string $category) => $q->whereHas('categories',
+                    fn (Builder $q) => $q->where('slug', $category)
+                )
+            )
+
+            ->when(
                 $filters->color,
                 fn (Builder $q, string $color) => $q->whereHas('variants.attributeValues',
                     fn (Builder $q) => $q->where('attribute_values.slug', $color)
