@@ -15,6 +15,7 @@ export default function FilterPricing(): JSX.Element {
                 max={50000}
                 step={2000}
                 variant="brand-neutral"
+                disabled
             />
 
             <div className="mt-2 flex w-full basis-full items-center justify-between text-sm font-medium text-brand-neutral-1000/80">

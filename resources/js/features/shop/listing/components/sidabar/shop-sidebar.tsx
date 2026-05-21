@@ -56,7 +56,10 @@ export default function ShopSidebar(): JSX.Element {
                     </FilterAccordionContent>
                 </FilterAccordionItem>
 
-                <FilterAccordionItem value="price">
+                <FilterAccordionItem
+                    value="price"
+                    disabled
+                >
                     <FilterAccordionTrigger>Price</FilterAccordionTrigger>
                     <FilterAccordionContent className="pt-6 pb-4">
                         <FilterPricing />

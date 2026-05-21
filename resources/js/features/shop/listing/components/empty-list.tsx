@@ -18,6 +18,7 @@ export default function EmptyList(): JSX.Element {
             >
                 <Link
                     href="/shop/"
+                    replace
                     preserveScroll
                 >
                     Clear Filters
