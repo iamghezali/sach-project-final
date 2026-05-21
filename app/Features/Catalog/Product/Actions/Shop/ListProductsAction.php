@@ -32,11 +32,15 @@ class ListProductsAction
 
     private function applyFilters(Builder $query, ListProductsRequestData $filters): void
     {
-        $colorAttrId = $filters->color
+        $colorSlugs = $filters->color ? explode(',', $filters->color) : null;
+        $sizeSlugs = $filters->size ? explode(',', $filters->size) : null;
+        $categorySlugs = $filters->category ? explode(',', $filters->category) : null;
+
+        $colorAttrId = $colorSlugs
             ? Cache::rememberForever('attr_color_id', fn () => Attribute::where('slug', 'color')->value('id'))
             : null;
 
-        $sizeAttrId = $filters->size
+        $sizeAttrId = $sizeSlugs
             ? Cache::rememberForever('attr_size_id', fn () => Attribute::where('slug', 'size')->value('id'))
             : null;
 
@@ -50,24 +54,26 @@ class ListProductsAction
             })
 
             ->when(
-                $filters->category,
-                fn (Builder $q, string $category) => $q->whereHas('categories',
-                    fn (Builder $q) => $q->where('slug', $category)
+                $categorySlugs,
+                fn (Builder $q) => $q->whereHas('categories',
+                    fn (Builder $q) => $q->whereIn('slug', $categorySlugs)
                 )
             )
 
             ->when(
-                $filters->color,
-                fn (Builder $q, string $color) => $q->whereHas('variants.attributeValues',
-                    fn (Builder $q) => $q->where('attribute_values.slug', $color)
+                $colorSlugs,
+                fn (Builder $q) => $q->whereHas('variants.attributeValues',
+                    fn (Builder $q) => $q
+                        ->whereIn('attribute_values.slug', $colorSlugs)
                         ->where('attribute_values.attribute_id', $colorAttrId)
                 )
             )
 
             ->when(
-                $filters->size,
-                fn (Builder $q, string $size) => $q->whereHas('variants.attributeValues',
-                    fn (Builder $q) => $q->where('attribute_values.slug', $size)
+                $sizeSlugs,
+                fn (Builder $q) => $q->whereHas('variants.attributeValues',
+                    fn (Builder $q) => $q
+                        ->whereIn('attribute_values.slug', $sizeSlugs)
                         ->where('attribute_values.attribute_id', $sizeAttrId)
                 )
             );

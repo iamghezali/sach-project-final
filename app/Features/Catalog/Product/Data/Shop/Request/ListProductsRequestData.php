@@ -12,10 +12,13 @@ class ListProductsRequestData extends Data
         #[Max(100)]
         public readonly ?string $search,
 
+        // comma-separated slugs: "red,blue"
         public readonly ?string $color,
 
+        // comma-separated slugs: "S,M,L"
         public readonly ?string $size,
 
+        // comma-separated slugs: "tshirts,pants"
         public readonly ?string $category,
 
         #[In(['newest', 'price_asc', 'price_desc'])]

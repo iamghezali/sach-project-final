@@ -3,9 +3,31 @@ import { ProductCategoryResponseSchema, ProductListResponseSchema } from '@/feat
 
 export interface ShopFilters {
     search?: string;
-    color?: string;
-    size?: string;
-    category?: string;
+    color?: string[];
+    size?: string[];
+    category?: string[];
+}
+
+function serializeFilters(filters: ShopFilters): Record<string, string> {
+    const params: Record<string, string> = {};
+
+    if (filters.search) {
+        params.search = filters.search;
+    }
+
+    if (filters.color?.length) {
+        params.color = filters.color.join(',');
+    }
+
+    if (filters.size?.length) {
+        params.size = filters.size.join(',');
+    }
+
+    if (filters.category?.length) {
+        params.category = filters.category.join(',');
+    }
+
+    return params;
 }
 
 export const shopApi = {
@@ -13,7 +35,7 @@ export const shopApi = {
         apiRequest(ProductListResponseSchema, {
             url: '/shop/products',
             method: 'get',
-            params: { page, ...filters },
+            params: { page, ...serializeFilters(filters) },
         }),
 
     listByCategory: (categorySlug: string, limit?: number) =>
