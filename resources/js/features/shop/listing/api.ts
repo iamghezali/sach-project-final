@@ -2,10 +2,11 @@ import { apiRequest } from '@/api/client';
 import { ProductCategoryResponseSchema, ProductListResponseSchema } from '@/features/shop/listing/schema';
 
 export const shopApi = {
-    list: () =>
+    list: (page: number = 1) =>
         apiRequest(ProductListResponseSchema, {
             url: '/shop/products',
             method: 'get',
+            params: { page },
         }),
 
     listByCategory: (categorySlug: string, limit?: number) =>

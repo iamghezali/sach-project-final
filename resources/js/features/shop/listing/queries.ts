@@ -3,14 +3,14 @@ import { shopApi } from '@/features/shop/listing/api';
 
 export const shopKeys = {
     all: ['products'] as const,
-    lists: () => [...shopKeys.all, 'list'] as const,
+    lists: (page: number = 1) => [...shopKeys.all, 'list', page] as const,
     byCategory: (slug: string) => [...shopKeys.all, 'category', slug] as const,
 };
 
-export function useListProducts() {
+export function useListProducts(page: number = 1) {
     return useQuery({
-        queryKey: shopKeys.lists(),
-        queryFn: shopApi.list,
+        queryKey: shopKeys.lists(page),
+        queryFn: () => shopApi.list(page),
         staleTime: 1000 * 60 * 5,
     });
 }
