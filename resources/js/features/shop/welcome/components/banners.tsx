@@ -1,4 +1,8 @@
 import type { JSX } from 'react';
+import banner_1 from '@/assets/banner-1.png';
+import banner_2 from '@/assets/banner-2.png';
+import banner_3 from '@/assets/banner-3.png';
+import banner_4 from '@/assets/banner-4.png';
 import Image from '@/components/image';
 
 export default function Banners(): JSX.Element {
@@ -12,15 +16,15 @@ export default function Banners(): JSX.Element {
                             <div className="size-full rounded-2xl bg-brand-shade-white p-2">
                                 <div className="banner-gradient relative size-full overflow-hidden rounded-xl bg-neutral-100">
                                     <Image
-                                        src={''}
+                                        src={banner_1}
                                         className="absolute inset-0 size-full object-cover"
                                     />
                                     {/* forground layer */}
                                     <div className="absolute inset-0 z-20">
                                         <div className="flex h-full flex-col px-4 py-5">
-                                            <h3 className="text-shade-white text-2xl font-semibold text-pretty">
+                                            <h3 className="text-[1.625rem]/tight font-semibold text-pretty text-brand-shade-white">
                                                 Effortless Style, Ready to{' '}
-                                                <span className="text-brand-secondary-300">Wear.</span>
+                                                <span className="text-brand-secondary-200">Wear.</span>
                                             </h3>
 
                                             <div className="mt-auto ml-auto">
@@ -44,7 +48,7 @@ export default function Banners(): JSX.Element {
                             <div className="rounded-2xl bg-brand-shade-white p-2">
                                 <div className="banner-gradient relative overflow-hidden rounded-xl bg-neutral-100 pt-[55.67%]">
                                     <Image
-                                        src={''}
+                                        src={banner_2}
                                         className="absolute inset-0 size-full object-cover"
                                     />
 
@@ -81,7 +85,7 @@ export default function Banners(): JSX.Element {
                             <div className="rounded-2xl bg-brand-shade-white p-2">
                                 <div className="banner-gradient relative overflow-hidden rounded-xl bg-neutral-100 pt-[55.67%]">
                                     <Image
-                                        src={''}
+                                        src={banner_3}
                                         className="absolute inset-0 size-full object-cover"
                                     />
 
@@ -105,7 +109,7 @@ export default function Banners(): JSX.Element {
                     <div className="rounded-2xl bg-brand-shade-white p-2">
                         <div className="banner-gradient relative overflow-hidden rounded-xl bg-neutral-100 pt-[31.72%]">
                             <Image
-                                src={''}
+                                src={banner_4}
                                 className="absolute inset-0 size-full object-cover"
                             />
 

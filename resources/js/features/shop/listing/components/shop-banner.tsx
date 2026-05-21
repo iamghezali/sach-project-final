@@ -1,11 +1,12 @@
 import type { JSX } from 'react';
+import shop_banner from '@/assets/banner-shop.png';
 import Image from '@/components/image';
 
 export default function ShopBanner(): JSX.Element {
     return (
         <div className="relative overflow-hidden rounded-3xl bg-neutral-100 pt-[29.92%]">
             <Image
-                src={''}
+                src={shop_banner}
                 className="absolute inset-0 size-full object-cover"
             />
 

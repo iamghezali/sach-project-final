@@ -1,5 +1,12 @@
 import { Link } from '@inertiajs/react';
 import type { JSX } from 'react';
+import category_1_picture from '@/assets/cat-1.png';
+import category_2_picture from '@/assets/cat-2.png';
+import category_3_picture from '@/assets/cat-3.png';
+import category_4_picture from '@/assets/cat-4.png';
+import profile_picture from '@/assets/profile.png';
+
+import Image from '@/components/image';
 import TextReveal from '@/components/text-reveal';
 import { Button } from '@/components/ui/button';
 import Banners from '@/features/shop/welcome/components/banners';
@@ -53,7 +60,12 @@ export default function Welcome(): JSX.Element {
 
             <section>
                 <div className="mt-20 flex gap-8">
-                    <div className="sticky top-20 size-72.5 shrink-0 overflow-hidden rounded-xl bg-neutral-300"></div>
+                    <div className="sticky top-20 size-72.5 shrink-0 overflow-hidden rounded-xl bg-neutral-300">
+                        <Image
+                            src={profile_picture}
+                            className="absolute inset-0 size-full object-cover"
+                        />
+                    </div>
 
                     <TextReveal className="text-6xl/tight font-medium capitalize">
                         SASH offers a smarter way to create custom clothing and living room salons without the hassle.
@@ -96,22 +108,22 @@ export default function Welcome(): JSX.Element {
                                     <CategoryCard
                                         title="Soiree Collection"
                                         categorySlug="soiree-collection"
-                                        url=""
+                                        url={category_1_picture}
                                     />
                                     <CategoryCard
                                         title="Vest Collection"
                                         categorySlug="vest-collection"
-                                        url=""
+                                        url={category_2_picture}
                                     />
                                     <CategoryCard
                                         title="New Arrivals"
                                         categorySlug="new-arrivals"
-                                        url=""
+                                        url={category_3_picture}
                                     />
                                     <CategoryCard
                                         title="Hajj & Umrah Collection"
                                         categorySlug="hajj-and-umrah"
-                                        url=""
+                                        url={category_4_picture}
                                     />
                                 </div>
                             </CategoriesTabsContent>
