@@ -10,7 +10,7 @@ export default function OrdersPreview(): JSX.Element {
     const { data: response, isLoading } = useListOrders(1);
 
     if (isLoading) {
-        return <>Loading...</>;
+        return <></>;
     }
 
     if (!response) {
@@ -23,15 +23,11 @@ export default function OrdersPreview(): JSX.Element {
     return (
         <div className="flex flex-col gap-4">
             <ul className="flex flex-col gap-6">
-                {orders.length !== 0 ? (
-                    orders.map((order) => (
-                        <li key={order.id}>
-                            <OrderListItem order={order} />
-                        </li>
-                    ))
-                ) : (
-                    <>No orders are found.</>
-                )}
+                {orders.map((order) => (
+                    <li key={order.id}>
+                        <OrderListItem order={order} />
+                    </li>
+                ))}
             </ul>
 
             {hasMore && (

@@ -1,5 +1,6 @@
 import type { JSX } from 'react';
 import { AppPagination, useAutoRedirectOutOfRange, usePageParam } from '@/components/app-pagination';
+import EmptyOrders from '@/features/shop/orders/components/empty-orders';
 import OrderListItem from '@/features/shop/orders/components/rtw-orders/order-list-item';
 import { useListOrders } from '@/features/shop/orders/queries';
 
@@ -21,6 +22,7 @@ export default function OrdersList(): JSX.Element {
     }
 
     const orders = response.data;
+    const meta = response?.meta;
 
     return (
         <>
@@ -32,11 +34,15 @@ export default function OrdersList(): JSX.Element {
                         </li>
                     ))
                 ) : (
-                    <>No orders are found.</>
+                    <EmptyOrders />
                 )}
             </ul>
 
-            <AppPagination meta={response.meta} />
+            {meta && meta.last_page > 1 && (
+                <div className="flex justify-center border-t border-brand-neutral-100 pt-8">
+                    <AppPagination meta={meta} />
+                </div>
+            )}
         </>
     );
 }

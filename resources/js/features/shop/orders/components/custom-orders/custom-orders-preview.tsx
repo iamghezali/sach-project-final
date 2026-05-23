@@ -10,7 +10,7 @@ export default function CustomOrdersPreview(): JSX.Element {
     const { data: response, isLoading } = useListCustomOrders(1);
 
     if (isLoading) {
-        return <>Loading...</>;
+        return <></>;
     }
 
     if (!response) {
@@ -23,15 +23,11 @@ export default function CustomOrdersPreview(): JSX.Element {
     return (
         <div className="flex flex-col gap-4">
             <ul className="flex flex-col gap-6">
-                {orders.length !== 0 ? (
-                    orders.map((order) => (
-                        <li key={order.id}>
-                            <CustomOrderListItem order={order} />
-                        </li>
-                    ))
-                ) : (
-                    <>No custom orders are found.</>
-                )}
+                {orders.map((order) => (
+                    <li key={order.id}>
+                        <CustomOrderListItem order={order} />
+                    </li>
+                ))}
             </ul>
 
             {hasMore && (
