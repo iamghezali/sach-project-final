@@ -111,7 +111,7 @@ export const OrderResponseSchema = apiResponseSchema(
         id: z.number(),
         total: z.string(),
         notes: z.string().nullable(),
-        createdAt: z.string(),
+        created_at: z.string(),
         shippingAddress: AddressResponseSchema,
         billingAddress: AddressResponseSchema,
         items: z.array(OrderItemResponseSchema),
