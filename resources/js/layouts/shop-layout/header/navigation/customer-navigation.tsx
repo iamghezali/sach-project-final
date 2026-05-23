@@ -63,7 +63,7 @@ function Secondary(): JSX.Element {
             <NavigationMenu viewport={false}>
                 <NavigationMenuList className="gap-2">
                     <NavigationMenuItem>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                        <NavigationMenuLink asChild>
                             <CartNavItem />
                         </NavigationMenuLink>
                     </NavigationMenuItem>
