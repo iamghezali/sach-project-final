@@ -9,10 +9,20 @@ export const authKeys = {
 export function useCurrentUser() {
     return useQuery({
         queryKey: authKeys.user(),
-        queryFn: authApi.getUser,
+        queryFn: async () => {
+            try {
+                return await authApi.getUser();
+            } catch (error: any) {
+                if (error?.status === 401) {
+                    return null;
+                }
+
+                throw error;
+            }
+        },
         staleTime: 1000 * 60 * 5,
-        retry: (failureCount, error) => {
-            if (error.status === 401) {
+        retry: (failureCount, error: any) => {
+            if (error?.status === 401) {
                 return false;
             }
 
