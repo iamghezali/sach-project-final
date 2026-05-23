@@ -35,7 +35,7 @@ export default function CheckoutValidation(): JSX.Element {
     const handleValidation = () => {
         placeOrder(checkoutData, {
             onSuccess: () => {
-                setSuccessMessage();
+                setSuccessMessage('order');
                 router.visit('/shop/orders/my?success', {
                     onFinish: () => {
                         clearCart();

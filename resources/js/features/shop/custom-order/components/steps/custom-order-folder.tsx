@@ -47,7 +47,7 @@ export default function CustomOrderFolder(): JSX.Element {
 
         await placeClothingOrder(currentPayload, {
             onSuccess: () => {
-                setSuccessMessage();
+                setSuccessMessage('custom-order');
                 router.visit('/shop/orders/my?success', { replace: true });
             },
 

@@ -2,6 +2,7 @@ import { Link } from '@inertiajs/react';
 import { useState } from 'react';
 import type { JSX } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import CustomOrderSuccessMessage from '@/features/shop/orders/components/custom-orders/custom-order-success-message';
 import CustomOrdersList from '@/features/shop/orders/components/custom-orders/custom-orders-list';
 import CustomOrdersPreview from '@/features/shop/orders/components/custom-orders/custom-orders-preview';
 import EmptyOrders from '@/features/shop/orders/components/empty-orders';
@@ -10,20 +11,19 @@ import OrdersList from '@/features/shop/orders/components/rtw-orders/orders-list
 import OrdersPreview from '@/features/shop/orders/components/rtw-orders/orders-preview';
 import { useAllOrdersEmpty } from '@/features/shop/orders/hooks/use-all-orders-empty';
 import { useViewParam } from '@/features/shop/orders/hooks/use-view-param';
+import type { SuccessType } from '@/hooks/use-success-message';
 import { useSuccessMessage } from '@/hooks/use-success-message';
 import ShopLayout from '@/layouts/shop-layout';
 
 export default function My(): JSX.Element {
     const { getSuccessMessage } = useSuccessMessage();
-    const [show] = useState(() => getSuccessMessage());
+    const [show] = useState<SuccessType | false>(() => getSuccessMessage());
     const { bothEmpty, isLoading } = useAllOrdersEmpty();
     const view = useViewParam();
 
     if (show) {
         return (
-            <ShopLayout>
-                <OrderSuccessMessage />
-            </ShopLayout>
+            <ShopLayout>{show === 'custom-order' ? <CustomOrderSuccessMessage /> : <OrderSuccessMessage />}</ShopLayout>
         );
     }
 

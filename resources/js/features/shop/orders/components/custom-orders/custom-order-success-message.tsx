@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import type { JSX } from 'react';
 import { Button } from '@/components/ui/button';
 
-export default function OrderSuccessMessage(): JSX.Element {
+export default function CustomOrderSuccessMessage(): JSX.Element {
     return (
         <div className="mt-7 flex flex-col items-center justify-center py-10">
             <svg
@@ -19,7 +19,7 @@ export default function OrderSuccessMessage(): JSX.Element {
                 />
             </svg>
 
-            <h1 className="mt-8 text-7xl/tight font-bold">Your Order is on the way</h1>
+            <h1 className="mt-8 text-7xl/tight font-bold">Your order is under review</h1>
 
             <Button
                 className="mt-8 w-64"
@@ -27,7 +27,7 @@ export default function OrderSuccessMessage(): JSX.Element {
                 variant="brand-primary"
                 size="brand-md"
             >
-                <Link href="/shop/orders/my?page=1&view=orders">
+                <Link href="/shop/orders/my?page=1&view=custom-orders">
                     View My Orders
                     <ArrowRight strokeWidth={3} />
                 </Link>
