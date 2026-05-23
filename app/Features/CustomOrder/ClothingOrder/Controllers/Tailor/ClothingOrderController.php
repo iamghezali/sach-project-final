@@ -2,6 +2,7 @@
 
 namespace App\Features\CustomOrder\ClothingOrder\Controllers\Tailor;
 
+use App\Features\CustomOrder\ClothingOrder\Actions\Tailor\GetTailorStatsAction;
 use App\Features\CustomOrder\ClothingOrder\Actions\Tailor\ListClothingOrdersAction;
 use App\Features\CustomOrder\ClothingOrder\Actions\Tailor\MarkClothingOrderItemAsDoneAction;
 use App\Features\CustomOrder\ClothingOrder\Actions\Tailor\ShowClothingOrderAction;
@@ -18,6 +19,7 @@ class ClothingOrderController extends Controller
         private readonly ShowClothingOrderAction $showClothingOrderAction,
         private readonly MarkClothingOrderItemAsDoneAction $markClothingOrderItemAsDoneAction,
         private readonly ShowClothingOrderItemAction $showClothingOrderItemAction,
+        private readonly GetTailorStatsAction $getTailorStatsAction,
     ) {}
 
     public function index(Request $request)
@@ -54,6 +56,15 @@ class ClothingOrderController extends Controller
 
         return response()->json([
             'data' => ClothingOrderItemData::from($orderItem),
+        ]);
+    }
+
+    public function stats(Request $request)
+    {
+        $stats = $this->getTailorStatsAction->execute($request->user());
+
+        return response()->json([
+            'data' => $stats,
         ]);
     }
 }

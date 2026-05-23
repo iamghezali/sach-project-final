@@ -8,6 +8,11 @@ Route::prefix('orders')
     ->group(function () {
 
         /**
+         * Statistics
+         */
+        Route::get('/stats', [ClothingOrderController::class, 'stats'])->name('stats');
+
+        /**
          * Order
          */
         Route::get('/', [ClothingOrderController::class, 'index'])->name('index');
