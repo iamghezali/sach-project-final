@@ -11,6 +11,7 @@ class UserData extends Data
         public string $id,
         public string $name,
         public string $email,
+        public string $role,
     ) {}
 
     public static function fromModel(User $user): self
@@ -19,6 +20,7 @@ class UserData extends Data
             id: $user->id,
             name: $user->name,
             email: $user->email,
+            role: $user->getRoleNames()->first(),
         );
     }
 }
