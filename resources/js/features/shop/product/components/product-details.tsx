@@ -1,5 +1,6 @@
 import { usePage } from '@inertiajs/react';
 import type { JSX } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useCart } from '@/features/shop/cart/hooks/use-cart';
 import type { CartItem } from '@/features/shop/cart/hooks/use-cart';
 import { ProductImageGallery } from '@/features/shop/product/components/product-image-gallery';
@@ -14,11 +15,16 @@ export default function ProductDetails(): JSX.Element {
     const { data: response, isLoading } = useGetProduct(props.slug);
 
     if (isLoading) {
-        return <p>Loading product...</p>;
+        return (
+            <div className="flex gap-20">
+                <Skeleton className="flex-1 bg-brand-neutral-200/30" />
+                <Skeleton className="h-150 basis-120 bg-brand-neutral-200/30" />
+            </div>
+        );
     }
 
     if (!response) {
-        return <></>;
+        return <div className="min-h-150"></div>;
     }
 
     return <ProductDetailsInner product={response.data} />;
