@@ -1,8 +1,10 @@
 import { Link } from '@inertiajs/react';
 import type { JSX } from 'react';
+import logo_horizontal_admin from '@/assets/logo-horizontal-admin.svg';
 import logo_horizontal_tailor from '@/assets/logo-horizontal-tailor.svg';
 import logo_horizontal from '@/assets/logo-horizontal.svg';
 import { AuthSwitch } from '@/layouts/shop-layout/header/auth-switch';
+import { AdminNavigation } from '@/layouts/shop-layout/header/navigation/admin-navigation';
 import { CustomerNavigation } from '@/layouts/shop-layout/header/navigation/customer-navigation';
 import { GuestNavigation } from '@/layouts/shop-layout/header/navigation/guest-navigation';
 import { TailorNavigation } from '@/layouts/shop-layout/header/navigation/tailor-navigation';
@@ -16,6 +18,7 @@ export default function ShopHeader(): JSX.Element {
                         guest={<GuestNavigation.Primary />}
                         customer={() => <CustomerNavigation.Primary />}
                         tailor={() => <TailorNavigation.Primary />}
+                        admin={() => <AdminNavigation.Primary />}
                     />
                 </div>
 
@@ -51,6 +54,14 @@ export default function ShopHeader(): JSX.Element {
                                 />
                             </Link>
                         )}
+                        admin={() => (
+                            <Link href="/dashboard">
+                                <img
+                                    src={logo_horizontal_admin}
+                                    className="h-22.5"
+                                />
+                            </Link>
+                        )}
                     />
                 </div>
 
@@ -59,6 +70,7 @@ export default function ShopHeader(): JSX.Element {
                         guest={<GuestNavigation.Secondary />}
                         customer={() => <CustomerNavigation.Secondary />}
                         tailor={() => <TailorNavigation.Secondary />}
+                        admin={() => <AdminNavigation.Secondary />}
                     />
                 </div>
             </div>

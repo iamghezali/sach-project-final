@@ -8,12 +8,14 @@ type BaseUser = {
 
 export type Customer = BaseUser & { role: 'customer' };
 export type Tailor = BaseUser & { role: 'tailor' };
+export type Admin = BaseUser & { role: 'admin' };
 
 type AuthState =
     | { status: 'loading' }
     | { status: 'guest' }
     | { status: 'customer'; user: Customer }
-    | { status: 'tailor'; user: Tailor };
+    | { status: 'tailor'; user: Tailor }
+    | { status: 'admin'; user: Admin };
 
 export function useAuthState(): AuthState {
     const { data, isLoading } = useCurrentUser();
@@ -33,6 +35,8 @@ export function useAuthState(): AuthState {
             return { status: 'customer', user: { ...user, role: 'customer' } };
         case 'tailor':
             return { status: 'tailor', user: { ...user, role: 'tailor' } };
+        case 'admin':
+            return { status: 'admin', user: { ...user, role: 'admin' } };
         default:
             return { status: 'guest' };
     }
