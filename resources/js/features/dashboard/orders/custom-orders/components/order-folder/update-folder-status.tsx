@@ -19,10 +19,10 @@ const STATUS_OPTIONS: { label: string; value: FolderStatus }[] = [
     { label: 'Offered', value: 'offered' },
     { label: 'Accepted', value: 'accepted' },
     { label: 'In Progress', value: 'in_progress' },
-    { label: 'Completed', value: 'completed' },
     { label: 'Quality Check', value: 'quality_check' },
     { label: 'On Shipping', value: 'on_shipping' },
     { label: 'Shipped', value: 'shipped' },
+    { label: 'Completed', value: 'completed' },
     { label: 'Cancelled', value: 'cancelled' },
 ];
 
