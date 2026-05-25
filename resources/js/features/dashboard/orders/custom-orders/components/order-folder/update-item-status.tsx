@@ -15,11 +15,14 @@ import type { ItemStatus } from '@/features/dashboard/orders/custom-orders/schem
 
 const STATUS_OPTIONS: { label: string; value: ItemStatus }[] = [
     { label: 'Pending', value: 'pending' },
-    { label: 'Offered', value: 'offered' },
     { label: 'Negotiating', value: 'negotiating' },
+    { label: 'Offered', value: 'offered' },
     { label: 'Accepted', value: 'accepted' },
     { label: 'In Progress', value: 'in_progress' },
     { label: 'Completed', value: 'completed' },
+    { label: 'Quality Check', value: 'quality_check' },
+    { label: 'On Shipping', value: 'on_shipping' },
+    { label: 'Shipped', value: 'shipped' },
     { label: 'Cancelled', value: 'cancelled' },
 ];
 

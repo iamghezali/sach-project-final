@@ -10,6 +10,9 @@ enum ClothingOrderItemStatus: string
     case Accepted = 'accepted';
     case InProgress = 'in_progress';
     case Completed = 'completed';
+    case QualityCheck = 'quality_check';
+    case OnShipping = 'on_shipping';
+    case Shipped = 'shipped';
     case Cancelled = 'cancelled';
 
     public function label(): string
@@ -21,6 +24,9 @@ enum ClothingOrderItemStatus: string
             self::Accepted => 'Accepted',
             self::InProgress => 'In Progress',
             self::Completed => 'Completed',
+            self::QualityCheck => 'Quality Check',
+            self::OnShipping => 'On Shipping',
+            self::Shipped => 'Shipped',
             self::Cancelled => 'Cancelled',
         };
     }

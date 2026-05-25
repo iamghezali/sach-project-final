@@ -131,6 +131,9 @@ export const FolderStatusSchema = z.enum([
     'accepted',
     'in_progress',
     'completed',
+    'quality_check',
+    'on_shipping',
+    'shipped',
     'cancelled',
 ]);
 
@@ -152,6 +155,9 @@ export const ItemStatusSchema = z.enum([
     'accepted',
     'in_progress',
     'completed',
+    'quality_check',
+    'on_shipping',
+    'shipped',
     'cancelled',
 ]);
 
