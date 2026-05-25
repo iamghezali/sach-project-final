@@ -31,27 +31,27 @@ export default function FilterColors(): JSX.Element {
             value={filters.color ?? []}
             onValueChange={(value) => setFilters({ color: value.length ? value : undefined })}
         >
-            <ToggleGroupItem value="#EBE7E9">
+            <ToggleGroupItem value="white">
                 <DisplayColor color="#EBE7E9" />
             </ToggleGroupItem>
 
-            <ToggleGroupItem value="#794B33">
+            <ToggleGroupItem value="brown">
                 <DisplayColor color="#794B33" />
             </ToggleGroupItem>
 
-            <ToggleGroupItem value="#747682">
+            <ToggleGroupItem value="blue">
                 <DisplayColor color="#747682" />
             </ToggleGroupItem>
 
-            <ToggleGroupItem value="#B6A496">
+            <ToggleGroupItem value="beige">
                 <DisplayColor color="#B6A496" />
             </ToggleGroupItem>
 
-            <ToggleGroupItem value="#353336">
+            <ToggleGroupItem value="black">
                 <DisplayColor color="#353336" />
             </ToggleGroupItem>
 
-            <ToggleGroupItem value="#C9CCC6">
+            <ToggleGroupItem value="silver">
                 <DisplayColor color="#C9CCC6" />
             </ToggleGroupItem>
         </ToggleGroup>
