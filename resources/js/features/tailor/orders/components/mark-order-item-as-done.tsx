@@ -47,6 +47,12 @@ export default function MarkOrderItemAsDone({
     }
 
     const OrderItemStatus = response.data.status;
+    const OrderIsDone =
+        OrderItemStatus === 'done' ||
+        OrderItemStatus === 'quality_check' ||
+        OrderItemStatus === 'on_shipping' ||
+        OrderItemStatus === 'shipped' ||
+        OrderItemStatus === 'completed';
 
     return (
         <>
@@ -56,9 +62,9 @@ export default function MarkOrderItemAsDone({
                     className={cn('w-full bg-success-200 font-normal text-black', className)}
                     onClick={() => setIsOpen(true)}
                     {...props}
-                    disabled={OrderItemStatus === 'completed'}
+                    disabled={OrderIsDone}
                 >
-                    {OrderItemStatus === 'completed' ? 'Done' : 'Mark as done'}
+                    {OrderIsDone ? 'Done' : 'Mark as done'}
                     <CheckIcon />
                 </Button>
 

@@ -16,7 +16,7 @@ class MarkClothingOrderItemAsDoneAction
             ->with('media')
             ->findOrFail($itemID);
 
-        $orderItem->update(['status' => ClothingOrderItemStatus::Completed]);
+        $orderItem->update(['status' => ClothingOrderItemStatus::Done]);
 
         return $orderItem->fresh();
     }

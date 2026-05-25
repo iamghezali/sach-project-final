@@ -9,10 +9,11 @@ enum ClothingOrderItemStatus: string
     case Negotiating = 'negotiating';
     case Accepted = 'accepted';
     case InProgress = 'in_progress';
-    case Completed = 'completed';
+    case Done = 'done';
     case QualityCheck = 'quality_check';
     case OnShipping = 'on_shipping';
     case Shipped = 'shipped';
+    case Completed = 'completed';
     case Cancelled = 'cancelled';
 
     public function label(): string
@@ -23,10 +24,11 @@ enum ClothingOrderItemStatus: string
             self::Negotiating => 'Negotiating',
             self::Accepted => 'Accepted',
             self::InProgress => 'In Progress',
-            self::Completed => 'Completed',
+            self::Done => 'Done',
             self::QualityCheck => 'Quality Check',
             self::OnShipping => 'On Shipping',
             self::Shipped => 'Shipped',
+            self::Completed => 'Completed',
             self::Cancelled => 'Cancelled',
         };
     }

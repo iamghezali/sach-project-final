@@ -154,10 +154,11 @@ export const ItemStatusSchema = z.enum([
     'negotiating',
     'accepted',
     'in_progress',
-    'completed',
+    'done',
     'quality_check',
     'on_shipping',
     'shipped',
+    'completed',
     'cancelled',
 ]);
 
