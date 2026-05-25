@@ -69,7 +69,9 @@ export type RegisterRequest = z.infer<typeof RegisterRequestSchema>;
  */
 export const RegisterResponseSchema = apiResponseSchema(
     z.object({
-        user: UserSchema.extend({
+        user: UserSchema.omit({
+            role: true,
+        }).extend({
             joined: z.string(),
         }),
     }),
