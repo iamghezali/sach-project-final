@@ -1,4 +1,5 @@
 import { usePage } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import type { JSX } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useCart } from '@/features/shop/cart/hooks/use-cart';
@@ -12,7 +13,7 @@ import type { Product, VariantSelection } from '@/features/shop/product/schema';
 
 export default function ProductDetails(): JSX.Element {
     const { props } = usePage<{ slug: string }>();
-    const { data: response, isLoading } = useGetProduct(props.slug);
+    const { data: response, error, isLoading } = useGetProduct(props.slug);
 
     if (isLoading) {
         return (
@@ -24,6 +25,10 @@ export default function ProductDetails(): JSX.Element {
     }
 
     if (!response) {
+        if (error?.status === 404) {
+            router.visit('/not-found', { replace: true, preserveState: false });
+        }
+
         return <div className="min-h-150"></div>;
     }
 
