@@ -1,3 +1,4 @@
+import { Link } from '@inertiajs/react';
 import type { JSX } from 'react';
 import banner_1 from '@/assets/banner-1.png';
 import banner_2 from '@/assets/banner-2.png';
@@ -28,12 +29,12 @@ export default function Banners(): JSX.Element {
                                             </h3>
 
                                             <div className="mt-auto ml-auto">
-                                                <a
+                                                <Link
                                                     className="rounded-lg bg-brand-secondary-300 px-3 py-2 text-xs text-white"
-                                                    href="#"
+                                                    href={'/shop/'}
                                                 >
                                                     Shop Now
-                                                </a>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -61,18 +62,18 @@ export default function Banners(): JSX.Element {
                                                 <span className="text-brand-primary-200">Vision</span>
                                             </h3>
 
-                                            <p className="mt-2.5 max-w-sm text-brand-neutral-1000">
+                                            <p className="mt-2.5 max-w-78.25 text-brand-neutral-1000">
                                                 Share your idea, choose your preferences, and let us create a piece
                                                 designed especially for you.
                                             </p>
 
                                             <div className="mt-2.5">
-                                                <a
+                                                <Link
                                                     className="rounded-lg bg-brand-primary-200 px-3 py-2 text-xs text-white"
-                                                    href="#"
+                                                    href={'/shop/custom-order'}
                                                 >
                                                     Order Now
-                                                </a>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -91,8 +92,8 @@ export default function Banners(): JSX.Element {
 
                                     {/* forground layer */}
                                     <div className="absolute inset-0 z-20">
-                                        <div className="flex h-full flex-col px-4 py-6">
-                                            <h3 className="text-neutral-1000 mx-auto w-78 text-center text-3xl/tight font-bold text-pretty">
+                                        <div className="flex h-full flex-col p-4">
+                                            <h3 className="text-neutral-1000 mx-auto w-78 text-center text-[1.625rem] leading-7.5 font-bold text-pretty">
                                                 <span className="text-brand-secondary-500">Professional</span> Looks,
                                                 Delivered at scale
                                             </h3>
@@ -122,12 +123,12 @@ export default function Banners(): JSX.Element {
                                     </h3>
 
                                     <div className="mt-2">
-                                        <a
+                                        <Link
                                             className="rounded-lg bg-brand-tertiary-300 px-3 py-2 text-xs text-white"
-                                            href="#"
+                                            href={'/shop/custom-order'}
                                         >
                                             Create Now
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
