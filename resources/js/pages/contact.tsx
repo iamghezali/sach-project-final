@@ -1,5 +1,6 @@
 import { AtSignIcon } from 'lucide-react';
 import type { JSX } from 'react';
+import contact_image from '@/assets/contact.png';
 import CallToAction from '@/components/call-to-action';
 import Image from '@/components/image';
 import ContactForm from '@/features/shop/contact/contact-form';
@@ -59,7 +60,7 @@ export default function Contact(): JSX.Element {
                     <div className="flex-1 border-black">
                         <div className="banner-gradient relative size-full overflow-hidden rounded-xl">
                             <Image
-                                src={''}
+                                src={contact_image}
                                 className="absolute inset-0 size-full object-cover"
                             />
 

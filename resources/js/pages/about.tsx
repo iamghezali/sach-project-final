@@ -1,5 +1,11 @@
 import { BanknoteIcon, LineSquiggleIcon, MessagesSquareIcon, PackageIcon, StarIcon, TruckIcon } from 'lucide-react';
 import type { JSX } from 'react';
+import about_grid_1 from '@/assets/about_grid_1.png';
+import about_grid_2 from '@/assets/about_grid_2.png';
+import about_grid_3 from '@/assets/about_grid_3.png';
+import about_grid_4 from '@/assets/about_grid_4.png';
+import about_grid_main from '@/assets/about_grid_main.png';
+import about_main from '@/assets/about_main.png';
 import CallToAction from '@/components/call-to-action';
 import Image from '@/components/image';
 import ShopLayout from '@/layouts/shop-layout';
@@ -36,7 +42,7 @@ export default function About(): JSX.Element {
                     <div className="basis-145.75 border-black">
                         <div className="relative overflow-hidden rounded-xl pt-[74.95%]">
                             <Image
-                                src={''}
+                                src={about_main}
                                 className="absolute inset-0 size-full object-cover"
                             />
                         </div>
@@ -153,7 +159,7 @@ export default function About(): JSX.Element {
                         <div className="flex-1">
                             <div className="relative size-full overflow-hidden rounded-xl bg-neutral-300">
                                 <Image
-                                    src={''}
+                                    src={about_grid_main}
                                     className="absolute inset-0 size-full object-cover"
                                 />
                             </div>
@@ -161,25 +167,25 @@ export default function About(): JSX.Element {
                         <div className="grid basis-149 grid-cols-2 gap-3">
                             <div className="relative overflow-hidden rounded-xl bg-neutral-300 pt-[100%]">
                                 <Image
-                                    src={''}
+                                    src={about_grid_1}
                                     className="absolute inset-0 size-full object-cover"
                                 />
                             </div>
                             <div className="overflow-hiddenbg-neutral-300 relative rounded-xl pt-[100%]">
                                 <Image
-                                    src={''}
+                                    src={about_grid_2}
                                     className="absolute inset-0 size-full object-cover"
                                 />
                             </div>
                             <div className="relative overflow-hidden rounded-xl bg-neutral-300 pt-[100%]">
                                 <Image
-                                    src={''}
+                                    src={about_grid_3}
                                     className="absolute inset-0 size-full object-cover"
                                 />
                             </div>
                             <div className="relative overflow-hidden rounded-xl bg-neutral-300 pt-[100%]">
                                 <Image
-                                    src={''}
+                                    src={about_grid_4}
                                     className="absolute inset-0 size-full object-cover"
                                 />
                             </div>
