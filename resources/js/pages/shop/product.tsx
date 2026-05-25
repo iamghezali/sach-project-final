@@ -14,7 +14,7 @@ export default function Product(): JSX.Element {
 
             <section>
                 <div className="mt-7.5">
-                    <ProductCarousel categorySlug="new" />
+                    <ProductCarousel categorySlug="recommended" />
                 </div>
             </section>
         </ShopLayout>
