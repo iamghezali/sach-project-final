@@ -130,7 +130,7 @@ export default function AddProductVariant({ productId, attributes }: AddProductV
                         >
                             {({ field }) => (
                                 <>
-                                    <FormField.Label>What are you looking for?</FormField.Label>
+                                    <FormField.Label>{attribute.name}</FormField.Label>
                                     <FormSelect
                                         placeholder="Select an option"
                                         field={field}
