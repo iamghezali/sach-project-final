@@ -81,6 +81,7 @@ Route::prefix('dashboard')->name('dashboard.')
     ->group(function () {
 
         Route::get('/', fn () => Inertia::render('dashboard/overview'))->name('overview');
+        Route::get('/performance', fn () => Inertia::render('dashboard/performance'))->name('performance');
 
         /**
          * User Management

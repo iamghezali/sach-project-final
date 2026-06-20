@@ -18,7 +18,7 @@ const menuData = {
                 },
                 {
                     title: 'Performance',
-                    url: '/performance/',
+                    url: '/dashboard/performance/',
                 },
             ],
         },
