@@ -58,7 +58,7 @@ export default function OrdersTable(): JSX.Element {
                     ) : (
                         <TableRow>
                             <TableCell
-                                colSpan={4}
+                                colSpan={6}
                                 className="text-center text-muted-foreground"
                             >
                                 No Records are found.
