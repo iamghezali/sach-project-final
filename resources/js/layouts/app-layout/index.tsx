@@ -13,7 +13,7 @@ const AppLayout = ({ children }: { children: ReactNode }): JSX.Element => {
                 <SidebarProvider>
                     <SheetProvider>
                         <AppSidebar />
-                        <main className="w-full px-6 pt-8">
+                        <main className="w-full px-6 pt-8 pb-4">
                             <AppHeader />
                             <div className="mt-8">{children}</div>
                         </main>
