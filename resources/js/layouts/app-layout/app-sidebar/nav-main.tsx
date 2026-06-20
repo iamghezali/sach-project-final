@@ -1,5 +1,4 @@
 import { Link } from '@inertiajs/react';
-import { ChevronRight } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -29,7 +28,7 @@ export function NavMain({
 }) {
     return (
         <SidebarGroup>
-            <SidebarGroupLabel>Menu</SidebarGroupLabel>
+            <SidebarGroupLabel className="text-[1.375rem] font-light">Menu</SidebarGroupLabel>
             <SidebarMenu>
                 {items.map((item) => (
                     <Collapsible
@@ -39,18 +38,26 @@ export function NavMain({
                         className="group/collapsible"
                     >
                         <SidebarMenuItem>
-                            <CollapsibleTrigger asChild>
-                                <SidebarMenuButton tooltip={item.title}>
-                                    {item.icon && <item.icon />}
+                            <CollapsibleTrigger
+                                asChild
+                                className="hover:text-brand-secondary-100! active:text-brand-secondary-200!"
+                            >
+                                <SidebarMenuButton
+                                    className="h-15.5 text-[1.375rem]! leading-none font-normal!"
+                                    tooltip={item.title}
+                                >
+                                    {item.icon && <item.icon className="size-5!" />}
                                     <span>{item.title}</span>
-                                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                                 </SidebarMenuButton>
                             </CollapsibleTrigger>
                             <CollapsibleContent>
-                                <SidebarMenuSub>
+                                <SidebarMenuSub className="border-0">
                                     {item.items?.map((subItem) => (
                                         <SidebarMenuSubItem key={subItem.title}>
-                                            <SidebarMenuSubButton asChild>
+                                            <SidebarMenuSubButton
+                                                asChild
+                                                className="hover:bg-brand-secondary-100/10 hover:text-white active:text-brand-secondary-200"
+                                            >
                                                 <Link href={subItem.url}>
                                                     <span>{subItem.title}</span>
                                                 </Link>

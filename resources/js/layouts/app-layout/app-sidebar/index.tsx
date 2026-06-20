@@ -1,5 +1,6 @@
 import { LayoutDashboardIcon, ShoppingBasketIcon, StoreIcon, UsersRoundIcon } from 'lucide-react';
 import React from 'react';
+import logo_white from '@/assets/logo-horizontal-white.svg';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
 import { NavMain } from '@/layouts/app-layout/app-sidebar/nav-main';
 import { NavUser } from '@/layouts/app-layout/app-sidebar/nav-user';
@@ -14,6 +15,10 @@ const menuData = {
                 {
                     title: 'Dashboard',
                     url: '/dashboard/',
+                },
+                {
+                    title: 'Performance',
+                    url: '/performance/',
                 },
             ],
         },
@@ -76,7 +81,13 @@ const menuData = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
         <Sidebar {...props}>
-            <SidebarHeader>Logo</SidebarHeader>
+            <SidebarHeader className="items-start">
+                <img
+                    src={logo_white}
+                    className="h-20"
+                />
+            </SidebarHeader>
+
             <SidebarContent>
                 <NavMain items={menuData.navMain} />
             </SidebarContent>

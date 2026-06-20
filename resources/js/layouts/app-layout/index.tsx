@@ -7,7 +7,7 @@ import { SheetProvider } from '@/providers/sheet-provider';
 
 const AppLayout = ({ children }: { children: ReactNode }): JSX.Element => {
     return (
-        <>
+        <div className="bg-brand-neutral-100">
             <TooltipProvider>
                 <SidebarProvider>
                     <SheetProvider>
@@ -17,7 +17,7 @@ const AppLayout = ({ children }: { children: ReactNode }): JSX.Element => {
                 </SidebarProvider>
             </TooltipProvider>
             <Toaster />
-        </>
+        </div>
     );
 };
 
