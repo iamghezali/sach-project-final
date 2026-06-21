@@ -113,4 +113,9 @@ Route::prefix('dashboard')->name('dashboard.')
         Route::get('/custom-orders/{id}', fn ($id) => Inertia::render('dashboard/orders/custom-orders/order-folder', [
             'id' => $id,
         ]))->name('custom-orders.folder');
+
+        /**
+         * Store V2 (still testing)
+         */
+        Route::get('/store/products/v2/new', fn () => Inertia::render('dashboard/store/product-new/create-product'))->name('store.products.new');
     });
