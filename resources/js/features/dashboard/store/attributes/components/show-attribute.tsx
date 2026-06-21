@@ -23,6 +23,7 @@ export default function ShowAttribute({ attributeID }: ShowAttributeProps): JSX.
             <SheetContent
                 side="right"
                 onAnimationEnd={onAnimationEnd}
+                className="bg-brand-neutral-100 data-[side=right]:sm:max-w-lg"
             >
                 <SheetHeader>
                     <SheetTitle>Attribute Details</SheetTitle>
