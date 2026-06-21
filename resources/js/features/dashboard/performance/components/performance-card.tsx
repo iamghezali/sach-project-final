@@ -69,12 +69,12 @@ function PerformanceCard({
             {...props}
         >
             <div className="z-10 flex h-full flex-col">
-                <div className="flex items-start justify-between gap-2">
+                <div className="flex items-center justify-between gap-2">
                     <span className="block text-[1.625rem]/tight font-medium">{title}</span>
 
                     {dateRange && onDateRangeChange && (
                         <DropdownMenu>
-                            <DropdownMenuTrigger className="inline-flex shrink-0 items-center gap-1 font-medium opacity-70 hover:opacity-100">
+                            <DropdownMenuTrigger className="inline-flex shrink-0 items-center gap-1 text-sm font-medium opacity-70 hover:opacity-100">
                                 {DATE_RANGE_LABELS[dateRange]} <ChevronDownIcon className="size-5" />
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
