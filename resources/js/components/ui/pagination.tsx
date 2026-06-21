@@ -20,7 +20,7 @@ function PaginationContent({ className, ...props }: React.ComponentProps<'ul'>) 
     return (
         <ul
             data-slot="pagination-content"
-            className={cn('flex items-center gap-0.5', className)}
+            className={cn('flex items-center gap-4', className)}
             {...props}
         />
     );
@@ -44,7 +44,7 @@ function PaginationLink({ className, isActive, size = 'icon', ...props }: Pagina
     return (
         <Button
             asChild
-            variant={isActive ? 'outline' : 'ghost'}
+            variant={isActive ? 'brand-neutral' : 'brand-outline'}
             size={size}
             className={cn(className)}
         >
