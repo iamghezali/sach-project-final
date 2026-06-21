@@ -25,7 +25,7 @@ interface ProductVariantFormProps {
 export function ProductVariantForm({
     product,
     form,
-    availableValueIds,
+    // availableValueIds,
     selectedVariant,
     onSubmit,
 }: ProductVariantFormProps): JSX.Element {
@@ -46,12 +46,16 @@ export function ProductVariantForm({
 
                     <h1 className="mt-4 text-[2rem]/tight font-semibold">{product.name}</h1>
                     <span className="mt-4 block text-2xl/tight leading-6 font-semibold text-brand-secondary-300">
-                        {formatPrice(selectedVariant?.price ?? '0')} DZD
+                        {selectedVariant?.price ? (
+                            <>{formatPrice(selectedVariant.price)} DZD</>
+                        ) : (
+                            <>{formatPrice(product.starting_from ?? '0')} DZD</>
+                        )}
                     </span>
                     <span className="mt-2 block text-xs leading-4.5">Shipping calculated at checkout.</span>
                 </div>
 
-                <p>SKU: {selectedVariant?.sku}</p>
+                {/* <p>SKU: {selectedVariant?.sku}</p> */}
 
                 <p>
                     <Badge variant={selectedVariant?.is_in_stock ? 'secondary' : 'destructive'}>
@@ -85,7 +89,7 @@ export function ProductVariantForm({
                                                     <Item
                                                         key={value.id}
                                                         value={value.id}
-                                                        disabled={!availableValueIds.has(value.id)}
+                                                        // disabled={!availableValueIds.has(value.id)}
                                                     >
                                                         <div className="w-30">
                                                             <div className="relative pt-[120%]">
@@ -128,7 +132,7 @@ export function ProductVariantForm({
                                                 <Item
                                                     key={value.id}
                                                     value={value.id}
-                                                    disabled={!availableValueIds.has(value.id)}
+                                                    // disabled={!availableValueIds.has(value.id)}
                                                 >
                                                     {value.value}
                                                 </Item>
@@ -159,7 +163,7 @@ export function ProductVariantForm({
                                                 <Item
                                                     key={value.id}
                                                     value={value.id}
-                                                    disabled={!availableValueIds.has(value.id)}
+                                                    // disabled={!availableValueIds.has(value.id)}
                                                 >
                                                     {value.value}
                                                 </Item>

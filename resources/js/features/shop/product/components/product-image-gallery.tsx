@@ -43,7 +43,7 @@ export function ProductImageGallery({ images, lightbox }: ProductImageGalleryPro
                         className="relative min-w-0 grow cursor-pointer overflow-hidden rounded-[1.75rem]"
                         onClick={() => lightbox.openAt(0)}
                     >
-                        <div className="relative pt-[120%]">
+                        <div className="relative pt-[140%]">
                             <ImageComponent
                                 src={mainImage.url}
                                 className="absolute inset-0 size-full object-cover"
