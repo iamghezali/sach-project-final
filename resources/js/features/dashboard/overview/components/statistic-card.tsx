@@ -1,5 +1,6 @@
 import type { VariantProps } from 'class-variance-authority';
 import { cva } from 'class-variance-authority';
+import { Loader2 } from 'lucide-react';
 import type { JSX } from 'react';
 import React from 'react';
 import ElipseDecoration from '@/features/tailor/stats/components/elipse-decoration';
@@ -33,13 +34,15 @@ interface StatisticCardProps extends React.ComponentProps<'div'>, VariantProps<t
     title: string;
     description: string;
     count: number;
+    isLoading?: boolean;
 }
 
-export default function StatisticCard({
+function StatisticCard({
     title,
     description,
     count,
     variant = 'primary',
+    isLoading = false,
     className,
     ...props
 }: StatisticCardProps): JSX.Element {
@@ -55,10 +58,42 @@ export default function StatisticCard({
                 <span className="mt-1.5 block text-lg leading-none">{description}</span>
 
                 <div className="mt-auto ml-auto">
-                    <span className="block text-[2.875rem] leading-17.25 font-medium">{formatCount}</span>
+                    {isLoading ? (
+                        <div className="mr-3 flex h-16 items-center justify-center">
+                            <Loader2 className="size-8 animate-spin opacity-50" />
+                        </div>
+                    ) : (
+                        <span className="block text-[2.875rem] leading-17.25 font-medium">{formatCount}</span>
+                    )}
                 </div>
             </div>
             <ElipseDecoration className={cn(elipseVariants({ variant }))} />
         </div>
+    );
+}
+
+interface StatisticQueryResult {
+    data?: { count: number };
+    isLoading: boolean;
+}
+
+interface StatisticCardContainerProps {
+    title: string;
+    description: string;
+    variant?: 'primary' | 'secondary';
+    useDataQuery: () => StatisticQueryResult;
+}
+
+export function StatisticCardContainer({ title, description, variant, useDataQuery }: StatisticCardContainerProps) {
+    const { data, isLoading } = useDataQuery();
+
+    return (
+        <StatisticCard
+            title={title}
+            description={description}
+            variant={variant}
+            count={data?.count ?? 0}
+            isLoading={isLoading}
+        />
     );
 }

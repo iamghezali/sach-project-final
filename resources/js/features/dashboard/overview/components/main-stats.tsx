@@ -1,34 +1,41 @@
 import type { JSX } from 'react';
-import StatisticCard from '@/features/dashboard/overview/components/statistic-card';
+import { StatisticCardContainer } from '@/features/dashboard/overview/components/statistic-card';
+import { useMockQuery } from '@/features/dashboard/overview/queries';
 
 export default function MainStats(): JSX.Element {
+    const usePendingReview = () => useMockQuery('overview-pending-review', 2);
+    const useInProduction = () => useMockQuery('overview-in-production', 24);
+    const useQualityCheck = () => useMockQuery('overview-quality-check', 12);
+    const useReadyForDelivery = () => useMockQuery('overview-ready-for-delivery', 2);
+    const useDeliveredToday = () => useMockQuery('overview-delivered-today', 0);
+
     return (
         <div className="grid grid-cols-3 gap-x-3 gap-y-4">
-            <StatisticCard
+            <StatisticCardContainer
                 variant="secondary"
                 title="Pending Review"
                 description="Orders waiting for admin review"
-                count={2}
+                useDataQuery={usePendingReview}
             />
-            <StatisticCard
+            <StatisticCardContainer
                 title="In Production"
                 description="Orders currently with tailors"
-                count={24}
+                useDataQuery={useInProduction}
             />
-            <StatisticCard
+            <StatisticCardContainer
                 title="Quality Check"
                 description="Orders returned by tailors"
-                count={12}
+                useDataQuery={useQualityCheck}
             />
-            <StatisticCard
+            <StatisticCardContainer
                 title="Ready for Delivery"
                 description="Orders ready to ship"
-                count={3}
+                useDataQuery={useReadyForDelivery}
             />
-            <StatisticCard
+            <StatisticCardContainer
                 title="Delivered Today"
                 description="Orders completed today"
-                count={0}
+                useDataQuery={useDeliveredToday}
             />
         </div>
     );
