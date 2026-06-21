@@ -1,5 +1,6 @@
 import type { JSX } from 'react';
 import { Separator } from '@/components/ui/separator';
+import UnderDevelopmentNotice from '@/components/under-development-notice';
 import MainStats from '@/features/dashboard/overview/components/main-stats';
 import RecentActivity from '@/features/dashboard/overview/components/recent-activity';
 import RequiresYourAttention from '@/features/dashboard/overview/components/requires-your-attention';
@@ -33,6 +34,8 @@ export default function Overview(): JSX.Element {
             <section>
                 <TailorsWorkloadTable />
             </section>
+
+            <UnderDevelopmentNotice />
         </>
     );
 }

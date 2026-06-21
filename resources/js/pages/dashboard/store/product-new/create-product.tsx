@@ -1,5 +1,6 @@
 import { ChevronRightIcon, StoreIcon } from 'lucide-react';
 import type { JSX } from 'react';
+import UnderDevelopmentNotice from '@/components/under-development-notice';
 import ProductCategory from '@/features/dashboard/store/product-new/components/product-category';
 import ProductInformation from '@/features/dashboard/store/product-new/components/product-information';
 import ProductPrice from '@/features/dashboard/store/product-new/components/product-price';
@@ -36,6 +37,8 @@ export default function CreateProduct(): JSX.Element {
                     </div>
                 </div>
             </section>
+
+            <UnderDevelopmentNotice href="/dashboard/store/products" />
         </>
     );
 }
