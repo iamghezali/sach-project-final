@@ -39,6 +39,7 @@ export const ProductSchema = z.object({
     status_label: ProductStatusLabelSchema,
     is_available: z.boolean(),
     starting_from: z.string(),
+    thumbnail: z.string().nullable(),
     categories: z.array(CategorySchema),
 });
 

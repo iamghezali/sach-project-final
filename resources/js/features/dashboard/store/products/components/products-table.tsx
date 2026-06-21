@@ -33,6 +33,7 @@ export default function ProductsTable(): JSX.Element {
                         <TableHead>Availabilty</TableHead>
                         <TableHead>Starting from</TableHead>
                         <TableHead>Status</TableHead>
+                        <TableHead>Category</TableHead>
                     </TableRow>
                 </TableHeader>
 
@@ -45,7 +46,20 @@ export default function ProductsTable(): JSX.Element {
                                 onClick={() => router.visit(`/dashboard/store/products/${product.id}`)}
                             >
                                 <TableCell>{product.id}</TableCell>
-                                <TableCell>{product.name}</TableCell>
+                                <TableCell>
+                                    <div className="flex items-center gap-6">
+                                        {product.thumbnail && (
+                                            <div className="aspect-65/92 w-20 overflow-hidden rounded-lg">
+                                                <img
+                                                    className="size-full object-cover"
+                                                    src={product.thumbnail}
+                                                    alt=""
+                                                />
+                                            </div>
+                                        )}
+                                        <span className="text-base font-medium">{product.name}</span>
+                                    </div>
+                                </TableCell>
 
                                 <TableCell>
                                     <Badge variant={product.is_available ? 'secondary' : 'destructive'}>
@@ -63,6 +77,10 @@ export default function ProductsTable(): JSX.Element {
 
                                 <TableCell>
                                     <Badge>{product.status_label}</Badge>
+                                </TableCell>
+
+                                <TableCell>
+                                    {product?.categories[0]?.name ? product?.categories[0]?.name : 'Not Assigned'}
                                 </TableCell>
                             </TableRow>
                         ))
