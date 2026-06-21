@@ -21,7 +21,7 @@ export default function ProductsGrid(): JSX.Element {
     });
 
     return (
-        <div className="space-y-12">
+        <div>
             <ul className="grid grid-cols-1 gap-x-4 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
                 <DataGuard
                     data={products}
@@ -45,7 +45,7 @@ export default function ProductsGrid(): JSX.Element {
             </ul>
 
             {meta && meta.last_page > 1 && (
-                <div className="flex justify-center border-t border-brand-neutral-100 pt-8">
+                <div className="mt-8 flex justify-center border-t border-brand-neutral-100">
                     <AppPagination meta={meta} />
                 </div>
             )}
