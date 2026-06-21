@@ -9,6 +9,7 @@ import { FormField } from '@/components/form/form-field';
 import { FormInput } from '@/components/form/form-input';
 import { FormTextarea } from '@/components/form/form-textarea';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { FieldError } from '@/components/ui/field';
 import { Separator } from '@/components/ui/separator';
 import AssignCategories from '@/features/dashboard/store/products/components/details/assign-categories';
@@ -76,7 +77,22 @@ export default function ProductInformation({ productID }: ProductInformationProp
 
     return (
         <div className="mt-10">
-            <ChangeProductStatus productID={productID} />
+            <div className="flex items-center justify-between">
+                <ChangeProductStatus productID={productID} />
+
+                <Button
+                    className="mt-3"
+                    variant="secondary"
+                    asChild
+                >
+                    <a
+                        href={`/shop/product/${product.slug}`}
+                        target="_blank"
+                    >
+                        View in Shop
+                    </a>
+                </Button>
+            </div>
 
             <Form
                 form={form}
@@ -85,9 +101,10 @@ export default function ProductInformation({ productID }: ProductInformationProp
                 <FormField
                     control={form.control}
                     name="name"
+                    variant="brand-primary"
                 >
                     <FormField.Label>Name</FormField.Label>
-                    <FormInput />
+                    <FormInput variant="brand-primary" />
                     <FormField.Error />
                 </FormField>
 
@@ -96,7 +113,7 @@ export default function ProductInformation({ productID }: ProductInformationProp
                     name="slug"
                 >
                     <FormField.Label>Slug</FormField.Label>
-                    <FormInput />
+                    <FormInput variant="brand-primary" />
                     <FormField.Error />
                 </FormField>
 
@@ -105,7 +122,10 @@ export default function ProductInformation({ productID }: ProductInformationProp
                     name="description"
                 >
                     <FormField.Label>Description</FormField.Label>
-                    <FormTextarea className="min-h-24" />
+                    <FormTextarea
+                        className="min-h-24"
+                        variant="brand-primary"
+                    />
                     <FormField.Error />
                 </FormField>
 
