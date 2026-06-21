@@ -60,6 +60,7 @@ export function ProductImageGallery({ images, lightbox }: ProductImageGalleryPro
                 carousel={{ finite: true }}
                 controller={{ closeOnPullUp: true, closeOnBackdropClick: true }}
                 plugins={[Counter, Zoom]}
+                zoom={{ zoomInMultiplier: 2 }}
                 slides={slides}
             />
         </>
