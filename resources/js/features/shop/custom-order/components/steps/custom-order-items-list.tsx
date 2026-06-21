@@ -1,6 +1,5 @@
 import { SquarePenIcon, Trash2Icon } from 'lucide-react';
 import type { JSX } from 'react';
-import Image from '@/components/image';
 import { Button } from '@/components/ui/button';
 import { useCustomOrder } from '@/features/shop/custom-order/providers/custom-order-provider';
 import type { CustomOrderItem } from '@/features/shop/custom-order/schema';
@@ -26,7 +25,11 @@ export default function CustomOrderItemsList({ items }: CustomOrderItemsListProp
                     >
                         <div className="basis-32">
                             <div className="relative overflow-hidden rounded-xl bg-brand-neutral-200 pt-[120%]">
-                                <Image className="absolute inset-0 size-full object-cover" />
+                                <img
+                                    className="absolute inset-0 size-full object-cover"
+                                    src={URL.createObjectURL(item.images[0])}
+                                    alt=""
+                                />
                             </div>
                         </div>
 
