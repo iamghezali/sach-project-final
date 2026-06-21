@@ -76,7 +76,7 @@ export default function ProductVariants({ productID }: ProductVariantsProps): JS
                     ) : (
                         <TableRow>
                             <TableCell
-                                colSpan={6}
+                                colSpan={7}
                                 className="text-center text-muted-foreground"
                             >
                                 No Records are found.
