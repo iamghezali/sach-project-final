@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { HeadsetIcon } from 'lucide-react';
+import { ArrowLeftIcon, HeadsetIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -29,9 +29,21 @@ export default function FolderItems({ orderID }: FolderItemsProps): JSX.Element 
         <div className="flex flex-col gap-8">
             <div>
                 <div className="flex items-baseline justify-between">
-                    <div>
-                        <span className="text-brand-neutral-alt-700">Order ID: </span>
-                        <span>#SASH-{order.id}</span>
+                    <div className="flex items-center gap-2">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            asChild
+                        >
+                            <Link href={`/shop/orders/my/?view=custom-orders`}>
+                                <ArrowLeftIcon />
+                            </Link>
+                        </Button>
+
+                        <div>
+                            <span className="text-brand-neutral-alt-700">Order ID: </span>
+                            <span>#SASH-{order.id}</span>
+                        </div>
                     </div>
 
                     <div>
