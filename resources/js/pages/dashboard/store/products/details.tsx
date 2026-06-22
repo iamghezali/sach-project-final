@@ -1,4 +1,4 @@
-import { usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { ChevronRightIcon, StoreIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import AssignAttributes from '@/features/dashboard/store/products/components/details/assign-attributes';
@@ -15,7 +15,9 @@ export default function Details(): JSX.Element {
     return (
         <>
             <div className="flex items-center gap-2">
-                <StoreIcon />
+                <Link href="/dashboard/store/products">
+                    <StoreIcon />
+                </Link>
                 <ChevronRightIcon />
                 <h1 className="text-2xl leading-10 font-medium">Add Product</h1>
             </div>
