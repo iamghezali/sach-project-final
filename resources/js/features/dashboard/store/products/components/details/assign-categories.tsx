@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { JSX } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
 import Form from '@/components/form/form';
@@ -34,58 +34,17 @@ type CategoriesFieldProps = {
     categoriesList: Category[];
 };
 
-const ADD_DELAY_MS = 250;
-
 function CategoriesField({ value, onChange, categoriesList }: CategoriesFieldProps): JSX.Element {
-    const [pickedId, setPickedId] = useState<number | null>(null);
     const [searchQuery, setSearchQuery] = useState<string>('');
 
-    const valueRef = useRef(value);
-    const pendingIdsRef = useRef<Set<number>>(new Set());
-    const pendingTimeouts = useRef<ReturnType<typeof setTimeout>[]>([]);
-
-    useEffect(() => {
-        valueRef.current = value;
-    }, [value]);
-
-    useEffect(() => {
-        const timeouts = pendingTimeouts.current;
-
-        return () => {
-            timeouts.forEach(clearTimeout);
-        };
-    }, []);
-
-    const availableCategories = categoriesList.filter((c) => !value.includes(c.id));
-
-    const handlePick = (id: number | null) => {
-        setPickedId(null);
-        setSearchQuery('');
-
-        if (id === null || valueRef.current.includes(id) || pendingIdsRef.current.has(id)) {
-            return;
-        }
-
-        pendingIdsRef.current.add(id);
-
-        const timeoutId = setTimeout(() => {
-            pendingIdsRef.current.delete(id);
-
-            const next = [...valueRef.current, id];
-            valueRef.current = next;
-            onChange(next);
-        }, ADD_DELAY_MS);
-
-        pendingTimeouts.current.push(timeoutId);
-    };
-
     return (
-        <div className="flex flex-col gap-4">
+        <div className="space-y-2">
             <Combobox
+                multiple
                 variant="brand-primary"
-                items={availableCategories.map((c) => c.id)}
-                value={pickedId}
-                onValueChange={handlePick}
+                items={categoriesList.map((c) => c.id)}
+                value={value}
+                onValueChange={onChange}
                 inputValue={searchQuery}
                 onInputValueChange={setSearchQuery}
                 itemToStringLabel={(id: number) => {
@@ -94,7 +53,7 @@ function CategoriesField({ value, onChange, categoriesList }: CategoriesFieldPro
                     return cat ? cat.name : '';
                 }}
             >
-                <ComboboxInput placeholder="Search categories to add..." />
+                <ComboboxInput placeholder="Search categories..." />
                 <ComboboxContent>
                     <ComboboxEmpty>No categories found.</ComboboxEmpty>
                     <ComboboxList>
