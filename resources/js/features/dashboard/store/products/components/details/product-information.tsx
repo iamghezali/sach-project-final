@@ -9,11 +9,8 @@ import { FormField } from '@/components/form/form-field';
 import { FormInput } from '@/components/form/form-input';
 import { FormTextarea } from '@/components/form/form-textarea';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { FieldError } from '@/components/ui/field';
 import { Separator } from '@/components/ui/separator';
-import AssignCategories from '@/features/dashboard/store/products/components/details/assign-categories';
-import ChangeProductStatus from '@/features/dashboard/store/products/components/details/change-product-status';
 import ProductImageGallery from '@/features/dashboard/store/products/components/details/product-image-gallery';
 import ProductImagesUpload from '@/features/dashboard/store/products/components/details/product-images-upload';
 import { useUpdateProduct } from '@/features/dashboard/store/products/mutations';
@@ -76,24 +73,7 @@ export default function ProductInformation({ productID }: ProductInformationProp
     const product = response.data;
 
     return (
-        <div className="mt-10">
-            <div className="flex items-center justify-between">
-                <ChangeProductStatus productID={productID} />
-
-                <Button
-                    className="mt-3"
-                    variant="secondary"
-                    asChild
-                >
-                    <a
-                        href={`/shop/product/${product.slug}`}
-                        target="_blank"
-                    >
-                        View in Shop
-                    </a>
-                </Button>
-            </div>
-
+        <div>
             <Form
                 form={form}
                 onSubmit={onSubmit}
@@ -138,10 +118,6 @@ export default function ProductInformation({ productID }: ProductInformationProp
                     Save
                 </FormButton>
             </Form>
-
-            <div className="mt-8">
-                <AssignCategories productID={productID} />
-            </div>
 
             <Separator className="my-8" />
 

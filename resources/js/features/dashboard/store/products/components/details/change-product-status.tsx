@@ -48,11 +48,12 @@ export default function ChangeProductStatus({ productID }: ChangeProductStatusPr
     const { data: response } = useProductDetails(productID);
     const { mutateAsync: changeProductStatus, isPending } = useChangeProductStatus();
 
-    const status = response?.data?.status;
-
-    if (!status) {
+    if (!response) {
         return <></>;
     }
+
+    const status = response.data.status;
+    const product = response.data;
 
     const { label, icon: Icon, action, variant } = PRIMARY_CONFIG[status];
 
@@ -73,59 +74,73 @@ export default function ChangeProductStatus({ productID }: ChangeProductStatusPr
     }
 
     return (
-        <ButtonGroup>
-            <Button
-                variant={variant}
-                disabled={!action || isPending}
-                onClick={() => action && handleStatusChange(action)}
-            >
-                <Icon />
-                {label}
-            </Button>
+        <div className="flex gap-3">
+            <ButtonGroup>
+                <Button
+                    variant={variant}
+                    disabled={!action || isPending}
+                    onClick={() => action && handleStatusChange(action)}
+                >
+                    <Icon />
+                    {label}
+                </Button>
 
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button
-                        size="icon"
-                        variant={variant}
-                        disabled={isPending}
-                    >
-                        <ChevronDownIcon />
-                    </Button>
-                </DropdownMenuTrigger>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button
+                            size="icon"
+                            variant={variant}
+                            disabled={isPending}
+                        >
+                            <ChevronDownIcon />
+                        </Button>
+                    </DropdownMenuTrigger>
 
-                <DropdownMenuContent className="w-40">
-                    {status === 'draft' && (
-                        <DropdownMenuItem onSelect={() => handleStatusChange('archived')}>
-                            <ArchiveIcon />
-                            Archive
-                        </DropdownMenuItem>
-                    )}
-
-                    {status === 'published' && (
-                        <>
-                            <DropdownMenuItem onSelect={() => handleStatusChange('draft')}>
-                                <FileTextIcon />
-                                Move to Draft
-                            </DropdownMenuItem>
+                    <DropdownMenuContent className="w-40">
+                        {status === 'draft' && (
                             <DropdownMenuItem onSelect={() => handleStatusChange('archived')}>
                                 <ArchiveIcon />
                                 Archive
                             </DropdownMenuItem>
-                        </>
-                    )}
+                        )}
 
-                    {status !== 'archived' && <DropdownMenuSeparator />}
+                        {status === 'published' && (
+                            <>
+                                <DropdownMenuItem onSelect={() => handleStatusChange('draft')}>
+                                    <FileTextIcon />
+                                    Move to Draft
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onSelect={() => handleStatusChange('archived')}>
+                                    <ArchiveIcon />
+                                    Archive
+                                </DropdownMenuItem>
+                            </>
+                        )}
 
-                    <DropdownMenuItem
-                        onSelect={handleDelete}
-                        variant="destructive"
-                    >
-                        <Trash2Icon />
-                        Delete
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        </ButtonGroup>
+                        {status !== 'archived' && <DropdownMenuSeparator />}
+
+                        <DropdownMenuItem
+                            onSelect={handleDelete}
+                            variant="destructive"
+                        >
+                            <Trash2Icon />
+                            Delete
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </ButtonGroup>
+
+            <Button
+                variant="secondary"
+                asChild
+            >
+                <a
+                    href={`/shop/product/${product.slug}`}
+                    target="_blank"
+                >
+                    View in Shop
+                </a>
+            </Button>
+        </div>
     );
 }
