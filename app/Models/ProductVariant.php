@@ -33,7 +33,6 @@ class ProductVariant extends Model
 
     protected static function booted(): void
     {
-        // First variant added becomes the default automatically
         static::creating(function (ProductVariant $variant) {
             $hasDefault = static::where('product_id', $variant->product_id)
                 ->where('is_default', true)
@@ -42,18 +41,49 @@ class ProductVariant extends Model
             $variant->is_default = ! $hasDefault;
         });
 
-        // When a variant is set as default, unset all others for the same product
         static::updating(function (ProductVariant $variant) {
+            // Existing: when a variant is set as default, unset all others
             if ($variant->isDirty('is_default') && $variant->is_default === true) {
                 static::where('product_id', $variant->product_id)
                     ->where('id', '!=', $variant->id)
                     ->update(['is_default' => false]);
             }
+
+            // NEW: when deactivating the default variant, reassign default
+            if (
+                $variant->isDirty('is_active') &&
+                $variant->is_active === false &&
+                $variant->getOriginal('is_default')
+            ) {
+                $replacement = static::where('product_id', $variant->product_id)
+                    ->where('id', '!=', $variant->id)
+                    ->where('is_active', true)
+                    ->orderBy('id')
+                    ->first();
+
+                if ($replacement) {
+                    $replacement->update(['is_default' => true]);
+                }
+
+                $variant->is_default = false;
+            }
         });
 
-        // Append a timestamp for soft-deleted items
         static::deleted(function (ProductVariant $variant) {
             $variant->update(['sku' => $variant->sku.'-sku-'.now()->timestamp]);
+
+            // if the deleted variant was the default, reassign
+            if ($variant->is_default) {
+                $replacement = static::where('product_id', $variant->product_id)
+                    ->where('id', '!=', $variant->id)
+                    ->where('is_active', true)
+                    ->orderBy('id')
+                    ->first();
+
+                if ($replacement) {
+                    $replacement->update(['is_default' => true]);
+                }
+            }
         });
     }
 
