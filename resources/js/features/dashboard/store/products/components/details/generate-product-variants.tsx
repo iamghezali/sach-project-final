@@ -55,7 +55,7 @@ function cartesianProduct(valueArrays: number[][]): number[][] {
 export default function GenerateProductVariants({
     productId,
     productSlug,
-    attributes,
+    attributes = [],
     existingVariants = [],
 }: GenerateProductVariantsProps): JSX.Element {
     const [isOpen, setIsOpen] = useState(false);
@@ -182,7 +182,7 @@ export default function GenerateProductVariants({
             onOpenChange={handleDialog}
         >
             <DialogTrigger asChild>
-                <Button>New Variants</Button>
+                <Button disabled={attributes.length === 0}>New Variants</Button>
             </DialogTrigger>
             <DialogContent className="max-w-3xl sm:max-w-3xl">
                 <DialogHeader>
