@@ -51,16 +51,18 @@ export default function ProductVariants({ productID }: ProductVariantsProps): JS
                             <TableRow key={variant.id}>
                                 <TableCell>{variant.id}</TableCell>
                                 <TableCell>{variant.sku}</TableCell>
-                                <TableHead>
-                                    {variant.variant_values.map((value, i) => (
-                                        <Badge
-                                            key={i}
-                                            variant="outline"
-                                        >
-                                            {value}
-                                        </Badge>
-                                    ))}
-                                </TableHead>
+                                <TableCell>
+                                    <div className="flex flex-wrap gap-1">
+                                        {variant.variant_values.map((value, i) => (
+                                            <Badge
+                                                key={i}
+                                                variant="outline"
+                                            >
+                                                {value}
+                                            </Badge>
+                                        ))}
+                                    </div>
+                                </TableCell>
                                 <TableCell>{variant.price} DZD</TableCell>
                                 <TableCell>
                                     {variant.is_in_stock ? (

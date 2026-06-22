@@ -36,7 +36,7 @@ export default function ProductImageGallery({ productId }: ProductImageGalleryPr
     }
 
     return (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        <div className="grid grid-cols-4 gap-4">
             {images.map((image) => (
                 <ProductImageCard
                     key={image.uuid}
