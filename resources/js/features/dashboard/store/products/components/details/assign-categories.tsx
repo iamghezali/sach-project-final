@@ -74,6 +74,7 @@ function CategoriesField({ value, onChange, categoriesList }: CategoriesFieldPro
             </Combobox>
 
             <Combobox
+                variant="brand-primary"
                 multiple
                 items={value}
                 value={value}
