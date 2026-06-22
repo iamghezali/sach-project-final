@@ -24,7 +24,7 @@ interface GenerateProductVariantsProps {
     existingVariants: ExistingVariant[];
 }
 
-type CombinationStatus = 'idle' | 'pending' | 'success' | 'error';
+type CombinationStatus = 'idle' | 'pending' | 'success' | 'error' | 'exists';
 
 interface GeneratedCombination {
     key: string;
@@ -102,11 +102,12 @@ export default function GenerateProductVariants({
 
     const handleGenerate = () => {
         const valueArrays = attributes.map((attribute) => selected[attribute.id] ?? []);
-        const combos = cartesianProduct(valueArrays).filter((combo) => !existingKeys.has(sortedKey(combo)));
+        const combos = cartesianProduct(valueArrays); // no more .filter() here
 
         setCombinations(
             combos.map((combo) => {
                 const values = combo.map((id) => valueLookup.get(id)!);
+                const alreadyExists = existingKeys.has(sortedKey(combo));
 
                 return {
                     key: combo.join('-'),
@@ -115,7 +116,7 @@ export default function GenerateProductVariants({
                     sku: [productSlug, ...values.map((v) => v.slug)].join('-'),
                     price: bulkPrice,
                     stock_quantity: bulkStock,
-                    status: 'idle',
+                    status: alreadyExists ? 'exists' : 'idle',
                 };
             }),
         );
@@ -125,13 +126,14 @@ export default function GenerateProductVariants({
         setCombinations((prev) => prev.map((c) => (c.key === key ? { ...c, ...patch } : c)));
     };
 
+    const creatableCount = combinations.filter((c) => c.status === 'idle' || c.status === 'error').length;
     const isCreating = combinations.some((c) => c.status === 'pending');
 
     const handleCreateAll = async () => {
         for (const combo of combinations) {
-            if (combo.status === 'success') {
+            if (combo.status === 'success' || combo.status === 'exists') {
                 continue;
-            } // lets you re-run after fixing only the failed rows
+            }
 
             updateCombination(combo.key, { status: 'pending', errorMessage: undefined });
 
@@ -273,63 +275,74 @@ export default function GenerateProductVariants({
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {combinations.map((combo) => (
-                                        <tr
-                                            key={combo.key}
-                                            className="border-t"
-                                        >
-                                            <td className="py-1.5">{combo.labels.map((l) => l.value).join(' / ')}</td>
-                                            <td>
-                                                <input
-                                                    value={combo.sku}
-                                                    onChange={(e) =>
-                                                        updateCombination(combo.key, { sku: e.target.value })
-                                                    }
-                                                    className="w-full rounded border px-2 py-1"
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="number"
-                                                    step="any"
-                                                    value={combo.price}
-                                                    onChange={(e) =>
-                                                        updateCombination(combo.key, {
-                                                            price: Number(e.target.value),
-                                                        })
-                                                    }
-                                                    className="w-20 rounded border px-2 py-1"
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="number"
-                                                    value={combo.stock_quantity}
-                                                    onChange={(e) =>
-                                                        updateCombination(combo.key, {
-                                                            stock_quantity: Number(e.target.value),
-                                                        })
-                                                    }
-                                                    className="w-16 rounded border px-2 py-1"
-                                                />
-                                            </td>
-                                            <td>
-                                                <StatusBadge
-                                                    status={combo.status}
-                                                    message={combo.errorMessage}
-                                                />
-                                            </td>
-                                        </tr>
-                                    ))}
+                                    {combinations.map((combo) => {
+                                        const isExisting = combo.status === 'exists';
+
+                                        return (
+                                            <tr
+                                                key={combo.key}
+                                                className={`border-t ${isExisting ? 'opacity-60' : ''}`}
+                                            >
+                                                <td className="py-1.5">
+                                                    {combo.labels.map((l) => l.value).join(' / ')}
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        value={combo.sku}
+                                                        disabled={isExisting}
+                                                        onChange={(e) =>
+                                                            updateCombination(combo.key, { sku: e.target.value })
+                                                        }
+                                                        className="w-full rounded border px-2 py-1 disabled:cursor-not-allowed"
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        type="number"
+                                                        step="any"
+                                                        value={combo.price}
+                                                        disabled={isExisting}
+                                                        onChange={(e) =>
+                                                            updateCombination(combo.key, {
+                                                                price: Number(e.target.value),
+                                                            })
+                                                        }
+                                                        className="w-20 rounded border px-2 py-1 disabled:cursor-not-allowed"
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        type="number"
+                                                        value={combo.stock_quantity}
+                                                        disabled={isExisting}
+                                                        onChange={(e) =>
+                                                            updateCombination(combo.key, {
+                                                                stock_quantity: Number(e.target.value),
+                                                            })
+                                                        }
+                                                        className="w-16 rounded border px-2 py-1 disabled:cursor-not-allowed"
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <StatusBadge
+                                                        status={combo.status}
+                                                        message={combo.errorMessage}
+                                                    />
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                 </tbody>
                             </table>
 
                             <Button
                                 type="button"
-                                disabled={isCreating}
+                                disabled={isCreating || creatableCount === 0}
                                 onClick={handleCreateAll}
                             >
-                                {isCreating ? 'Creating…' : `Create ${combinations.length} Variants`}
+                                {isCreating
+                                    ? 'Creating…'
+                                    : `Create ${creatableCount} Variant${creatableCount === 1 ? '' : 's'}`}
                             </Button>
                         </div>
                     )}
@@ -345,12 +358,14 @@ function StatusBadge({ status, message }: { status: CombinationStatus; message?:
         pending: 'text-blue-600',
         success: 'text-green-600',
         error: 'text-red-600',
+        exists: 'text-amber-600',
     };
     const text: Record<CombinationStatus, string> = {
         idle: 'Pending',
         pending: 'Creating…',
         success: 'Created',
         error: message ?? 'Failed',
+        exists: 'Already exists',
     };
 
     return <span className={styles[status]}>{text[status]}</span>;
