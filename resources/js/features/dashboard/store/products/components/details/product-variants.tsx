@@ -1,13 +1,20 @@
+import { PenSquareIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import EditVariant from '@/features/dashboard/store/products/components/details/edit-variant';
 import GenerateProductVariants from '@/features/dashboard/store/products/components/details/generate-product-variants';
 import { useProductDetails } from '@/features/dashboard/store/products/queries';
+import { useSheet } from '@/providers/sheet-provider';
 
 type ProductVariantsProps = {
     productID: number;
 };
+
 export default function ProductVariants({ productID }: ProductVariantsProps): JSX.Element {
+    const { openSheet } = useSheet();
+
     const { data: response, isLoading } = useProductDetails(productID);
 
     if (isLoading) {
@@ -34,14 +41,13 @@ export default function ProductVariants({ productID }: ProductVariantsProps): JS
             </div>
             <Table className="mt-3">
                 <TableHeader>
-                    <TableRow>
-                        <TableHead>ID</TableHead>
-                        <TableHead>SKU</TableHead>
-                        <TableHead>Variant</TableHead>
-                        <TableHead>Price</TableHead>
-                        <TableHead>Quantiy</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Default</TableHead>
+                    <TableRow className="border-0">
+                        <TableHead className="border-0 border-b">Variant</TableHead>
+                        <TableHead className="border-0 border-b">Price</TableHead>
+                        <TableHead className="border-0 border-b text-center">Quantiy</TableHead>
+                        <TableHead className="border-0 border-b">Status</TableHead>
+                        <TableHead className="border-0 border-b">Default</TableHead>
+                        <TableHead className="w-16 border-0 border-b"></TableHead>
                     </TableRow>
                 </TableHeader>
 
@@ -49,9 +55,7 @@ export default function ProductVariants({ productID }: ProductVariantsProps): JS
                     {variants.length !== 0 ? (
                         variants.map((variant) => (
                             <TableRow key={variant.id}>
-                                <TableCell>{variant.id}</TableCell>
-                                <TableCell>{variant.sku}</TableCell>
-                                <TableCell>
+                                <TableCell className="border-0 border-b">
                                     <div className="flex flex-wrap gap-1">
                                         {variant.variant_values.map((value, i) => (
                                             <Badge
@@ -63,18 +67,29 @@ export default function ProductVariants({ productID }: ProductVariantsProps): JS
                                         ))}
                                     </div>
                                 </TableCell>
-                                <TableCell>{variant.price} DZD</TableCell>
-                                <TableCell>
+                                <TableCell className="border-0 border-b">{variant.price} DZD</TableCell>
+                                <TableCell className="border-0 border-b text-center">
                                     {variant.is_in_stock ? (
                                         variant.stock_quantity
                                     ) : (
                                         <Badge variant="destructive">Out of Stock</Badge>
                                     )}
                                 </TableCell>
-                                <TableCell>
+                                <TableCell className="border-0 border-b">
                                     <Badge variant="outline">{variant.is_active ? 'Active' : 'Disabled'}</Badge>
                                 </TableCell>
-                                <TableCell>{variant.is_default && <Badge>Default</Badge>}</TableCell>
+                                <TableCell className="border-0 border-b">
+                                    {variant.is_default && <Badge>Default</Badge>}
+                                </TableCell>
+                                <TableCell className="border-0 border-b">
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() => openSheet(<EditVariant variantID={variant.id} />)}
+                                    >
+                                        <PenSquareIcon />
+                                    </Button>
+                                </TableCell>
                             </TableRow>
                         ))
                     ) : (
