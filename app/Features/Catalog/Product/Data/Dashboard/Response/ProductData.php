@@ -54,7 +54,7 @@ class ProductData extends Data
             active_attributes: Lazy::create(fn () => self::deriveAttributes($product)),
             variants: Lazy::create(
                 fn () => ProductVariantData::collect(
-                    $product->activeVariants
+                    $product->variants
                         ->map(fn ($v) => ProductVariantData::fromModel($v))
                         ->all()
                 )
