@@ -193,7 +193,7 @@ export default function EditVariant({ productID, variantID }: EditVariantProps):
                                 name="is_active"
                             >
                                 <div className="flex items-center gap-2">
-                                    <FormCheckbox />
+                                    <FormCheckbox variant="brand-primary" />
                                     <FormField.Label>Active</FormField.Label>
                                 </div>
                                 <FormField.Error />
@@ -204,7 +204,7 @@ export default function EditVariant({ productID, variantID }: EditVariantProps):
                                 name="is_default"
                             >
                                 <div className="flex items-center gap-2">
-                                    <FormCheckbox />
+                                    <FormCheckbox variant="brand-primary" />
                                     <FormField.Label>Default Variant</FormField.Label>
                                 </div>
                                 <FormField.Error />

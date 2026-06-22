@@ -1,7 +1,5 @@
-import { PenSquareIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import EditVariant from '@/features/dashboard/store/products/components/details/edit-variant';
 import GenerateProductVariants from '@/features/dashboard/store/products/components/details/generate-product-variants';
@@ -47,14 +45,24 @@ export default function ProductVariants({ productID }: ProductVariantsProps): JS
                         <TableHead className="border-0 border-b text-center">Quantiy</TableHead>
                         <TableHead className="border-0 border-b">Status</TableHead>
                         <TableHead className="border-0 border-b">Default</TableHead>
-                        <TableHead className="w-16 border-0 border-b"></TableHead>
                     </TableRow>
                 </TableHeader>
 
                 <TableBody>
                     {variants.length !== 0 ? (
                         variants.map((variant) => (
-                            <TableRow key={variant.id}>
+                            <TableRow
+                                key={variant.id}
+                                className="cursor-pointer"
+                                onClick={() =>
+                                    openSheet(
+                                        <EditVariant
+                                            productID={productID}
+                                            variantID={variant.id}
+                                        />,
+                                    )
+                                }
+                            >
                                 <TableCell className="border-0 border-b">
                                     <div className="flex flex-wrap gap-1">
                                         {variant.variant_values.map((value, i) => (
@@ -80,22 +88,6 @@ export default function ProductVariants({ productID }: ProductVariantsProps): JS
                                 </TableCell>
                                 <TableCell className="border-0 border-b">
                                     {variant.is_default && <Badge>Default</Badge>}
-                                </TableCell>
-                                <TableCell className="border-0 border-b">
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        onClick={() =>
-                                            openSheet(
-                                                <EditVariant
-                                                    productID={productID}
-                                                    variantID={variant.id}
-                                                />,
-                                            )
-                                        }
-                                    >
-                                        <PenSquareIcon />
-                                    </Button>
                                 </TableCell>
                             </TableRow>
                         ))
