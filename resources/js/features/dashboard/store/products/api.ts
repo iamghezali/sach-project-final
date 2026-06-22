@@ -1,4 +1,5 @@
 import { apiFormDataRequest, apiRequest } from '@/api/client';
+import { apiNoContentSchema } from '@/api/schema';
 import type {
     AssignAttributesRequest,
     AssignCategoriesRequest,
@@ -7,6 +8,7 @@ import type {
     CreateProductVariantRequest,
     UpdateProductImageRequest,
     UpdateProductRequest,
+    UpdateProductVariantRequest,
     UploadProductImagesRequest,
 } from '@/features/dashboard/store/products/schema';
 import {
@@ -104,5 +106,24 @@ export const productsApi = {
             url: `/products/${id}/categories`,
             method: 'put',
             data: payload,
+        }),
+
+    getProductVariant: (productId: number, variantId: number) =>
+        apiRequest(CreateProductVariantResponseSchema, {
+            url: `/products/${productId}/variants/${variantId}`,
+            method: 'get',
+        }),
+
+    updateProductVariant: (productId: number, variantId: number, payload: UpdateProductVariantRequest) =>
+        apiRequest(CreateProductVariantResponseSchema, {
+            url: `/products/${productId}/variants/${variantId}`,
+            method: 'put',
+            data: payload,
+        }),
+
+    deleteProductVariant: (productId: number, variantId: number) =>
+        apiRequest(apiNoContentSchema, {
+            url: `/products/${productId}/variants/${variantId}`,
+            method: 'delete',
         }),
 };

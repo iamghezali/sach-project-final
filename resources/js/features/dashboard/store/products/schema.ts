@@ -211,3 +211,17 @@ export type AssignCategoriesRequest = z.infer<typeof AssignCategoriesRequestSche
  * Assign Categories Response
  */
 export const AssignCategoriesResponseSchema = apiNoContentSchema;
+
+/**
+ * Update Product Variant Request
+ */
+export const UpdateProductVariantRequestSchema = z.object({
+    sku: z.string().nonempty({ error: 'SKU is required' }).optional(),
+    stock_quantity: z.number().min(1, { error: 'Quantity must be a positive value' }).optional(),
+    price: z.number().min(1, { error: 'Price must be a positive value' }).optional(),
+    is_active: z.boolean().optional(),
+    is_default: z.boolean().optional(),
+    attribute_value_ids: z.array(z.number()).optional(),
+});
+
+export type UpdateProductVariantRequest = z.infer<typeof UpdateProductVariantRequestSchema>;

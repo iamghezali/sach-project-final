@@ -9,6 +9,7 @@ import type {
     CreateProductVariantRequest,
     UpdateProductImageRequest,
     UpdateProductRequest,
+    UpdateProductVariantRequest,
     UploadProductImagesRequest,
 } from '@/features/dashboard/store/products/schema';
 
@@ -129,6 +130,29 @@ export const useAssignCategories = (productId: number) => {
         mutationFn: ({ productId, payload }: { productId: number; payload: AssignCategoriesRequest }) =>
             productsApi.assignCategories(productId, payload),
 
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: productKeys.product(productId) });
+        },
+    });
+};
+
+export const useUpdateProductVariant = (productId: number) => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: ({ variantId, payload }: { variantId: number; payload: UpdateProductVariantRequest }) =>
+            productsApi.updateProductVariant(productId, variantId, payload),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: productKeys.product(productId) });
+        },
+    });
+};
+
+export const useDeleteProductVariant = (productId: number) => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (variantId: number) => productsApi.deleteProductVariant(productId, variantId),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: productKeys.product(productId) });
         },
