@@ -9,6 +9,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useCreateProductVariant } from '@/features/dashboard/store/products/mutations';
 import type { Attribute } from '@/features/dashboard/store/products/schema';
 import { CreateProductVariantRequestSchema } from '@/features/dashboard/store/products/schema';
@@ -264,77 +265,78 @@ export default function GenerateProductVariants({
 
                     {combinations.length > 0 && (
                         <div className="flex flex-col gap-2">
-                            <table className="w-full text-sm">
-                                <thead>
-                                    <tr className="text-left text-muted-foreground">
-                                        <th className="py-1">Combination</th>
-                                        <th>SKU</th>
-                                        <th>Price</th>
-                                        <th>Stock</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {combinations.map((combo) => {
-                                        const isExisting = combo.status === 'exists';
+                            <ScrollArea className="max-h-60 rounded-md border p-4">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                        <tr className="text-left text-muted-foreground">
+                                            <th className="py-1">Combination</th>
+                                            <th>SKU</th>
+                                            <th>Price</th>
+                                            <th>Stock</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {combinations.map((combo) => {
+                                            const isExisting = combo.status === 'exists';
 
-                                        return (
-                                            <tr
-                                                key={combo.key}
-                                                className={`border-t ${isExisting ? 'opacity-60' : ''}`}
-                                            >
-                                                <td className="py-1.5">
-                                                    {combo.labels.map((l) => l.value).join(' / ')}
-                                                </td>
-                                                <td>
-                                                    <input
-                                                        value={combo.sku}
-                                                        disabled={isExisting}
-                                                        onChange={(e) =>
-                                                            updateCombination(combo.key, { sku: e.target.value })
-                                                        }
-                                                        className="w-full rounded border px-2 py-1 disabled:cursor-not-allowed"
-                                                    />
-                                                </td>
-                                                <td>
-                                                    <input
-                                                        type="number"
-                                                        step="any"
-                                                        value={combo.price}
-                                                        disabled={isExisting}
-                                                        onChange={(e) =>
-                                                            updateCombination(combo.key, {
-                                                                price: Number(e.target.value),
-                                                            })
-                                                        }
-                                                        className="w-20 rounded border px-2 py-1 disabled:cursor-not-allowed"
-                                                    />
-                                                </td>
-                                                <td>
-                                                    <input
-                                                        type="number"
-                                                        value={combo.stock_quantity}
-                                                        disabled={isExisting}
-                                                        onChange={(e) =>
-                                                            updateCombination(combo.key, {
-                                                                stock_quantity: Number(e.target.value),
-                                                            })
-                                                        }
-                                                        className="w-16 rounded border px-2 py-1 disabled:cursor-not-allowed"
-                                                    />
-                                                </td>
-                                                <td>
-                                                    <StatusBadge
-                                                        status={combo.status}
-                                                        message={combo.errorMessage}
-                                                    />
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-
+                                            return (
+                                                <tr
+                                                    key={combo.key}
+                                                    className={`border-t ${isExisting ? 'opacity-60' : ''}`}
+                                                >
+                                                    <td className="py-1.5">
+                                                        {combo.labels.map((l) => l.value).join(' / ')}
+                                                    </td>
+                                                    <td>
+                                                        <input
+                                                            value={combo.sku}
+                                                            disabled={isExisting}
+                                                            onChange={(e) =>
+                                                                updateCombination(combo.key, { sku: e.target.value })
+                                                            }
+                                                            className="w-full rounded border px-2 py-1 disabled:cursor-not-allowed"
+                                                        />
+                                                    </td>
+                                                    <td>
+                                                        <input
+                                                            type="number"
+                                                            step="any"
+                                                            value={combo.price}
+                                                            disabled={isExisting}
+                                                            onChange={(e) =>
+                                                                updateCombination(combo.key, {
+                                                                    price: Number(e.target.value),
+                                                                })
+                                                            }
+                                                            className="w-20 rounded border px-2 py-1 disabled:cursor-not-allowed"
+                                                        />
+                                                    </td>
+                                                    <td>
+                                                        <input
+                                                            type="number"
+                                                            value={combo.stock_quantity}
+                                                            disabled={isExisting}
+                                                            onChange={(e) =>
+                                                                updateCombination(combo.key, {
+                                                                    stock_quantity: Number(e.target.value),
+                                                                })
+                                                            }
+                                                            className="w-16 rounded border px-2 py-1 disabled:cursor-not-allowed"
+                                                        />
+                                                    </td>
+                                                    <td>
+                                                        <StatusBadge
+                                                            status={combo.status}
+                                                            message={combo.errorMessage}
+                                                        />
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </ScrollArea>
                             <Button
                                 type="button"
                                 disabled={isCreating || creatableCount === 0}
