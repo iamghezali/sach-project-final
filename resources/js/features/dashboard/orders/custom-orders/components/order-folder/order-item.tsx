@@ -4,6 +4,7 @@ import { AssignSingle } from '@/features/dashboard/orders/custom-orders/componen
 import AttachOfferToItem from '@/features/dashboard/orders/custom-orders/components/order-folder/attach-offer-to-item';
 import UpdateItemStatus from '@/features/dashboard/orders/custom-orders/components/order-folder/update-item-status';
 import type { ClothingOrderItem, Measurements } from '@/features/dashboard/orders/custom-orders/schema';
+import { useSignedMedia } from '@/hooks/use-signed-media';
 
 function MeasurementDetails({ measurements }: { measurements: Measurements }) {
     if (measurements.measurement_type === 'standard') {
@@ -43,6 +44,7 @@ function MeasurementDetails({ measurements }: { measurements: Measurements }) {
 }
 
 export function OrderItem({ item, orderID }: { orderID: number; item: ClothingOrderItem }) {
+    const { openMedia, loadingUUID } = useSignedMedia();
     const { information: info, measurements } = item;
 
     return (
@@ -86,14 +88,21 @@ export function OrderItem({ item, orderID }: { orderID: number; item: ClothingOr
                     {item.images.map((image, i) => (
                         <div
                             key={image.uuid}
-                            className="basis-24"
+                            className="basis-30"
                         >
                             <div className="relative overflow-hidden rounded-md border bg-muted pt-[125%]">
-                                <Image
-                                    src={image.url}
-                                    alt={`${info.title} - reference - ${i}`}
-                                    className="absolute inset-0 size-full object-cover"
-                                />
+                                <button
+                                    type="button"
+                                    disabled={loadingUUID === image.uuid}
+                                    onClick={() => openMedia(image.uuid)}
+                                    className="absolute inset-0 size-full cursor-pointer"
+                                >
+                                    <Image
+                                        src={image.url}
+                                        alt={`${info.title} - reference - ${i}`}
+                                        className="absolute inset-0 size-full object-cover"
+                                    />
+                                </button>
                             </div>
                         </div>
                     ))}
