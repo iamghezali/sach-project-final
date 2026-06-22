@@ -5,7 +5,6 @@ import type { SubmitHandler } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
 import Form from '@/components/form/form';
 import { FormButton } from '@/components/form/form-button';
-import { Button } from '@/components/ui/button';
 import {
     Combobox,
     ComboboxChip,
@@ -18,29 +17,84 @@ import {
     ComboboxValue,
     useComboboxAnchor,
 } from '@/components/ui/combobox';
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from '@/components/ui/dialog';
-import { FieldError } from '@/components/ui/field';
+import { FieldError, FieldLabel } from '@/components/ui/field';
 import { useAttributesList } from '@/features/dashboard/store/attributes/queries';
 import { useAssignAttributes } from '@/features/dashboard/store/products/mutations';
 import { useProductDetails } from '@/features/dashboard/store/products/queries';
 import { AssignAttributesRequestSchema } from '@/features/dashboard/store/products/schema';
 import type { AssignAttributesRequest } from '@/features/dashboard/store/products/schema';
 
+type Attribute = {
+    id: number;
+    name: string;
+};
+
+type AttributesFieldProps = {
+    value: number[];
+    onChange: (ids: number[]) => void;
+    attributesList: Attribute[];
+};
+
+function AttributesField({ value, onChange, attributesList }: AttributesFieldProps): JSX.Element {
+    const anchor = useComboboxAnchor();
+    const [searchQuery, setSearchQuery] = useState<string>('');
+
+    return (
+        <Combobox
+            multiple
+            autoHighlight
+            variant="brand-primary"
+            items={attributesList.map((a) => a.id)}
+            value={value}
+            onValueChange={onChange}
+            inputValue={searchQuery}
+            onInputValueChange={setSearchQuery}
+            itemToStringLabel={(id: number) => {
+                const attr = attributesList.find((a) => a.id === id);
+
+                return attr ? attr.name : '';
+            }}
+        >
+            <ComboboxChips ref={anchor}>
+                <ComboboxValue>
+                    {(selectedIds: number[]) => (
+                        <>
+                            {selectedIds.map((id) => {
+                                const attr = attributesList.find((a) => a.id === id);
+
+                                return <ComboboxChip key={id}>{attr?.name}</ComboboxChip>;
+                            })}
+                            <ComboboxChipsInput placeholder={selectedIds.length === 0 ? 'Search attributes...' : ''} />
+                        </>
+                    )}
+                </ComboboxValue>
+            </ComboboxChips>
+            <ComboboxContent anchor={anchor}>
+                <ComboboxEmpty>No attributes found.</ComboboxEmpty>
+                <ComboboxList>
+                    {(id: number) => {
+                        const attr = attributesList.find((a) => a.id === id)!;
+
+                        return (
+                            <ComboboxItem
+                                key={id}
+                                value={id}
+                            >
+                                {attr.name}
+                            </ComboboxItem>
+                        );
+                    }}
+                </ComboboxList>
+            </ComboboxContent>
+        </Combobox>
+    );
+}
+
 type AssignAttributesProps = {
     productID: number;
 };
+
 export default function AssignAttributes({ productID }: AssignAttributesProps): JSX.Element {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-
-    const anchor = useComboboxAnchor();
-
     const { data: responseProduct, isLoading: isLoadingProduct } = useProductDetails(productID);
     const { data: responseAttributes, isLoading: isLoadingAttributes } = useAttributesList();
     const { mutateAsync: assignAttributes } = useAssignAttributes(productID);
@@ -51,7 +105,6 @@ export default function AssignAttributes({ productID }: AssignAttributesProps): 
         defaultValues: {
             attribute_ids: [],
         },
-
         resolver: zodResolver(AssignAttributesRequestSchema),
     });
 
@@ -64,12 +117,7 @@ export default function AssignAttributes({ productID }: AssignAttributesProps): 
             {
                 onError: (error) => {
                     form.reset({ attribute_ids: productAttributes?.map((a) => a.id) });
-
                     form.setError('root', { message: error.message });
-                },
-
-                onSuccess: () => {
-                    setIsOpen(false);
                 },
             },
         );
@@ -91,93 +139,46 @@ export default function AssignAttributes({ productID }: AssignAttributesProps): 
 
     const attributesList = responseAttributes.data;
 
-    const handleDialog = (open: boolean) => {
-        if (open) {
-            form.reset();
-        }
-
-        setIsOpen(open);
-    };
-
     return (
-        <div className="mt-4">
-            <Dialog
-                open={isOpen}
-                onOpenChange={handleDialog}
+        <div>
+            <Form
+                form={form}
+                onSubmit={onSubmit}
             >
-                <DialogTrigger asChild>
-                    <Button>Assign Attributes</Button>
-                </DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Assign attributes</DialogTitle>
-                        <DialogDescription className="sr-only">Form to assign attributes</DialogDescription>
-                    </DialogHeader>
+                <FieldLabel
+                    variant="brand-primary"
+                    className="text-base"
+                >
+                    Attributes
+                </FieldLabel>
 
-                    <Form
-                        form={form}
-                        onSubmit={onSubmit}
-                    >
-                        <Controller
-                            control={form.control}
-                            name="attribute_ids"
-                            render={({ field, fieldState }) => (
-                                <>
-                                    <Combobox
-                                        multiple
-                                        autoHighlight
-                                        items={attributesList.map((a) => a.id)}
-                                        value={field.value}
-                                        onValueChange={field.onChange}
-                                    >
-                                        <ComboboxChips ref={anchor}>
-                                            <ComboboxValue>
-                                                {(selectedIds: number[]) => (
-                                                    <>
-                                                        {selectedIds.map((id) => {
-                                                            const attr = attributesList.find((a) => a.id === id);
+                <div className="mt-2">
+                    <Controller
+                        control={form.control}
+                        name="attribute_ids"
+                        render={({ field, fieldState }) => (
+                            <>
+                                <AttributesField
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    attributesList={attributesList}
+                                />
+                                {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+                            </>
+                        )}
+                    />
+                </div>
 
-                                                            return <ComboboxChip key={id}>{attr?.name}</ComboboxChip>;
-                                                        })}
-                                                        <ComboboxChipsInput />
-                                                    </>
-                                                )}
-                                            </ComboboxValue>
-                                        </ComboboxChips>
-                                        <ComboboxContent anchor={anchor}>
-                                            <ComboboxEmpty>No items found.</ComboboxEmpty>
-                                            <ComboboxList>
-                                                {(id: number) => {
-                                                    const attr = attributesList.find((a) => a.id === id)!;
+                {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
 
-                                                    return (
-                                                        <ComboboxItem
-                                                            key={id}
-                                                            value={id}
-                                                        >
-                                                            {attr.name}
-                                                        </ComboboxItem>
-                                                    );
-                                                }}
-                                            </ComboboxList>
-                                        </ComboboxContent>
-                                    </Combobox>
-                                    {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
-                                </>
-                            )}
-                        />
-
-                        {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
-
-                        <FormButton
-                            control={form.control}
-                            disabled={!form.formState.isDirty}
-                        >
-                            Save
-                        </FormButton>
-                    </Form>
-                </DialogContent>
-            </Dialog>
+                <FormButton
+                    className="mt-3"
+                    control={form.control}
+                    disabled={!form.formState.isDirty}
+                >
+                    Update Attributes
+                </FormButton>
+            </Form>
         </div>
     );
 }
