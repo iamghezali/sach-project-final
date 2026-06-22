@@ -85,7 +85,14 @@ export default function ProductVariants({ productID }: ProductVariantsProps): JS
                                     <Button
                                         variant="ghost"
                                         size="icon"
-                                        onClick={() => openSheet(<EditVariant variantID={variant.id} />)}
+                                        onClick={() =>
+                                            openSheet(
+                                                <EditVariant
+                                                    productID={productID}
+                                                    variantID={variant.id}
+                                                />,
+                                            )
+                                        }
                                     >
                                         <PenSquareIcon />
                                     </Button>
