@@ -61,7 +61,7 @@ class ProductVariantController extends Controller
                 ->execute($productID, $variantID);
 
             return response()->json([
-                'data' => ProductVariantData::fromModel($productVariant)->include('attribute_values', 'images'),
+                'data' => ProductVariantData::fromModel($productVariant),
             ]);
 
         } catch (ModelNotFoundException $e) {
