@@ -9,12 +9,13 @@ import {
     Combobox,
     ComboboxChip,
     ComboboxChips,
+    ComboboxChipsInput,
     ComboboxContent,
     ComboboxEmpty,
-    ComboboxInput,
     ComboboxItem,
     ComboboxList,
     ComboboxValue,
+    useComboboxAnchor,
 } from '@/components/ui/combobox';
 import { FieldError } from '@/components/ui/field';
 import { useCategoriesList } from '@/features/dashboard/store/categories/queries';
@@ -35,69 +36,57 @@ type CategoriesFieldProps = {
 };
 
 function CategoriesField({ value, onChange, categoriesList }: CategoriesFieldProps): JSX.Element {
+    const anchor = useComboboxAnchor();
     const [searchQuery, setSearchQuery] = useState<string>('');
 
     return (
-        <div className="space-y-2">
-            <Combobox
-                multiple
-                variant="brand-primary"
-                items={categoriesList.map((c) => c.id)}
-                value={value}
-                onValueChange={onChange}
-                inputValue={searchQuery}
-                onInputValueChange={setSearchQuery}
-                itemToStringLabel={(id: number) => {
-                    const cat = categoriesList.find((c) => c.id === id);
+        <Combobox
+            multiple
+            autoHighlight
+            variant="brand-primary"
+            items={categoriesList.map((c) => c.id)}
+            value={value}
+            onValueChange={onChange}
+            inputValue={searchQuery}
+            onInputValueChange={setSearchQuery}
+            itemToStringLabel={(id: number) => {
+                const cat = categoriesList.find((c) => c.id === id);
 
-                    return cat ? cat.name : '';
-                }}
-            >
-                <ComboboxInput placeholder="Search categories..." />
-                <ComboboxContent>
-                    <ComboboxEmpty>No categories found.</ComboboxEmpty>
-                    <ComboboxList>
-                        {(id: number) => {
-                            const cat = categoriesList.find((c) => c.id === id)!;
-
-                            return (
-                                <ComboboxItem
-                                    key={id}
-                                    value={id}
-                                >
-                                    {cat.name}
-                                </ComboboxItem>
-                            );
-                        }}
-                    </ComboboxList>
-                </ComboboxContent>
-            </Combobox>
-
-            <Combobox
-                variant="brand-primary"
-                multiple
-                items={value}
-                value={value}
-                onValueChange={onChange}
-                itemToStringLabel={(id: number) => {
-                    const cat = categoriesList.find((c) => c.id === id);
-
-                    return cat ? cat.name : '';
-                }}
-            >
-                <ComboboxChips>
-                    <ComboboxValue>
-                        {(ids: number[]) =>
-                            ids.map((id) => {
+                return cat ? cat.name : '';
+            }}
+        >
+            <ComboboxChips ref={anchor}>
+                <ComboboxValue>
+                    {(selectedIds: number[]) => (
+                        <>
+                            {selectedIds.map((id) => {
                                 const cat = categoriesList.find((c) => c.id === id);
 
                                 return <ComboboxChip key={id}>{cat?.name}</ComboboxChip>;
-                            })
-                        }
-                    </ComboboxValue>
-                </ComboboxChips>
-            </Combobox>
-        </div>
+                            })}
+                            <ComboboxChipsInput placeholder={selectedIds.length === 0 ? 'Search categories...' : ''} />
+                        </>
+                    )}
+                </ComboboxValue>
+            </ComboboxChips>
+            <ComboboxContent anchor={anchor}>
+                <ComboboxEmpty>No categories found.</ComboboxEmpty>
+                <ComboboxList>
+                    {(id: number) => {
+                        const cat = categoriesList.find((c) => c.id === id)!;
+
+                        return (
+                            <ComboboxItem
+                                key={id}
+                                value={id}
+                            >
+                                {cat.name}
+                            </ComboboxItem>
+                        );
+                    }}
+                </ComboboxList>
+            </ComboboxContent>
+        </Combobox>
     );
 }
 
@@ -174,6 +163,7 @@ export default function AssignCategories({ productID }: AssignCategoriesProps): 
                 {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
 
                 <FormButton
+                    className="mt-3"
                     control={form.control}
                     disabled={!form.formState.isDirty}
                 >
