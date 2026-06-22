@@ -2,8 +2,8 @@ import type { VariantProps } from 'class-variance-authority';
 import {
     ArchiveIcon,
     ArchiveRestoreIcon,
-    CheckIcon,
     ChevronDownIcon,
+    ExternalLinkIcon,
     FileTextIcon,
     GlobeIcon,
     Trash2Icon,
@@ -12,7 +12,6 @@ import type { JSX } from 'react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import type { buttonVariants } from '@/components/ui/button';
-import { ButtonGroup } from '@/components/ui/button-group';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -30,18 +29,18 @@ interface ChangeProductStatusProps {
     productID: number;
 }
 
-const PRIMARY_CONFIG: Record<
+// What the trigger button displays — reflects current state, not an action.
+const STATUS_CONFIG: Record<
     ProductStatus,
     {
         label: string;
         icon: React.ElementType;
-        action: ProductStatus | null;
         variant: ButtonVariant;
     }
 > = {
-    draft: { label: 'Publish', icon: GlobeIcon, action: 'published', variant: 'default' },
-    published: { label: 'Published', icon: CheckIcon, action: null, variant: 'outline' },
-    archived: { label: 'Restore', icon: ArchiveRestoreIcon, action: 'draft', variant: 'outline' },
+    draft: { label: 'Draft', icon: FileTextIcon, variant: 'brand-outline' },
+    published: { label: 'Published', icon: GlobeIcon, variant: 'brand-outline' },
+    archived: { label: 'Archived', icon: ArchiveIcon, variant: 'brand-outline' },
 };
 
 export default function ChangeProductStatus({ productID }: ChangeProductStatusProps): JSX.Element {
@@ -55,7 +54,7 @@ export default function ChangeProductStatus({ productID }: ChangeProductStatusPr
     const status = response.data.status;
     const product = response.data;
 
-    const { label, icon: Icon, action, variant } = PRIMARY_CONFIG[status];
+    const { label, icon: Icon, variant } = STATUS_CONFIG[status];
 
     async function handleStatusChange(newStatus: ProductStatus) {
         await changeProductStatus(
@@ -74,73 +73,80 @@ export default function ChangeProductStatus({ productID }: ChangeProductStatusPr
     }
 
     return (
-        <div className="flex gap-3">
-            <ButtonGroup>
-                <Button
-                    variant={variant}
-                    disabled={!action || isPending}
-                    onClick={() => action && handleStatusChange(action)}
+        <div className="flex flex-col gap-2">
+            <span className="text-base">Status</span>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button
+                        size="brand-lg"
+                        variant={variant}
+                        disabled={isPending}
+                        className="w-full justify-between"
+                    >
+                        <span className="flex items-center gap-2">
+                            <Icon />
+                            {label}
+                        </span>
+                        <ChevronDownIcon />
+                    </Button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent
+                    className="w-48"
+                    align="end"
                 >
-                    <Icon />
-                    {label}
-                </Button>
-
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button
-                            size="icon"
-                            variant={variant}
-                            disabled={isPending}
-                        >
-                            <ChevronDownIcon />
-                        </Button>
-                    </DropdownMenuTrigger>
-
-                    <DropdownMenuContent className="w-40">
-                        {status === 'draft' && (
-                            <DropdownMenuItem onSelect={() => handleStatusChange('archived')}>
-                                <ArchiveIcon />
-                                Archive
-                            </DropdownMenuItem>
-                        )}
-
-                        {status === 'published' && (
-                            <>
-                                <DropdownMenuItem onSelect={() => handleStatusChange('draft')}>
-                                    <FileTextIcon />
-                                    Move to Draft
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onSelect={() => handleStatusChange('archived')}>
-                                    <ArchiveIcon />
-                                    Archive
-                                </DropdownMenuItem>
-                            </>
-                        )}
-
-                        {status !== 'archived' && <DropdownMenuSeparator />}
-
-                        <DropdownMenuItem
-                            onSelect={handleDelete}
-                            variant="destructive"
-                        >
-                            <Trash2Icon />
-                            Delete
+                    {status === 'draft' && (
+                        <DropdownMenuItem onSelect={() => handleStatusChange('published')}>
+                            <GlobeIcon />
+                            Publish
                         </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </ButtonGroup>
+                    )}
 
-            <Button
-                variant="secondary"
-                asChild
-            >
-                <a
-                    href={`/shop/product/${product.slug}`}
-                    target="_blank"
-                >
-                    View in Shop
-                </a>
-            </Button>
+                    {status === 'published' && (
+                        <DropdownMenuItem onSelect={() => handleStatusChange('draft')}>
+                            <FileTextIcon />
+                            Move to Draft
+                        </DropdownMenuItem>
+                    )}
+
+                    {status === 'archived' && (
+                        <DropdownMenuItem onSelect={() => handleStatusChange('draft')}>
+                            <ArchiveRestoreIcon />
+                            Restore
+                        </DropdownMenuItem>
+                    )}
+
+                    {status !== 'archived' && (
+                        <DropdownMenuItem onSelect={() => handleStatusChange('archived')}>
+                            <ArchiveIcon />
+                            Archive
+                        </DropdownMenuItem>
+                    )}
+
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuItem asChild>
+                        <a
+                            href={`/shop/product/${product.slug}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <ExternalLinkIcon />
+                            View in Shop
+                        </a>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuItem
+                        onSelect={handleDelete}
+                        variant="destructive"
+                    >
+                        <Trash2Icon />
+                        Delete
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
         </div>
     );
 }
