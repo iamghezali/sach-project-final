@@ -1,7 +1,7 @@
 import type { JSX } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import AddProductVariant from '@/features/dashboard/store/products/components/details/add-product-variant';
+import GenerateProductVariants from '@/features/dashboard/store/products/components/details/generate-product-variants';
 import { useProductDetails } from '@/features/dashboard/store/products/queries';
 
 type ProductVariantsProps = {
@@ -19,15 +19,17 @@ export default function ProductVariants({ productID }: ProductVariantsProps): JS
     }
 
     const variants = response.data.variants;
-    const attributes = response.data.attributes;
+    const product = response.data;
 
     return (
         <div className="mt-6">
             <div className="flex items-center justify-between">
                 <h2 className="text-xl">Variants</h2>
-                <AddProductVariant
+                <GenerateProductVariants
                     productId={productID}
-                    attributes={attributes}
+                    productSlug={product.slug}
+                    attributes={product.attributes}
+                    existingVariants={product.variants}
                 />
             </div>
             <Table className="mt-3">
