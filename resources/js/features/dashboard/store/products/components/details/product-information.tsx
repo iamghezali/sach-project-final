@@ -139,32 +139,8 @@ export default function ProductInformation({ productID }: ProductInformationProp
                 </FormButton>
             </Form>
 
-            <div className="mt-8 rounded-lg border bg-muted/20 p-4">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="space-y-1">
-                        <h4 className="text-sm font-medium">Product Categories</h4>
-                        <div className="flex flex-wrap gap-1.5">
-                            {product.categories.length > 0 ? (
-                                product.categories.map((category) => (
-                                    <Badge
-                                        key={category.id}
-                                        variant="secondary"
-                                        className="rounded-md px-2 py-0.5 text-xs font-normal"
-                                    >
-                                        {category.name}
-                                    </Badge>
-                                ))
-                            ) : (
-                                <span className="text-xs text-muted-foreground italic">
-                                    No categories assigned to this product.
-                                </span>
-                            )}
-                        </div>
-                    </div>
-                    <div className="shrink-0">
-                        <AssignCategories productID={productID} />
-                    </div>
-                </div>
+            <div className="mt-8">
+                <AssignCategories productID={productID} />
             </div>
 
             <Separator className="my-8" />
