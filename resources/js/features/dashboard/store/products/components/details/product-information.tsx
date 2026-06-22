@@ -8,9 +8,7 @@ import { FormButton } from '@/components/form/form-button';
 import { FormField } from '@/components/form/form-field';
 import { FormInput } from '@/components/form/form-input';
 import { FormTextarea } from '@/components/form/form-textarea';
-import { Badge } from '@/components/ui/badge';
-import { FieldError } from '@/components/ui/field';
-import { Separator } from '@/components/ui/separator';
+import { FieldError, FieldGroup } from '@/components/ui/field';
 import ProductImageGallery from '@/features/dashboard/store/products/components/details/product-image-gallery';
 import ProductImagesUpload from '@/features/dashboard/store/products/components/details/product-images-upload';
 import { useUpdateProduct } from '@/features/dashboard/store/products/mutations';
@@ -70,48 +68,66 @@ export default function ProductInformation({ productID }: ProductInformationProp
         return <>Loading Error</>;
     }
 
-    const product = response.data;
-
     return (
         <div>
             <Form
                 form={form}
                 onSubmit={onSubmit}
             >
-                <FormField
-                    control={form.control}
-                    name="name"
-                    variant="brand-primary"
-                >
-                    <FormField.Label>Name</FormField.Label>
-                    <FormInput variant="brand-primary" />
-                    <FormField.Error />
-                </FormField>
-
-                <FormField
-                    control={form.control}
-                    name="slug"
-                >
-                    <FormField.Label>Slug</FormField.Label>
-                    <FormInput variant="brand-primary" />
-                    <FormField.Error />
-                </FormField>
-
-                <FormField
-                    control={form.control}
-                    name="description"
-                >
-                    <FormField.Label>Description</FormField.Label>
-                    <FormTextarea
-                        className="min-h-24"
+                <FieldGroup className="gap-4">
+                    <FormField
+                        control={form.control}
+                        name="name"
                         variant="brand-primary"
-                    />
-                    <FormField.Error />
-                </FormField>
+                    >
+                        <FormField.Label
+                            variant="brand-primary"
+                            className="text-base"
+                        >
+                            Name
+                        </FormField.Label>
+                        <FormInput variant="brand-primary" />
+                        <FormField.Error />
+                    </FormField>
+
+                    <FormField
+                        control={form.control}
+                        name="slug"
+                    >
+                        <FormField.Label
+                            variant="brand-primary"
+                            className="text-base"
+                        >
+                            Slug
+                        </FormField.Label>
+                        <FormInput variant="brand-primary" />
+                        <FormField.Error />
+                    </FormField>
+
+                    <FormField
+                        control={form.control}
+                        name="description"
+                    >
+                        <FormField.Label
+                            variant="brand-primary"
+                            className="text-base"
+                        >
+                            Description
+                        </FormField.Label>
+                        <FormTextarea
+                            className="min-h-24"
+                            variant="brand-primary"
+                        />
+                        <FormField.Error />
+                    </FormField>
+                </FieldGroup>
 
                 {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
 
                 <FormButton
+                    variant="brand-neutral"
+                    size="brand-md"
+                    className="mt-4"
                     control={form.control}
                     disabled={!form.formState.isDirty}
                 >
@@ -119,32 +135,14 @@ export default function ProductInformation({ productID }: ProductInformationProp
                 </FormButton>
             </Form>
 
-            <Separator className="my-8" />
-
-            <div className="mt-12 space-y-8">
+            <div className="mt-6 space-y-8">
                 <section>
-                    <h3 className="mb-4 text-lg font-medium">Product Gallery</h3>
-                    <ProductImageGallery productId={productID} />
-                </section>
-
-                <section>
-                    <h3 className="mb-4 text-lg font-medium">Add New Media</h3>
+                    <h3 className="mb-4 text-lg font-medium">Media</h3>
                     <ProductImagesUpload productId={productID} />
                 </section>
-            </div>
 
-            <ul className="mt-4">
-                <li>
-                    <span>Status </span>
-                    <Badge>{product.status_label}</Badge>
-                </li>
-                <li>
-                    <span>Stock </span>
-                    <Badge variant={product.is_available ? 'default' : 'destructive'}>
-                        {product.is_available ? 'Availible' : 'Out of Stock'}
-                    </Badge>
-                </li>
-            </ul>
+                <ProductImageGallery productId={productID} />
+            </div>
         </div>
     );
 }

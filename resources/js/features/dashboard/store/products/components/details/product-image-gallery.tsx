@@ -28,23 +28,23 @@ export default function ProductImageGallery({ productId }: ProductImageGalleryPr
     }
 
     if (images.length === 0) {
-        return (
-            <div className="flex h-32 flex-col items-center justify-center rounded-lg border border-dashed border-muted-foreground/25">
-                <p className="text-sm text-muted-foreground">No images uploaded yet.</p>
-            </div>
-        );
+        return null;
     }
 
     return (
-        <div className="grid grid-cols-4 gap-4">
-            {images.map((image) => (
-                <ProductImageCard
-                    key={image.uuid}
-                    productId={productId}
-                    image={image}
-                    attributes={taggableAttributes}
-                />
-            ))}
-        </div>
+        <section>
+            <h3 className="mb-4 text-lg font-medium">Product Gallery</h3>
+
+            <div className="grid grid-cols-4 gap-4">
+                {images.map((image) => (
+                    <ProductImageCard
+                        key={image.uuid}
+                        productId={productId}
+                        image={image}
+                        attributes={taggableAttributes}
+                    />
+                ))}
+            </div>
+        </section>
     );
 }
