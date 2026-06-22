@@ -39,6 +39,7 @@ type AssignCategoriesProps = {
 
 export default function AssignCategories({ productID }: AssignCategoriesProps): JSX.Element {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [searchQuery, setSearchQuery] = useState<string>('');
     const anchor = useComboboxAnchor();
 
     const { data: responseProduct, isLoading: isLoadingProduct } = useProductDetails(productID);
@@ -67,6 +68,7 @@ export default function AssignCategories({ productID }: AssignCategoriesProps): 
                 },
                 onSuccess: () => {
                     setIsOpen(false);
+                    setSearchQuery('');
                 },
             },
         );
@@ -93,6 +95,7 @@ export default function AssignCategories({ productID }: AssignCategoriesProps): 
             form.reset({ category_ids: productCategories?.map((c) => c.id) || [] });
         }
 
+        setSearchQuery('');
         setIsOpen(open);
     };
 
@@ -126,6 +129,13 @@ export default function AssignCategories({ productID }: AssignCategoriesProps): 
                                         items={categoriesList.map((c) => c.id)}
                                         value={field.value}
                                         onValueChange={field.onChange}
+                                        inputValue={searchQuery}
+                                        onInputValueChange={setSearchQuery}
+                                        itemToStringLabel={(id: number) => {
+                                            const cat = categoriesList.find((c) => c.id === id);
+
+                                            return cat ? cat.name : '';
+                                        }}
                                     >
                                         <ComboboxChips ref={anchor}>
                                             <ComboboxValue>
