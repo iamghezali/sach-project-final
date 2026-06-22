@@ -17,7 +17,7 @@ import {
     ComboboxValue,
     useComboboxAnchor,
 } from '@/components/ui/combobox';
-import { FieldError } from '@/components/ui/field';
+import { FieldError, FieldLabel } from '@/components/ui/field';
 import { useCategoriesList } from '@/features/dashboard/store/categories/queries';
 import { useAssignCategories } from '@/features/dashboard/store/products/mutations';
 import { useProductDetails } from '@/features/dashboard/store/products/queries';
@@ -145,20 +145,29 @@ export default function AssignCategories({ productID }: AssignCategoriesProps): 
                 form={form}
                 onSubmit={onSubmit}
             >
-                <Controller
-                    control={form.control}
-                    name="category_ids"
-                    render={({ field, fieldState }) => (
-                        <>
-                            <CategoriesField
-                                value={field.value}
-                                onChange={field.onChange}
-                                categoriesList={categoriesList}
-                            />
-                            {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
-                        </>
-                    )}
-                />
+                <FieldLabel
+                    variant="brand-primary"
+                    className="text-base"
+                >
+                    Category
+                </FieldLabel>
+
+                <div className="mt-2">
+                    <Controller
+                        control={form.control}
+                        name="category_ids"
+                        render={({ field, fieldState }) => (
+                            <>
+                                <CategoriesField
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    categoriesList={categoriesList}
+                                />
+                                {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
+                            </>
+                        )}
+                    />
+                </div>
 
                 {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
 
