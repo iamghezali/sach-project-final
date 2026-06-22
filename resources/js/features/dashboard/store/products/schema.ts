@@ -90,6 +90,8 @@ export const ProductVariantSchema = z.object({
     attribute_value_ids: z.array(z.number()),
 });
 
+export type ProductVariant = z.infer<typeof ProductVariantSchema>;
+
 export const ProductDetailsResponseSchema = apiResponseSchema(
     ProductSchema.extend({
         attributes: z.array(AttributeSchema),

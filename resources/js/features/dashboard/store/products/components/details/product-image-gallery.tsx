@@ -1,5 +1,7 @@
+import { useMemo } from 'react';
 import ProductImageCard from '@/features/dashboard/store/products/components/details/product-image-card';
 import { useProductDetails } from '@/features/dashboard/store/products/queries';
+import { getAttributesUsedInVariants } from '@/features/dashboard/store/products/utils';
 
 interface ProductImageGalleryProps {
     productId: number;
@@ -7,6 +9,10 @@ interface ProductImageGalleryProps {
 
 export default function ProductImageGallery({ productId }: ProductImageGalleryProps) {
     const { data: response, isLoading } = useProductDetails(productId);
+
+    const { images, attributes, variants } = response?.data ?? { images: [], attributes: [], variants: [] };
+
+    const taggableAttributes = useMemo(() => getAttributesUsedInVariants(attributes, variants), [attributes, variants]);
 
     if (isLoading || !response?.data) {
         return (
@@ -20,8 +26,6 @@ export default function ProductImageGallery({ productId }: ProductImageGalleryPr
             </div>
         );
     }
-
-    const { images, attributes } = response.data;
 
     if (images.length === 0) {
         return (
@@ -38,7 +42,7 @@ export default function ProductImageGallery({ productId }: ProductImageGalleryPr
                     key={image.uuid}
                     productId={productId}
                     image={image}
-                    attributes={attributes}
+                    attributes={taggableAttributes}
                 />
             ))}
         </div>
