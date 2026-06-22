@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import type { JSX } from 'react';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
     Dialog,
     DialogContent,
@@ -9,6 +10,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useCreateProductVariant } from '@/features/dashboard/store/products/mutations';
 import type { Attribute } from '@/features/dashboard/store/products/schema';
@@ -219,10 +221,12 @@ export default function GenerateProductVariants({
                                             key={value.id}
                                             className="flex items-center gap-1.5 text-sm"
                                         >
-                                            <input
-                                                type="checkbox"
+                                            <Checkbox
+                                                variant="brand-primary"
                                                 checked={attrSelected.includes(value.id)}
-                                                onChange={(e) => toggleValue(attribute.id, value.id, e.target.checked)}
+                                                onCheckedChange={(checked) =>
+                                                    toggleValue(attribute.id, value.id, !!checked)
+                                                }
                                             />
                                             {value.value}
                                         </label>
@@ -235,7 +239,8 @@ export default function GenerateProductVariants({
                     <div className="flex items-end gap-3">
                         <label className="flex flex-col gap-1 text-sm">
                             Default price
-                            <input
+                            <Input
+                                variant="brand-primary"
                                 type="number"
                                 step="any"
                                 min={0}
@@ -246,7 +251,8 @@ export default function GenerateProductVariants({
                         </label>
                         <label className="flex flex-col gap-1 text-sm">
                             Default stock
-                            <input
+                            <Input
+                                variant="brand-primary"
                                 type="number"
                                 min={0}
                                 value={bulkStock}
@@ -255,6 +261,8 @@ export default function GenerateProductVariants({
                             />
                         </label>
                         <Button
+                            variant="brand-neutral"
+                            size="brand-lg"
                             type="button"
                             disabled={!canGenerate}
                             onClick={handleGenerate}
@@ -288,18 +296,18 @@ export default function GenerateProductVariants({
                                                     <td className="py-1.5">
                                                         {combo.labels.map((l) => l.value).join(' / ')}
                                                     </td>
-                                                    <td>
-                                                        <input
+                                                    <td className="px-1">
+                                                        <Input
                                                             value={combo.sku}
                                                             disabled={isExisting}
                                                             onChange={(e) =>
                                                                 updateCombination(combo.key, { sku: e.target.value })
                                                             }
-                                                            className="w-full rounded border px-2 py-1 disabled:cursor-not-allowed"
+                                                            className="w-full rounded border-0 px-2 py-1 disabled:cursor-not-allowed"
                                                         />
                                                     </td>
                                                     <td>
-                                                        <input
+                                                        <Input
                                                             type="number"
                                                             step="any"
                                                             value={combo.price}
@@ -313,7 +321,7 @@ export default function GenerateProductVariants({
                                                         />
                                                     </td>
                                                     <td>
-                                                        <input
+                                                        <Input
                                                             type="number"
                                                             value={combo.stock_quantity}
                                                             disabled={isExisting}
@@ -339,6 +347,8 @@ export default function GenerateProductVariants({
                             </ScrollArea>
                             <Button
                                 type="button"
+                                variant="brand-neutral"
+                                size="brand-md"
                                 disabled={isCreating || creatableCount === 0}
                                 onClick={handleCreateAll}
                             >
