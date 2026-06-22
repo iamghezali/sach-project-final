@@ -1,3 +1,4 @@
+import { RefreshCwIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import type { JSX } from 'react';
 import { Button } from '@/components/ui/button';
@@ -167,12 +168,16 @@ export default function GenerateProductVariants({
         }
     };
 
+    const handleReset = () => {
+        setSelected({});
+        setCombinations([]);
+        setBulkPrice(1000);
+        setBulkStock(0);
+    };
+
     const handleDialog = (open: boolean) => {
         if (open) {
-            setSelected({});
-            setCombinations([]);
-            setBulkPrice(1000);
-            setBulkStock(0);
+            handleReset();
         }
 
         setIsOpen(open);
@@ -269,6 +274,18 @@ export default function GenerateProductVariants({
                         >
                             Generate Combinations
                         </Button>
+
+                        {combinations.length > 0 && (
+                            <Button
+                                type="button"
+                                variant="brand-outline"
+                                size="icon"
+                                className="size-12"
+                                onClick={handleReset}
+                            >
+                                <RefreshCwIcon />
+                            </Button>
+                        )}
                     </div>
 
                     {combinations.length > 0 && (
