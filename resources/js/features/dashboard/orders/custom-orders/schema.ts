@@ -19,22 +19,7 @@ const CustomOrderItemMediaSchema = z.object({
     order: z.number(),
 });
 
-// -------------- Listing
-
-export const CustomOrderSchema = z.object({
-    id: z.number(),
-    title: z.string(),
-    status: z.string(),
-    status_label: z.string(),
-    offer_total: z.string(),
-    created_at: z.string(),
-    updated_at: z.string(),
-    user: UserSchema,
-});
-
-export const CustomOrderListResponseSchema = apiPaginatedResponseSchema(CustomOrderSchema);
-
-// -------------- Order Folder
+// -------------- Shared Sub-schemas
 
 const StandardMeasurementsSchema = z.object({
     measurement_type: z.literal('standard'),
@@ -68,7 +53,7 @@ const ItemInformationSchema = z.object({
     preferred_due_date: z.string(),
 });
 
-const ClothingOrderItemSchema = z.object({
+export const ClothingOrderItemSchema = z.object({
     id: z.number(),
     clothing_order_id: z.number(),
     tailor_id: z.number().nullable(),
@@ -84,15 +69,26 @@ const ClothingOrderItemSchema = z.object({
     tailor: TailorSchema.nullable(),
 });
 
-const CustomOrderFolderSchema = CustomOrderSchema.extend({
+// -------------- Order (listing & folder detail)
+
+export const CustomOrderSchema = z.object({
+    id: z.number(),
+    title: z.string(),
+    status: z.string(),
+    status_label: z.string(),
+    offer_total: z.string(),
+    created_at: z.string(),
+    updated_at: z.string(),
+    user: UserSchema,
     items: z.array(ClothingOrderItemSchema),
 });
 
-export const CustomOrderFolderResponseSchema = apiResponseSchema(CustomOrderFolderSchema);
+export const CustomOrderListResponseSchema = apiPaginatedResponseSchema(CustomOrderSchema);
+export const CustomOrderFolderResponseSchema = apiResponseSchema(CustomOrderSchema);
 
 export type CustomOrder = z.infer<typeof CustomOrderSchema>;
 export type CustomOrderListResponse = z.infer<typeof CustomOrderListResponseSchema>;
-export type CustomOrderFolder = z.infer<typeof CustomOrderFolderSchema>;
+export type CustomOrderFolder = CustomOrder;
 export type ClothingOrderItem = z.infer<typeof ClothingOrderItemSchema>;
 export type ItemInformation = z.infer<typeof ItemInformationSchema>;
 export type Measurements = z.infer<typeof MeasurementsSchema>;
