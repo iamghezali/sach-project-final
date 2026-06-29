@@ -9,6 +9,7 @@ import {
     AssignToTailorResponseSchema,
     AttachOfferToItemResponseSchema,
     CustomOrderFolderResponseSchema,
+    CustomOrderItemResponseSchema,
     CustomOrderListResponseSchema,
     UpdateFolderStatusResponseSchema,
     UpdateItemStatusResponseSchema,
@@ -20,6 +21,12 @@ export const customOrdersApi = {
             url: '/custom-orders/',
             method: 'get',
             params: { page },
+        }),
+
+    getCustomOrderItem: (orderID: number, itemID: number) =>
+        apiRequest(CustomOrderItemResponseSchema, {
+            url: `/custom-orders/${orderID}/items/${itemID}`,
+            method: 'get',
         }),
 
     getCustomOrderFolder: (id: number) =>

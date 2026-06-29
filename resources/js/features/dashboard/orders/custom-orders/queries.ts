@@ -6,12 +6,22 @@ export const customOrderKeys = {
     lists: (page: number = 1) => [...customOrderKeys.all(), 'list', page] as const,
     orders: () => [...customOrderKeys.all(), 'order'] as const,
     order: (id: number) => [...customOrderKeys.orders(), id] as const,
+    orderItem: (orderID: number, itemID: number) => [...customOrderKeys.order(orderID), 'items', itemID] as const,
 };
 
 export function useListCustomOrders(page: number = 1) {
     return useQuery({
         queryKey: customOrderKeys.lists(page),
         queryFn: () => customOrdersApi.list(page),
+        staleTime: 1000 * 60 * 5,
+    });
+}
+
+export function useGetCustomOrderItem(orderID: number, itemID: number) {
+    return useQuery({
+        queryKey: customOrderKeys.orderItem(orderID, itemID),
+        queryFn: () => customOrdersApi.getCustomOrderItem(orderID, itemID),
+        enabled: !!orderID && !!itemID,
         staleTime: 1000 * 60 * 5,
     });
 }

@@ -85,6 +85,7 @@ export const CustomOrderSchema = z.object({
 
 export const CustomOrderListResponseSchema = apiPaginatedResponseSchema(CustomOrderSchema);
 export const CustomOrderFolderResponseSchema = apiResponseSchema(CustomOrderSchema);
+export const CustomOrderItemResponseSchema = apiResponseSchema(ClothingOrderItemSchema);
 
 export type CustomOrder = z.infer<typeof CustomOrderSchema>;
 export type CustomOrderListResponse = z.infer<typeof CustomOrderListResponseSchema>;
