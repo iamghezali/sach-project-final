@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { ExternalLinkIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import { Badge } from '@/components/ui/badge';
@@ -39,14 +39,13 @@ export default function OrderItemQuickview({ orderID, orderItemID }: OrderItemQu
                             variant="brand-secondary"
                             size="brand-md"
                             className="text-black hover:text-white"
-                            asChild
+                            onClick={() =>
+                                router.visit(`/dashboard/custom-orders/${orderID}`, {
+                                    onFinish: () => closeSheet(),
+                                })
+                            }
                         >
-                            <Link
-                                href={`/dashboard/custom-orders/${orderID}`}
-                                onSuccess={() => closeSheet()}
-                            >
-                                Open <ExternalLinkIcon />
-                            </Link>
+                            Open <ExternalLinkIcon />
                         </Button>
 
                         <Badge variant="brand-pending">Under Review</Badge>
