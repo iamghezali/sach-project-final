@@ -133,14 +133,22 @@ export default function OrderItemOfferForm({ orderID, orderItemID }: OrderItemOf
                 </div>
             </Form>
 
-            <OfferDisplay />
+            <OfferDisplay
+                orderID={orderID}
+                orderItemID={orderItemID}
+            />
         </>
     );
 }
 
-const OfferDisplay = () => {
+type OfferDisplayProps = {
+    orderID: number;
+    orderItemID: number;
+};
+
+const OfferDisplay = ({ orderID, orderItemID }: OfferDisplayProps) => {
     return (
-        <div className="">
+        <div>
             <div className="flex items-center justify-between">
                 <span className="inline-flex items-center gap-2 text-lg font-medium">
                     <CircleIcon
@@ -160,8 +168,11 @@ const OfferDisplay = () => {
                     <Button
                         variant="ghost"
                         size="brand-md"
+                        asChild
                     >
-                        Change Assignee
+                        <Link href={`/dashboard/custom-orders/${orderID}/item/${orderItemID}/assign`}>
+                            Change Assignee
+                        </Link>
                     </Button>
                 </div>
             </div>
