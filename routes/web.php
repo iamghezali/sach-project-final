@@ -119,4 +119,9 @@ Route::prefix('dashboard')->name('dashboard.')
             'orderItemID' => $itemID,
         ]))->name('orders.item');
 
+        Route::get('/custom-orders/{orderID}/item/{itemID}/assign', fn ($orderID, $itemID) => Inertia::render('dashboard/orders/custom-orders/assign-order-item', [
+            'orderID' => $orderID,
+            'orderItemID' => $itemID,
+        ]))->name('orders.item.assign');
+
     });
