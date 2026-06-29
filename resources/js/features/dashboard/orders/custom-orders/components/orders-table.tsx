@@ -6,25 +6,8 @@ import { AppPagination, useAutoRedirectOutOfRange, usePageParam } from '@/compon
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useListCustomOrders } from '@/features/dashboard/orders/custom-orders/queries';
+import type { CustomOrder } from '@/features/dashboard/orders/custom-orders/schema';
 import { cn } from '@/lib/utils';
-
-interface OrderItem {
-    id: number;
-    information: { title: string };
-    status_label: string;
-    offer_price?: string | null;
-    tailor?: { name: string } | null;
-    offer_due_date?: string | null;
-}
-
-interface Order {
-    id: number;
-    title: string;
-    user: { name: string };
-    status_label: string;
-    offer_total: string;
-    items: OrderItem[];
-}
 
 export default function OrdersTable(): JSX.Element {
     const page = usePageParam();
@@ -42,7 +25,7 @@ export default function OrdersTable(): JSX.Element {
         return <>Loading Error</>;
     }
 
-    const orders = response.data as Order[];
+    const orders = response.data;
 
     return (
         <>
@@ -93,7 +76,7 @@ export default function OrdersTable(): JSX.Element {
     );
 }
 
-function OrderRow({ order }: { order: Order }): JSX.Element {
+function OrderRow({ order }: { order: CustomOrder }): JSX.Element {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
