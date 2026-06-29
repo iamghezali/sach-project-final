@@ -1,5 +1,4 @@
 import { ChevronRight } from 'lucide-react';
-import { Collapsible as CollapsiblePrimitive } from 'radix-ui';
 import { useState } from 'react';
 import type { JSX } from 'react';
 import { AppPagination, useAutoRedirectOutOfRange, usePageParam } from '@/components/app-pagination';
@@ -38,13 +37,13 @@ export default function OrdersTable(): JSX.Element {
             >
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Title</TableHead>
-                        <TableHead>Order ID</TableHead>
-                        <TableHead>Customer</TableHead>
-                        <TableHead>Current Status</TableHead>
-                        <TableHead>Total</TableHead>
-                        <TableHead>Tailor</TableHead>
-                        <TableHead>Offer Due Date</TableHead>
+                        <TableHead className="w-2/12">Title</TableHead>
+                        <TableHead className="w-1/12 text-center">Order ID</TableHead>
+                        <TableHead className="w-1/12 text-center">Customer</TableHead>
+                        <TableHead className="w-2/12 text-center">Current Status</TableHead>
+                        <TableHead className="w-1/12 text-center">Total</TableHead>
+                        <TableHead className="w-1/12 text-center">Tailor</TableHead>
+                        <TableHead className="w-1/12 text-center">Offer Due Date</TableHead>
                     </TableRow>
                 </TableHeader>
 
@@ -79,66 +78,64 @@ export default function OrdersTable(): JSX.Element {
 function OrderRow({ order }: { order: CustomOrder }): JSX.Element {
     const [isOpen, setIsOpen] = useState(false);
 
-    return (
-        <CollapsiblePrimitive.Root
-            asChild
-            open={isOpen}
-            onOpenChange={setIsOpen}
-        >
-            <TableBody>
-                <CollapsiblePrimitive.Trigger asChild>
-                    <TableRow
-                        tabIndex={0}
-                        role="button"
-                        aria-expanded={isOpen}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
-                                setIsOpen((prev) => !prev);
-                            }
-                        }}
-                        className={cn('cursor-pointer transition-colors', isOpen && 'bg-brand-primary-100/30')}
-                    >
-                        <TableCell>
-                            <span className="flex items-center justify-between gap-2">
-                                <span>{order.title}</span>
-                                <ChevronRight
-                                    className={cn(
-                                        'size-4 shrink-0 text-muted-foreground transition-transform duration-200',
-                                        isOpen && 'rotate-90',
-                                    )}
-                                />
-                            </span>
-                        </TableCell>
-                        <TableCell>{order.id}</TableCell>
-                        <TableCell>{order.user.name}</TableCell>
-                        <TableCell>
-                            <Badge>{order.status_label}</Badge>
-                        </TableCell>
-                        <TableCell>{order.offer_total}</TableCell>
-                        <TableCell>-</TableCell>
-                        <TableCell>-</TableCell>
-                    </TableRow>
-                </CollapsiblePrimitive.Trigger>
+    const toggleOpen = () => setIsOpen((prev) => !prev);
 
-                {isOpen &&
-                    order.items.map((item) => (
-                        <TableRow
-                            key={item.id}
-                            className="bg-muted/20"
-                        >
-                            <TableCell className="pl-8">{item.information.title}</TableCell>
-                            <TableCell>#SACH-{item.id}</TableCell>
-                            <TableCell>{order.user.name}</TableCell>
-                            <TableCell>
-                                <Badge variant="outline">{item.status_label}</Badge>
-                            </TableCell>
-                            <TableCell>{item.offer_price ?? '-'}</TableCell>
-                            <TableCell>{item.tailor?.name ?? '-'}</TableCell>
-                            <TableCell>{item.offer_due_date ?? '-'}</TableCell>
-                        </TableRow>
-                    ))}
-            </TableBody>
-        </CollapsiblePrimitive.Root>
+    return (
+        <TableBody>
+            <TableRow
+                tabIndex={0}
+                role="button"
+                aria-expanded={isOpen}
+                onClick={toggleOpen}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleOpen();
+                    }
+                }}
+                className={cn(
+                    'cursor-pointer transition-colors hover:bg-brand-primary-100/40',
+                    isOpen && 'bg-brand-primary-100/30',
+                )}
+            >
+                <TableCell>
+                    <span className="flex items-center justify-between gap-2">
+                        <span>{order.title}</span>
+                        <ChevronRight
+                            className={cn(
+                                'size-4 shrink-0 text-muted-foreground transition-transform duration-200',
+                                isOpen && 'rotate-90',
+                            )}
+                        />
+                    </span>
+                </TableCell>
+                <TableCell className="text-center"> - </TableCell>
+                <TableCell className="text-center">{order.user.name}</TableCell>
+                <TableCell className="text-center">
+                    <Badge>{order.status_label}</Badge>
+                </TableCell>
+                <TableCell className="text-center">{order.offer_total}</TableCell>
+                <TableCell className="text-center">-</TableCell>
+                <TableCell className="text-center">-</TableCell>
+            </TableRow>
+
+            {isOpen &&
+                order.items.map((item) => (
+                    <TableRow
+                        key={item.id}
+                        className="bg-muted/20"
+                    >
+                        <TableCell>{item.information.title}</TableCell>
+                        <TableCell className="text-center">#SACH-{item.id}</TableCell>
+                        <TableCell className="text-center">{order.user.name}</TableCell>
+                        <TableCell className="text-center">
+                            <Badge variant="outline">{item.status_label}</Badge>
+                        </TableCell>
+                        <TableCell className="text-center">{item.offer_price ?? '-'}</TableCell>
+                        <TableCell className="text-center">{item.tailor?.name ?? '-'}</TableCell>
+                        <TableCell className="text-center">{item.offer_due_date ?? '-'}</TableCell>
+                    </TableRow>
+                ))}
+        </TableBody>
     );
 }
