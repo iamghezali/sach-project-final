@@ -1,4 +1,5 @@
-import { ArrowRightIcon } from 'lucide-react';
+import { Link } from '@inertiajs/react';
+import { ArrowRightIcon, SaveIcon } from 'lucide-react';
 import type { JSX } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -6,6 +7,7 @@ import Form from '@/components/form/form';
 import { FormButton } from '@/components/form/form-button';
 import { FormField } from '@/components/form/form-field';
 import { FormInput } from '@/components/form/form-input';
+import { Button } from '@/components/ui/button';
 
 type OrderItemOfferFormProps = {
     orderID: number;
@@ -13,8 +15,6 @@ type OrderItemOfferFormProps = {
 };
 
 export default function OrderItemOfferForm({ orderID, orderItemID }: OrderItemOfferFormProps): JSX.Element {
-    console.log(orderID, orderItemID);
-
     const form = useForm<{
         tailor_price: number;
         tailor_due_date: string;
@@ -38,6 +38,8 @@ export default function OrderItemOfferForm({ orderID, orderItemID }: OrderItemOf
         client_offer_price: number;
         client_offer_due_date: string;
     }> = (values) => console.log(values);
+
+    const { isDirty } = form.formState;
 
     return (
         <Form
@@ -106,14 +108,28 @@ export default function OrderItemOfferForm({ orderID, orderItemID }: OrderItemOf
                 </div>
             </div>
 
-            <FormButton
-                control={form.control}
-                variant="brand-secondary"
-                size="brand-md"
-                className="mt-4 ml-auto font-medium text-black hover:text-white"
-            >
-                Assign a Tailor <ArrowRightIcon />
-            </FormButton>
+            <div className="mt-4 ml-auto flex gap-1">
+                {isDirty && (
+                    <FormButton
+                        control={form.control}
+                        variant="brand-neutral"
+                        size="brand-md"
+                    >
+                        Save <SaveIcon />
+                    </FormButton>
+                )}
+
+                <Button
+                    variant="brand-secondary"
+                    size="brand-md"
+                    className="font-medium text-black hover:text-white"
+                    asChild
+                >
+                    <Link href={`/dashboard/custom-orders/${orderID}/item/${orderItemID}/assign`}>
+                        Assign a Tailor <ArrowRightIcon />
+                    </Link>
+                </Button>
+            </div>
         </Form>
     );
 }
