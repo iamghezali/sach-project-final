@@ -5,9 +5,11 @@ import { AppPagination, useAutoRedirectOutOfRange, usePageParam } from '@/compon
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import OrderItemQuickview from '@/features/dashboard/orders/custom-orders/components/order-item-quickview';
 import { useListCustomOrders } from '@/features/dashboard/orders/custom-orders/queries';
 import type { CustomOrder, ItemStatus } from '@/features/dashboard/orders/custom-orders/schema';
 import { cn } from '@/lib/utils';
+import { useSheet } from '@/providers/sheet-provider';
 
 export default function OrdersTable(): JSX.Element {
     const page = usePageParam();
@@ -79,6 +81,7 @@ export default function OrdersTable(): JSX.Element {
 
 function OrderRow({ order }: { order: CustomOrder }): JSX.Element {
     const [isOpen, setIsOpen] = useState(false);
+    const { openSheet } = useSheet();
 
     const toggleOpen = () => setIsOpen((prev) => !prev);
 
@@ -130,6 +133,14 @@ function OrderRow({ order }: { order: CustomOrder }): JSX.Element {
                             <Button
                                 variant="ghost"
                                 className="h-10 w-full justify-between px-2 text-sm font-normal"
+                                onClick={() =>
+                                    openSheet(
+                                        <OrderItemQuickview
+                                            orderID={order.id}
+                                            orderItemID={item.id}
+                                        />,
+                                    )
+                                }
                             >
                                 <span>{item.information.title}</span>
                                 <ExternalLinkIcon className="size-4" />
