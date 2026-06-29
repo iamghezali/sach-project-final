@@ -1,11 +1,12 @@
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, ExternalLinkIcon } from 'lucide-react';
 import { useState } from 'react';
 import type { JSX } from 'react';
 import { AppPagination, useAutoRedirectOutOfRange, usePageParam } from '@/components/app-pagination';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useListCustomOrders } from '@/features/dashboard/orders/custom-orders/queries';
-import type { CustomOrder } from '@/features/dashboard/orders/custom-orders/schema';
+import type { CustomOrder, ItemStatus } from '@/features/dashboard/orders/custom-orders/schema';
 import { cn } from '@/lib/utils';
 
 export default function OrdersTable(): JSX.Element {
@@ -40,6 +41,7 @@ export default function OrdersTable(): JSX.Element {
                         <TableHead className="w-2/12">Title</TableHead>
                         <TableHead className="w-1/12 text-center">Order ID</TableHead>
                         <TableHead className="w-1/12 text-center">Customer</TableHead>
+                        <TableHead className="w-1/12 text-center">Fabric</TableHead>
                         <TableHead className="w-2/12 text-center">Current Status</TableHead>
                         <TableHead className="w-1/12 text-center">Total</TableHead>
                         <TableHead className="w-1/12 text-center">Tailor</TableHead>
@@ -111,12 +113,11 @@ function OrderRow({ order }: { order: CustomOrder }): JSX.Element {
                 </TableCell>
                 <TableCell className="text-center"> - </TableCell>
                 <TableCell className="text-center">{order.user.name}</TableCell>
-                <TableCell className="text-center">
-                    <Badge>{order.status_label}</Badge>
-                </TableCell>
+                <TableCell className="text-center"> - </TableCell>
+                <TableCell className="text-center">{order.status_label}</TableCell>
                 <TableCell className="text-center">{order.offer_total}</TableCell>
-                <TableCell className="text-center">-</TableCell>
-                <TableCell className="text-center">-</TableCell>
+                <TableCell className="text-center">N/A</TableCell>
+                <TableCell className="text-center">N/A</TableCell>
             </TableRow>
 
             {isOpen &&
@@ -125,15 +126,26 @@ function OrderRow({ order }: { order: CustomOrder }): JSX.Element {
                         key={item.id}
                         className="bg-muted/20"
                     >
-                        <TableCell>{item.information.title}</TableCell>
+                        <TableCell className="px-2 py-0">
+                            <Button
+                                variant="ghost"
+                                className="h-10 w-full justify-between px-2 text-sm font-normal"
+                            >
+                                <span>{item.information.title}</span>
+                                <ExternalLinkIcon className="size-4" />
+                            </Button>
+                        </TableCell>
                         <TableCell className="text-center">#SACH-{item.id}</TableCell>
                         <TableCell className="text-center">{order.user.name}</TableCell>
                         <TableCell className="text-center">
-                            <Badge variant="outline">{item.status_label}</Badge>
+                            {item.information.provide_fabric ? 'Client' : 'SACH'}
                         </TableCell>
-                        <TableCell className="text-center">{item.offer_price ?? '-'}</TableCell>
-                        <TableCell className="text-center">{item.tailor?.name ?? '-'}</TableCell>
-                        <TableCell className="text-center">{item.offer_due_date ?? '-'}</TableCell>
+                        <TableCell className="text-center">
+                            <Badge variant={`brand-${item.status}` as `brand-${ItemStatus}`}>{item.status_label}</Badge>
+                        </TableCell>
+                        <TableCell className="text-center">{item.offer_price ?? 'N/A'}</TableCell>
+                        <TableCell className="text-center">{item.tailor?.name ?? 'N/A'}</TableCell>
+                        <TableCell className="text-center">{item.offer_due_date ?? 'N/A'}</TableCell>
                     </TableRow>
                 ))}
         </TableBody>

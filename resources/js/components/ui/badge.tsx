@@ -16,6 +16,28 @@ const badgeVariants = cva(
                 outline: 'border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground',
                 ghost: 'hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50',
                 link: 'text-primary underline-offset-4 hover:underline',
+
+                'brand-pending': 'h-10 min-w-32 rounded-xl border-[#D1BF98] bg-[#FFF5D9] px-5 text-sm',
+
+                'brand-offered': 'h-10 min-w-32 rounded-xl border-[#D1BF98] bg-[#FFF5D9] px-5 text-sm',
+
+                'brand-negotiating': 'h-10 min-w-32 rounded-xl border-[#D1BF98] bg-[#FFF5D9] px-5 text-sm',
+
+                'brand-accepted': 'h-10 min-w-32 rounded-xl border-[#D1BF98] bg-[#FFF5D9] px-5 text-sm',
+
+                'brand-in_progress': 'h-10 min-w-32 rounded-xl border-[#D1AD98] bg-[#FFE6D9] px-5 text-sm',
+
+                'brand-done': 'h-10 min-w-32 rounded-xl border-[#D1BF98] bg-[#FFF5D9] px-5 text-sm',
+
+                'brand-quality_check': 'h-10 min-w-32 rounded-xl border-[#D1BF98] bg-[#FFF5D9] px-5 text-sm',
+
+                'brand-on_shipping': 'h-10 min-w-32 rounded-xl border-[#D1BF98] bg-[#FFF5D9] px-5 text-sm',
+
+                'brand-shipped': 'h-10 min-w-32 rounded-xl border-[#D1BF98] bg-[#FFF5D9] px-5 text-sm',
+
+                'brand-completed': 'h-10 min-w-32 rounded-xl border-[#D1BF98] bg-[#FFF5D9] px-5 text-sm',
+
+                'brand-cancelled': 'h-10 min-w-32 rounded-xl border-[#D1BF98] bg-[#FFF5D9] px-5 text-sm',
             },
         },
         defaultVariants: {
