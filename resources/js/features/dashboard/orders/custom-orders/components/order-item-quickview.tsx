@@ -45,7 +45,7 @@ export default function OrderItemQuickview({ orderID, orderItemID }: OrderItemQu
                             size="brand-md"
                             className="font-medium text-black hover:text-white"
                             onClick={() =>
-                                router.visit(`/dashboard/custom-orders/${orderID}`, {
+                                router.visit(`/dashboard/custom-orders/${orderID}/item/${orderItemID}`, {
                                     onFinish: () => closeSheet(),
                                 })
                             }
